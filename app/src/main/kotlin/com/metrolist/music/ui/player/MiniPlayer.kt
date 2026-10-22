@@ -122,6 +122,12 @@ import coil3.toBitmap
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import com.metrolist.music.ui.theme.PlayerColorExtractor
+import com.metrolist.music.constants.GlassIntensityDefault
+import com.metrolist.music.constants.GlassIntensityKey
+import com.metrolist.music.constants.GlassStyle
+import com.metrolist.music.constants.GlassStyleDefault
+import com.metrolist.music.constants.GlassStyleKey
+import com.metrolist.music.ui.utils.glassmorphic
 
 /**
  * Stable wrapper for progress state - reads values only during draw phase
@@ -185,6 +191,10 @@ private fun NewMiniPlayer(
         MiniPlayerBackgroundStyleKey,
         defaultValue = MiniPlayerBackgroundStyle.DEFAULT,
     )
+    val glassStyle by rememberEnumPreference(GlassStyleKey, defaultValue = GlassStyleDefault)
+    val glassIntensity by rememberPreference(GlassIntensityKey, defaultValue = GlassIntensityDefault)
+    val isGlass = glassStyle != GlassStyle.NONE
+    val miniPlayerShape = RoundedCornerShape(32.dp)
     val context = LocalContext.current
     var gradientColors by remember { mutableStateOf<List<Color>>(emptyList()) }
     val isSystemInDarkTheme = isSystemInDarkTheme()
@@ -379,51 +389,57 @@ private fun NewMiniPlayer(
                     .then(if (isTabletLandscape) Modifier.width(500.dp).align(Alignment.Center) else Modifier.fillMaxWidth())
                     .height(64.dp)
                     .offset { IntOffset(offsetXAnimatable.value.roundToInt(), 0) }
-                    .clip(RoundedCornerShape(32.dp))
-                    .background(color = backgroundColor)
-                    .border(1.dp, outlineColor.copy(alpha = 0.3f), RoundedCornerShape(32.dp))
+                    .glassmorphic(glassStyle, glassIntensity, miniPlayerShape)
+                    .clip(miniPlayerShape)
+                    .background(color = if (isGlass) Color.Transparent else backgroundColor)
+                    .then(
+                        if (!isGlass) Modifier.border(1.dp, outlineColor.copy(alpha = 0.3f), miniPlayerShape)
+                        else Modifier
+                    )
                     .clickable(
                         interactionSource = interactionSource,
                         indication = LocalIndication.current,
                         onClick = onClick
                     ),
         ) {
-            when (miniPlayerBackground) {
-                MiniPlayerBackgroundStyle.BLUR -> {
-                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
-                        mediaMetadata?.thumbnailUrl?.let { url ->
-                            AsyncImage(
-                                model = url,
-                                contentDescription = null,
-                                contentScale = ContentScale.Crop,
-                                modifier = Modifier
-                                    .fillMaxSize()
-                                    .blur(60.dp),
-                            )
-                            Box(
-                                Modifier
-                                    .fillMaxSize()
-                                    .background(Color.Black.copy(alpha = 0.45f)),
-                            )
+            if (!isGlass) {
+                when (miniPlayerBackground) {
+                    MiniPlayerBackgroundStyle.BLUR -> {
+                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
+                            mediaMetadata?.thumbnailUrl?.let { url ->
+                                AsyncImage(
+                                    model = url,
+                                    contentDescription = null,
+                                    contentScale = ContentScale.Crop,
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .blur(60.dp),
+                                )
+                                Box(
+                                    Modifier
+                                        .fillMaxSize()
+                                        .background(Color.Black.copy(alpha = 0.45f)),
+                                )
+                            }
                         }
                     }
+                    MiniPlayerBackgroundStyle.GRADIENT -> {
+                        val colors = if (gradientColors.isNotEmpty()) gradientColors
+                        else listOf(
+                            MaterialTheme.colorScheme.surfaceContainer,
+                            MaterialTheme.colorScheme.surfaceContainer,
+                        )
+                        Box(
+                            Modifier
+                                .fillMaxSize()
+                                .background(
+                                    Brush.horizontalGradient(colors)
+                                )
+                                .background(Color.Black.copy(alpha = 0.15f)),
+                        )
+                    }
+                    else -> {}
                 }
-                MiniPlayerBackgroundStyle.GRADIENT -> {
-                    val colors = if (gradientColors.isNotEmpty()) gradientColors
-                    else listOf(
-                        MaterialTheme.colorScheme.surfaceContainer,
-                        MaterialTheme.colorScheme.surfaceContainer,
-                    )
-                    Box(
-                        Modifier
-                            .fillMaxSize()
-                            .background(
-                                Brush.horizontalGradient(colors)
-                            )
-                            .background(Color.Black.copy(alpha = 0.15f)),
-                    )
-                }
-                else -> {}
             }
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -739,6 +755,11 @@ private fun LegacyMiniPlayer(
     val primaryColor = MaterialTheme.colorScheme.primary
     val trackColor = MaterialTheme.colorScheme.surfaceVariant
 
+    val glassStyle by rememberEnumPreference(GlassStyleKey, defaultValue = GlassStyleDefault)
+    val glassIntensity by rememberPreference(GlassIntensityKey, defaultValue = GlassIntensityDefault)
+    val isGlass = glassStyle != GlassStyle.NONE
+    val legacyShape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)
+
     val interactionSource = remember { MutableInteractionSource() }
 
     Box(
@@ -747,9 +768,12 @@ private fun LegacyMiniPlayer(
                 .then(if (isTabletLandscape) Modifier.width(500.dp) else Modifier.fillMaxWidth())
                 .height(MiniPlayerHeight)
                 .windowInsetsPadding(WindowInsets.systemBars.only(WindowInsetsSides.Horizontal))
-                .clip(RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp))
+                .glassmorphic(glassStyle, glassIntensity, legacyShape)
+                .clip(legacyShape)
                 .background(
-                    if (pureBlack && isSystemInDarkTheme()) {
+                    if (isGlass) {
+                        Color.Transparent
+                    } else if (pureBlack && isSystemInDarkTheme()) {
                         Color.Black
                     } else {
                         MaterialTheme.colorScheme.surfaceContainer

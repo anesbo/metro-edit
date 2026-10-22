@@ -40,6 +40,7 @@ import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -47,6 +48,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -59,7 +61,15 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.metrolist.music.LocalNavController
 import com.metrolist.music.R
+import com.metrolist.music.constants.GlassIntensityDefault
+import com.metrolist.music.constants.GlassIntensityKey
+import com.metrolist.music.constants.GlassStyle
+import com.metrolist.music.constants.GlassStyleDefault
+import com.metrolist.music.constants.GlassStyleKey
 import com.metrolist.music.ui.screens.settings.AccountSettings
+import com.metrolist.music.ui.utils.glassmorphic
+import com.metrolist.music.utils.rememberEnumPreference
+import com.metrolist.music.utils.rememberPreference
 import kotlinx.coroutines.delay
 
 @Composable
@@ -72,15 +82,22 @@ fun DefaultDialog(
     horizontalAlignment: Alignment.Horizontal = Alignment.CenterHorizontally,
     content: @Composable ColumnScope.() -> Unit,
 ) {
+    val glassStyle by rememberEnumPreference(GlassStyleKey, defaultValue = GlassStyleDefault)
+    val glassIntensity by rememberPreference(GlassIntensityKey, defaultValue = GlassIntensityDefault)
+    val isGlass = glassStyle != GlassStyle.NONE
+
     Dialog(
         onDismissRequest = onDismiss,
         properties = DialogProperties(usePlatformDefaultWidth = false),
     ) {
         Surface(
-            modifier = Modifier.padding(24.dp),
+            modifier =
+                Modifier
+                    .padding(24.dp)
+                    .glassmorphic(glassStyle, glassIntensity, AlertDialogDefaults.shape),
             shape = AlertDialogDefaults.shape,
-            color = AlertDialogDefaults.containerColor,
-            tonalElevation = AlertDialogDefaults.TonalElevation,
+            color = if (isGlass) Color.Transparent else AlertDialogDefaults.containerColor,
+            tonalElevation = if (isGlass) 0.dp else AlertDialogDefaults.TonalElevation,
         ) {
             Column(
                 horizontalAlignment = horizontalAlignment,

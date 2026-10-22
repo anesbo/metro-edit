@@ -88,7 +88,10 @@ import androidx.compose.runtime.withFrameNanos
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -135,7 +138,24 @@ import com.metrolist.innertube.models.SongItem
 import com.metrolist.innertube.models.WatchEndpoint
 import com.metrolist.music.constants.AppBarHeight
 import com.metrolist.music.constants.AppLanguageKey
+import com.metrolist.music.constants.BackgroundStyle
+import com.metrolist.music.constants.BackgroundStyleDefault
+import com.metrolist.music.constants.BackgroundStyleKey
 import com.metrolist.music.constants.CheckForUpdatesKey
+import com.metrolist.music.constants.CustomBgColorDefault
+import com.metrolist.music.constants.CustomBgColorKey
+import com.metrolist.music.constants.GlassIntensityDefault
+import com.metrolist.music.constants.GlassIntensityKey
+import com.metrolist.music.constants.GlassStyle
+import com.metrolist.music.constants.GlassStyleDefault
+import com.metrolist.music.constants.GlassStyleKey
+import com.metrolist.music.constants.GradientDirection
+import com.metrolist.music.constants.GradientDirectionDefault
+import com.metrolist.music.constants.GradientDirectionKey
+import com.metrolist.music.constants.GradientEndColorDefault
+import com.metrolist.music.constants.GradientEndColorKey
+import com.metrolist.music.constants.GradientStartColorDefault
+import com.metrolist.music.constants.GradientStartColorKey
 import com.metrolist.music.constants.DarkModeKey
 import com.metrolist.music.constants.DefaultOpenTabKey
 import com.metrolist.music.constants.DismissedKmpUpdateKey
@@ -178,6 +198,7 @@ import com.metrolist.music.playback.DownloadUtil
 import com.metrolist.music.playback.MusicService
 import com.metrolist.music.playback.MusicService.MusicBinder
 import com.metrolist.music.playback.PlayerConnection
+import com.metrolist.music.ui.utils.glassmorphic
 import com.metrolist.music.playback.queues.YouTubeQueue
 import com.metrolist.music.ui.component.AccountSettingsDialog
 import com.metrolist.music.ui.component.AppNavigationBar
@@ -616,6 +637,14 @@ class MainActivity : FragmentActivity() {
                 pureBlackEnabled && useDarkTheme
             }
 
+        val backgroundStyle by rememberEnumPreference(BackgroundStyleKey, defaultValue = BackgroundStyleDefault)
+        val customBgColor by rememberPreference(CustomBgColorKey, defaultValue = CustomBgColorDefault)
+        val gradientStartColor by rememberPreference(GradientStartColorKey, defaultValue = GradientStartColorDefault)
+        val gradientEndColor by rememberPreference(GradientEndColorKey, defaultValue = GradientEndColorDefault)
+        val gradientDirection by rememberEnumPreference(GradientDirectionKey, defaultValue = GradientDirectionDefault)
+        val glassStyle by rememberEnumPreference(GlassStyleKey, defaultValue = GlassStyleDefault)
+        val glassIntensity by rememberPreference(GlassIntensityKey, defaultValue = GlassIntensityDefault)
+
         val (selectedThemeColorInt) = rememberPreference(SelectedThemeColorKey, defaultValue = DefaultThemeColor.toArgb())
         val selectedThemeColor = Color(selectedThemeColorInt)
 
@@ -709,12 +738,34 @@ class MainActivity : FragmentActivity() {
                 )
             }
 
+            val defaultBgColor = if (pureBlack) Color.Black else MaterialTheme.colorScheme.surface
+            val rootBackgroundModifier = remember(backgroundStyle, customBgColor, gradientStartColor, gradientEndColor, gradientDirection, defaultBgColor) {
+                when (backgroundStyle) {
+                    BackgroundStyle.DEFAULT -> Modifier.background(defaultBgColor)
+                    BackgroundStyle.SOLID_CUSTOM -> Modifier.background(Color(customBgColor))
+                    BackgroundStyle.GRADIENT -> {
+                        val start = Color(gradientStartColor)
+                        val end = Color(gradientEndColor)
+                        val brush = when (gradientDirection) {
+                            GradientDirection.TOP_TO_BOTTOM -> Brush.verticalGradient(listOf(start, end))
+                            GradientDirection.DIAGONAL -> Brush.linearGradient(
+                                colors = listOf(start, end),
+                                start = Offset.Zero,
+                                end = Offset.Infinite,
+                            )
+                            GradientDirection.RADIAL -> Brush.radialGradient(listOf(start, end))
+                        }
+                        Modifier.background(brush)
+                    }
+                }
+            }
+
             CompositionLocalProvider(LocalDensity provides scaledDensity) {
             BoxWithConstraints(
                 modifier =
                     Modifier
                         .fillMaxSize()
-                        .background(if (pureBlack) Color.Black else MaterialTheme.colorScheme.surface),
+                        .then(rootBackgroundModifier),
             ) {
                 val density = LocalDensity.current
                 val configuration = LocalWindowInfo.current
@@ -1030,7 +1081,14 @@ class MainActivity : FragmentActivity() {
                         !(pauseListenHistory && eventCount == 0)
                     }
 
-                val baseBg = if (pureBlack) Color.Black else MaterialTheme.colorScheme.surfaceContainer
+                val isGlass = glassStyle != GlassStyle.NONE
+                val baseBg = if (isGlass || backgroundStyle != BackgroundStyle.DEFAULT) {
+                    Color.Transparent
+                } else if (pureBlack) {
+                    Color.Black
+                } else {
+                    MaterialTheme.colorScheme.surfaceContainer
+                }
                 val artistNameAliases by ArtistNameAliases.aliases.collectAsStateWithLifecycle()
 
                 CompositionLocalProvider(
@@ -1051,6 +1109,7 @@ class MainActivity : FragmentActivity() {
                     }
 
                     Scaffold(
+                        containerColor = if (backgroundStyle != BackgroundStyle.DEFAULT) Color.Transparent else MaterialTheme.colorScheme.background,
                         snackbarHost = { SnackbarHost(snackbarHostState) },
                         topBar = {
                             AnimatedVisibility(
@@ -1117,21 +1176,23 @@ class MainActivity : FragmentActivity() {
                                         scrollBehavior = topAppBarScrollBehavior,
                                         colors =
                                             TopAppBarDefaults.topAppBarColors(
-                                                containerColor = if (pureBlack) Color.Black else MaterialTheme.colorScheme.surfaceContainer,
-                                                scrolledContainerColor = if (pureBlack) Color.Black else MaterialTheme.colorScheme.surfaceContainer,
+                                                containerColor = if (isGlass) Color.Transparent else if (pureBlack) Color.Black else MaterialTheme.colorScheme.surfaceContainer,
+                                                scrolledContainerColor = if (isGlass) Color.Transparent else if (pureBlack) Color.Black else MaterialTheme.colorScheme.surfaceContainer,
                                                 titleContentColor = MaterialTheme.colorScheme.onSurface,
                                                 actionIconContentColor = MaterialTheme.colorScheme.onSurfaceVariant,
                                                 navigationIconContentColor = MaterialTheme.colorScheme.onSurfaceVariant,
                                             ),
                                         modifier =
-                                            Modifier.windowInsetsPadding(
-                                                if (showRail) {
-                                                    WindowInsets(left = NavigationBarHeight)
-                                                        .add(cutoutInsets.only(WindowInsetsSides.Start))
-                                                } else {
-                                                    cutoutInsets.only(WindowInsetsSides.Start + WindowInsetsSides.End)
-                                                },
-                                            ),
+                                            Modifier
+                                                .glassmorphic(glassStyle, glassIntensity, RectangleShape)
+                                                .windowInsetsPadding(
+                                                    if (showRail) {
+                                                        WindowInsets(left = NavigationBarHeight)
+                                                            .add(cutoutInsets.only(WindowInsetsSides.Start))
+                                                    } else {
+                                                        cutoutInsets.only(WindowInsetsSides.Start + WindowInsetsSides.End)
+                                                    },
+                                                ),
                                     )
                                 }
                             }

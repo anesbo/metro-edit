@@ -994,4 +994,34 @@
     <string name="stream_source_web_creator_desc">Creator web client.</string>
     <string name="top_result">Top result</string>
     <string name="other">Other</string>
+
+    <!-- Library Playlist Reordering & Shortcuts -->
+    <string name="reorder_playlists">Reorder playlists</string>
+    <string name="lock_playlist_order">Lock order</string>
+    <string name="edit_library_shortcuts">Edit Library Shortcuts</string>
+    <string name="sort_by_custom_order">Custom order</string>
+
+    <!-- Liquid Glass Settings -->
+    <string name="liquid_glass">Liquid Glass</string>
+    <string name="liquid_glass_desc">Apply translucent glassmorphism to UI surfaces</string>
+    <string name="liquid_glass_mode">Liquid Glass Mode</string>
+    <string name="liquid_glass_off">Off</string>
+    <string name="liquid_glass_blurry">Blurry</string>
+    <string name="liquid_glass_frosty">Frosty</string>
+    <string name="glass_intensity">Glass Intensity</string>
+
+    <!-- Custom Palette and Background Settings -->
+    <string name="custom_color_palette">Custom</string>
+    <string name="primary_color">Primary Color</string>
+    <string name="secondary_color">Secondary Color</string>
+    <string name="background_style">Background Style</string>
+    <string name="background_default">Default</string>
+    <string name="background_solid">Solid Color</string>
+    <string name="background_gradient">Gradient</string>
+    <string name="gradient_start_color">Start Color</string>
+    <string name="gradient_end_color">End Color</string>
+    <string name="gradient_direction">Direction</string>
+    <string name="gradient_vertical">Vertical</string>
+    <string name="gradient_diagonal">Diagonal</string>
+    <string name="gradient_radial">Radial</string>
 </resources>

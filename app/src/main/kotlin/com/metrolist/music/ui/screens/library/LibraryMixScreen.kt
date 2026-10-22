@@ -32,7 +32,10 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.material3.pulltorefresh.PullToRefreshDefaults.Indicator
 import androidx.compose.material3.pulltorefresh.pullToRefresh
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
@@ -119,6 +122,7 @@ fun LibraryMixScreen(
     viewType: LibraryViewType,
     onViewTypeChange: (LibraryViewType) -> Unit,
     viewModel: LibraryMixViewModel = hiltViewModel(),
+    onSelectPlaylists: (() -> Unit)? = null,
 ) {
     val menuState = LocalMenuState.current
     val haptic = LocalHapticFeedback.current
@@ -139,6 +143,8 @@ fun LibraryMixScreen(
     val (ytmSync) = rememberPreference(YtmSyncKey, true)
 
     var isSearchActive by rememberSaveable { mutableStateOf(false) }
+    var showShortcutEditor by rememberSaveable { mutableStateOf(false) }
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     val searchQuery by viewModel.searchQuery.collectAsStateWithLifecycle()
     val debouncedSearchQuery by viewModel.debouncedSearchQuery.collectAsStateWithLifecycle()
     var showCreatePlaylistDialog by rememberSaveable { mutableStateOf(false) }
@@ -152,6 +158,7 @@ fun LibraryMixScreen(
             }
         )
     }
+
     
     val normalizedQuery = remember(isSearchActive, searchQuery, debouncedSearchQuery) {
         if (isSearchActive) {
@@ -217,11 +224,49 @@ fun LibraryMixScreen(
             songThumbnails = emptyList(),
         )
 
-    val (showLiked) = rememberPreference(ShowLikedPlaylistKey, true)
-    val (showDownloaded) = rememberPreference(ShowDownloadedPlaylistKey, true)
-    val (showTop) = rememberPreference(ShowTopPlaylistKey, true)
-    val (showCached) = rememberPreference(ShowCachedPlaylistKey, true)
-    val (showUploaded) = rememberPreference(ShowUploadedPlaylistKey, true)
+    val (showLiked, onShowLikedChange) = rememberPreference(ShowLikedPlaylistKey, true)
+    val (showDownloaded, onShowDownloadedChange) = rememberPreference(ShowDownloadedPlaylistKey, true)
+    val (showTop, onShowTopChange) = rememberPreference(ShowTopPlaylistKey, true)
+    val (showCached, onShowCachedChange) = rememberPreference(ShowCachedPlaylistKey, true)
+    val (showUploaded, onShowUploadedChange) = rememberPreference(ShowUploadedPlaylistKey, true)
+
+    if (showShortcutEditor) {
+        ModalBottomSheet(
+            onDismissRequest = { showShortcutEditor = false },
+            sheetState = sheetState,
+        ) {
+            Text(
+                text = stringResource(R.string.edit_library_shortcuts),
+                style = MaterialTheme.typography.titleMedium,
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+            )
+            data class ShortcutItem(val label: String, val shown: Boolean, val toggle: (Boolean) -> Unit)
+            val shortcuts = listOf(
+                ShortcutItem(stringResource(R.string.show_liked_playlist), showLiked, onShowLikedChange),
+                ShortcutItem(stringResource(R.string.show_downloaded_playlist), showDownloaded, onShowDownloadedChange),
+                ShortcutItem(stringResource(R.string.show_cached_playlist), showCached, onShowCachedChange),
+                ShortcutItem(stringResource(R.string.show_top_playlist), showTop, onShowTopChange),
+                ShortcutItem(stringResource(R.string.show_uploaded_playlist), showUploaded, onShowUploadedChange),
+            )
+            shortcuts.forEach { item ->
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable { item.toggle(!item.shown) }
+                        .padding(horizontal = 16.dp, vertical = 4.dp),
+                ) {
+                    Text(
+                        text = item.label,
+                        style = MaterialTheme.typography.bodyLarge,
+                        modifier = Modifier.weight(1f),
+                    )
+                    Switch(checked = item.shown, onCheckedChange = item.toggle)
+                }
+            }
+            Spacer(Modifier.padding(bottom = 16.dp))
+        }
+    }
     
     val showLikedPlaylist = showLiked && matchesNormalizedQuery(normalizedQuery, likedPlaylist.playlist.name)
     val showDownloadedPlaylist =
@@ -400,6 +445,28 @@ fun LibraryMixScreen(
             )
 
             Spacer(Modifier.weight(1f))
+
+            if (onSelectPlaylists != null) {
+                IconButton(
+                    onClick = onSelectPlaylists,
+                    modifier = Modifier.size(40.dp),
+                ) {
+                    Icon(
+                        painter = painterResource(R.drawable.lock),
+                        contentDescription = stringResource(R.string.reorder_playlists),
+                    )
+                }
+            }
+
+            IconButton(
+                onClick = { showShortcutEditor = true },
+                modifier = Modifier.size(40.dp),
+            ) {
+                Icon(
+                    painter = painterResource(R.drawable.edit),
+                    contentDescription = stringResource(R.string.edit_library_shortcuts),
+                )
+            }
 
             IconButton(
                 onClick = { isSearchActive = true },

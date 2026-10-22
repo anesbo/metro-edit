@@ -32,11 +32,14 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -44,6 +47,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
@@ -51,6 +55,7 @@ import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.metrolist.innertube.utils.parseCookieString
@@ -74,22 +79,24 @@ import com.metrolist.music.constants.ShowUploadedPlaylistKey
 import com.metrolist.music.constants.YtmSyncKey
 import com.metrolist.music.db.entities.Playlist
 import com.metrolist.music.db.entities.PlaylistEntity
+import com.metrolist.music.extensions.matchesNormalizedQuery
+import com.metrolist.music.extensions.normalizeForSearch
 import com.metrolist.music.ui.component.CreatePlaylistDialog
-import com.metrolist.music.ui.component.LibrarySearchEmptyPlaceholder
-import com.metrolist.music.ui.component.LibrarySearchHeader
 import com.metrolist.music.ui.component.LibraryPlaylistGridItem
 import com.metrolist.music.ui.component.LibraryPlaylistListItem
+import com.metrolist.music.ui.component.LibrarySearchEmptyPlaceholder
+import com.metrolist.music.ui.component.LibrarySearchHeader
 import com.metrolist.music.ui.component.LocalMenuState
 import com.metrolist.music.ui.component.PlaylistGridItem
 import com.metrolist.music.ui.component.PlaylistListItem
 import com.metrolist.music.ui.component.SortHeader
-import com.metrolist.music.extensions.matchesNormalizedQuery
-import com.metrolist.music.extensions.normalizeForSearch
 import com.metrolist.music.utils.rememberEnumPreference
 import com.metrolist.music.utils.rememberPreference
 import com.metrolist.music.viewmodels.LibraryPlaylistsViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import sh.calvin.reorderable.ReorderableItem
+import sh.calvin.reorderable.rememberReorderableLazyListState
 import java.util.UUID
 
 private data class VisiblePlaylistItem(
@@ -132,176 +139,116 @@ fun LibraryPlaylistsScreen(
     val searchQuery by viewModel.searchQuery.collectAsStateWithLifecycle()
     val normalizedQuery = remember(searchQuery) { searchQuery.normalizeForSearch() }
     val filteredPlaylists = remember(playlists, normalizedQuery) {
-        if (normalizedQuery.isBlank()) {
-            playlists
-        } else {
-            playlists.filter { playlist ->
-                matchesNormalizedQuery(normalizedQuery, playlist.playlist.name)
-            }
-        }
+        if (normalizedQuery.isBlank()) playlists
+        else playlists.filter { matchesNormalizedQuery(normalizedQuery, it.playlist.name) }
     }
 
     val topSize by viewModel.topValue.collectAsStateWithLifecycle(initialValue = 50)
 
-    val likedPlaylist =
-        Playlist(
-            playlist = PlaylistEntity(
-                id = UUID.randomUUID().toString(),
-                name = stringResource(R.string.liked)
-            ),
-            songCount = 0,
-            songThumbnails = emptyList(),
-        )
+    // ── Shortcut playlists ───────────────────────────────────────────────
+    val likedPlaylist = Playlist(
+        playlist = PlaylistEntity(id = UUID.randomUUID().toString(), name = stringResource(R.string.liked)),
+        songCount = 0, songThumbnails = emptyList(),
+    )
+    val downloadPlaylist = Playlist(
+        playlist = PlaylistEntity(id = UUID.randomUUID().toString(), name = stringResource(R.string.offline)),
+        songCount = 0, songThumbnails = emptyList(),
+    )
+    val topPlaylist = Playlist(
+        playlist = PlaylistEntity(id = UUID.randomUUID().toString(), name = stringResource(R.string.my_top) + " $topSize"),
+        songCount = 0, songThumbnails = emptyList(),
+    )
+    val uploadedPlaylist = Playlist(
+        playlist = PlaylistEntity(id = UUID.randomUUID().toString(), name = stringResource(R.string.uploaded_playlist)),
+        songCount = 0, songThumbnails = emptyList(),
+    )
+    val cachedPlaylist = Playlist(
+        playlist = PlaylistEntity(id = UUID.randomUUID().toString(), name = stringResource(R.string.cached_playlist)),
+        songCount = 0, songThumbnails = emptyList(),
+    )
 
-    val downloadPlaylist =
-        Playlist(
-            playlist = PlaylistEntity(
-                id = UUID.randomUUID().toString(),
-                name = stringResource(R.string.offline)
-            ),
-            songCount = 0,
-            songThumbnails = emptyList(),
-        )
+    val (showLiked, onShowLikedChange) = rememberPreference(ShowLikedPlaylistKey, true)
+    val (showDownloaded, onShowDownloadedChange) = rememberPreference(ShowDownloadedPlaylistKey, true)
+    val (showTop, onShowTopChange) = rememberPreference(ShowTopPlaylistKey, true)
+    val (showUploaded, onShowUploadedChange) = rememberPreference(ShowUploadedPlaylistKey, true)
+    val (showCached, onShowCachedChange) = rememberPreference(ShowCachedPlaylistKey, true)
 
-    val topPlaylist =
-        Playlist(
-            playlist = PlaylistEntity(
-                id = UUID.randomUUID().toString(),
-                name = stringResource(R.string.my_top) + " $topSize"
-            ),
-            songCount = 0,
-            songThumbnails = emptyList(),
-        )
-
-
-    val uploadedPlaylist =
-        Playlist(
-            playlist = PlaylistEntity(
-                id = UUID.randomUUID().toString(),
-                name = stringResource(R.string.uploaded_playlist)
-            ),
-            songCount = 0,
-            songThumbnails = emptyList(),
-        )
-
-    val cachedPlaylist =
-        Playlist(
-            playlist = PlaylistEntity(
-                id = UUID.randomUUID().toString(),
-                name = stringResource(R.string.cached_playlist)
-            ),
-            songCount = 0,
-            songThumbnails = emptyList(),
-        )
-
-    val (showLiked) = rememberPreference(ShowLikedPlaylistKey, true)
-    val (showDownloaded) = rememberPreference(ShowDownloadedPlaylistKey, true)
-    val (showTop) = rememberPreference(ShowTopPlaylistKey, true)
-    val (showUploaded) = rememberPreference(ShowUploadedPlaylistKey, true)
-    val (showCached) = rememberPreference(ShowCachedPlaylistKey, true)
     val showLikedPlaylist = showLiked && matchesNormalizedQuery(normalizedQuery, likedPlaylist.playlist.name)
-    val showDownloadedPlaylist =
-        showDownloaded && matchesNormalizedQuery(normalizedQuery, downloadPlaylist.playlist.name)
+    val showDownloadedPlaylist = showDownloaded && matchesNormalizedQuery(normalizedQuery, downloadPlaylist.playlist.name)
     val showCachedPlaylists = showCached && matchesNormalizedQuery(normalizedQuery, cachedPlaylist.playlist.name)
     val showTopPlaylists = showTop && matchesNormalizedQuery(normalizedQuery, topPlaylist.playlist.name)
-    val showUploadedPlaylists =
-        showUploaded && matchesNormalizedQuery(normalizedQuery, uploadedPlaylist.playlist.name)
+    val showUploadedPlaylists = showUploaded && matchesNormalizedQuery(normalizedQuery, uploadedPlaylist.playlist.name)
 
-    val visibleResults = remember(
-        filteredPlaylists,
-        showLikedPlaylist,
-        showDownloadedPlaylist,
-        showCachedPlaylists,
-        showTopPlaylists,
-        showUploadedPlaylists,
-        topSize,
+    val autoItems = remember(
+        showLikedPlaylist, showDownloadedPlaylist, showCachedPlaylists, showTopPlaylists,
+        showUploadedPlaylists, topSize,
     ) {
         buildList {
-            if (showLikedPlaylist) {
-                add(
-                    VisiblePlaylistItem(
-                        key = "likedPlaylist",
-                        playlist = likedPlaylist,
-                        autoPlaylist = true,
-                        route = "auto_playlist/liked",
-                    ),
-                )
-            }
-            if (showDownloadedPlaylist) {
-                add(
-                    VisiblePlaylistItem(
-                        key = "downloadedPlaylist",
-                        playlist = downloadPlaylist,
-                        autoPlaylist = true,
-                        route = "auto_playlist/downloaded",
-                    ),
-                )
-            }
-            if (showCachedPlaylists) {
-                add(
-                    VisiblePlaylistItem(
-                        key = "cachedPlaylist",
-                        playlist = cachedPlaylist,
-                        autoPlaylist = true,
-                        route = "cache_playlist/cached",
-                    ),
-                )
-            }
-            if (showTopPlaylists) {
-                add(
-                    VisiblePlaylistItem(
-                        key = "TopPlaylist",
-                        playlist = topPlaylist,
-                        autoPlaylist = true,
-                        route = "top_playlist/$topSize",
-                    ),
-                )
-            }
-            if (showUploadedPlaylists) {
-                add(
-                    VisiblePlaylistItem(
-                        key = "uploadedPlaylist",
-                        playlist = uploadedPlaylist,
-                        autoPlaylist = true,
-                        route = "auto_playlist/uploaded",
-                    ),
-                )
-            }
-
-            filteredPlaylists
-                .distinctBy { it.id }
-                .forEach { playlist ->
-                    add(
-                        VisiblePlaylistItem(
-                            key = playlist.id,
-                            playlist = playlist,
-                            autoPlaylist = false,
-                        ),
-                    )
-                }
+            if (showLikedPlaylist) add(VisiblePlaylistItem("likedPlaylist", likedPlaylist, true, "auto_playlist/liked"))
+            if (showDownloadedPlaylist) add(VisiblePlaylistItem("downloadedPlaylist", downloadPlaylist, true, "auto_playlist/downloaded"))
+            if (showCachedPlaylists) add(VisiblePlaylistItem("cachedPlaylist", cachedPlaylist, true, "cache_playlist/cached"))
+            if (showTopPlaylists) add(VisiblePlaylistItem("TopPlaylist", topPlaylist, true, "top_playlist/$topSize"))
+            if (showUploadedPlaylists) add(VisiblePlaylistItem("uploadedPlaylist", uploadedPlaylist, true, "auto_playlist/uploaded"))
         }
+    }
+
+    // ── Drag-and-drop state ──────────────────────────────────────────────
+    // reorderMode is only relevant when sortType == CUSTOM
+    var reorderMode by rememberSaveable { mutableStateOf(false) }
+    val mutablePlaylists = remember { mutableStateListOf<VisiblePlaylistItem>() }
+
+    // Sync mutablePlaylists with DB-derived list when not actively dragging
+    val userItems = remember(filteredPlaylists) {
+        filteredPlaylists.distinctBy { it.id }.map { VisiblePlaylistItem(it.id, it, false) }
+    }
+    LaunchedEffect(userItems) {
+        if (mutablePlaylists.isEmpty() || !reorderMode) {
+            mutablePlaylists.clear()
+            mutablePlaylists.addAll(userItems)
+        }
+    }
+
+    val visibleResults = remember(autoItems, mutablePlaylists) {
+        autoItems + mutablePlaylists
     }
 
     val lazyListState = rememberLazyListState()
     val lazyGridState = rememberLazyGridState()
+    val headerItems = 2 // filter + header items before playlist items
+
+    val reorderableState = rememberReorderableLazyListState(
+        lazyListState = lazyListState,
+        scrollThresholdPadding = LocalPlayerAwareWindowInsets.current.asPaddingValues(),
+    ) { from, to ->
+        val autoCount = autoItems.size
+        val fromIdx = from.index - headerItems - autoCount
+        val toIdx = to.index - headerItems - autoCount
+        if (fromIdx >= 0 && toIdx >= 0) {
+            mutablePlaylists.add(toIdx, mutablePlaylists.removeAt(fromIdx))
+        }
+    }
+
+    // Persist order after drag ends
+    LaunchedEffect(reorderableState.isAnyItemDragging) {
+        if (!reorderableState.isAnyItemDragging && sortType == PlaylistSortType.CUSTOM) {
+            viewModel.saveCustomOrder(mutablePlaylists.map { it.key })
+        }
+    }
+
+    // ── Shortcut editor bottom sheet ─────────────────────────────────────
+    var showShortcutEditor by rememberSaveable { mutableStateOf(false) }
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
     val backStackEntry by navController.currentBackStackEntryAsState()
     val scrollToTop =
         backStackEntry?.savedStateHandle?.getStateFlow("scrollToTop", false)?.collectAsStateWithLifecycle()
 
     val (innerTubeCookie) = rememberPreference(InnerTubeCookieKey, "")
-    val isLoggedIn = remember(innerTubeCookie) {
-        "SAPISID" in parseCookieString(innerTubeCookie)
-    }
-
+    val isLoggedIn = remember(innerTubeCookie) { "SAPISID" in parseCookieString(innerTubeCookie) }
     val (ytmSync) = rememberPreference(YtmSyncKey, true)
 
     LaunchedEffect(Unit) {
-        if (ytmSync) {
-            withContext(Dispatchers.IO) {
-                viewModel.sync()
-            }
-        }
+        if (ytmSync) withContext(Dispatchers.IO) { viewModel.sync() }
     }
 
     LaunchedEffect(scrollToTop?.value) {
@@ -328,6 +275,46 @@ fun LibraryPlaylistsScreen(
         )
     }
 
+    // ── Shortcut editor bottom sheet UI ──────────────────────────────────
+    if (showShortcutEditor) {
+        ModalBottomSheet(
+            onDismissRequest = { showShortcutEditor = false },
+            sheetState = sheetState,
+        ) {
+            Text(
+                text = stringResource(R.string.edit_library_shortcuts),
+                style = MaterialTheme.typography.titleMedium,
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+            )
+            data class ShortcutItem(val label: String, val shown: Boolean, val toggle: (Boolean) -> Unit)
+            val shortcuts = listOf(
+                ShortcutItem(stringResource(R.string.show_liked_playlist), showLiked, onShowLikedChange),
+                ShortcutItem(stringResource(R.string.show_downloaded_playlist), showDownloaded, onShowDownloadedChange),
+                ShortcutItem(stringResource(R.string.show_cached_playlist), showCached, onShowCachedChange),
+                ShortcutItem(stringResource(R.string.show_top_playlist), showTop, onShowTopChange),
+                ShortcutItem(stringResource(R.string.show_uploaded_playlist), showUploaded, onShowUploadedChange),
+            )
+            shortcuts.forEach { item ->
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable { item.toggle(!item.shown) }
+                        .padding(horizontal = 16.dp, vertical = 4.dp),
+                ) {
+                    Text(
+                        text = item.label,
+                        style = MaterialTheme.typography.bodyLarge,
+                        modifier = Modifier.weight(1f),
+                    )
+                    Switch(checked = item.shown, onCheckedChange = item.toggle)
+                }
+            }
+            Spacer(Modifier.padding(bottom = 16.dp))
+        }
+    }
+
+    // ── Header row ───────────────────────────────────────────────────────
     val headerContent = @Composable {
         LibrarySearchHeader(
             isSearchActive = isSearchActive,
@@ -343,14 +330,19 @@ fun LibraryPlaylistsScreen(
             SortHeader(
                 sortType = sortType,
                 sortDescending = sortDescending,
-                onSortTypeChange = onSortTypeChange,
+                onSortTypeChange = { newSort ->
+                    onSortTypeChange(newSort)
+                    // Exit reorder mode when switching away from CUSTOM
+                    if (newSort != PlaylistSortType.CUSTOM) reorderMode = false
+                },
                 onSortDescendingChange = onSortDescendingChange,
-                sortTypeText = { sortType ->
-                    when (sortType) {
+                sortTypeText = { st ->
+                    when (st) {
                         PlaylistSortType.CREATE_DATE -> R.string.sort_by_create_date
                         PlaylistSortType.NAME -> R.string.sort_by_name
                         PlaylistSortType.SONG_COUNT -> R.string.sort_by_song_count
                         PlaylistSortType.LAST_UPDATED -> R.string.sort_by_last_updated
+                        PlaylistSortType.CUSTOM -> R.string.sort_by_custom
                     }
                 },
             )
@@ -367,6 +359,40 @@ fun LibraryPlaylistsScreen(
                 color = MaterialTheme.colorScheme.secondary,
             )
 
+            // Lock / Unlock icon — toggles drag-and-drop mode (switches to CUSTOM sort)
+            IconButton(
+                onClick = {
+                    if (sortType != PlaylistSortType.CUSTOM) {
+                        onSortTypeChange(PlaylistSortType.CUSTOM)
+                    }
+                    reorderMode = !reorderMode
+                    if (reorderMode) haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                },
+                modifier = Modifier.size(40.dp),
+            ) {
+                Icon(
+                    painter = painterResource(
+                        if (reorderMode) R.drawable.lock_open else R.drawable.lock
+                    ),
+                    contentDescription = stringResource(
+                        if (reorderMode) R.string.reorder_playlists else R.string.lock_playlist_order
+                    ),
+                    tint = if (reorderMode) MaterialTheme.colorScheme.primary
+                           else MaterialTheme.colorScheme.onSurface,
+                )
+            }
+
+            // Edit (Pencil) icon — opens shortcut visibility editor
+            IconButton(
+                onClick = { showShortcutEditor = true },
+                modifier = Modifier.size(40.dp),
+            ) {
+                Icon(
+                    painter = painterResource(R.drawable.edit),
+                    contentDescription = stringResource(R.string.edit_library_shortcuts),
+                )
+            }
+
             IconButton(
                 onClick = { isSearchActive = true },
                 modifier = Modifier.padding(start = 8.dp).size(40.dp),
@@ -378,52 +404,36 @@ fun LibraryPlaylistsScreen(
             }
 
             IconButton(
-                onClick = {
-                    onViewTypeChange(viewType.toggle())
-                },
+                onClick = { onViewTypeChange(viewType.toggle()) },
                 modifier = Modifier.padding(end = 8.dp).size(40.dp),
             ) {
                 Icon(
-                    painter =
-                    painterResource(
+                    painter = painterResource(
                         when (viewType) {
                             LibraryViewType.LIST -> R.drawable.list
                             LibraryViewType.GRID -> R.drawable.grid_view
-                        },
+                        }
                     ),
                     contentDescription = stringResource(
                         when (viewType) {
                             LibraryViewType.LIST -> R.string.switch_to_grid_view
                             LibraryViewType.GRID -> R.string.switch_to_list_view
-                        },
+                        }
                     ),
                 )
             }
         }
     }
 
-    Box(
-        modifier = Modifier.fillMaxSize(),
-    ) {
+    Box(modifier = Modifier.fillMaxSize()) {
         when (viewType) {
             LibraryViewType.LIST -> {
                 LazyColumn(
                     state = lazyListState,
                     contentPadding = LocalPlayerAwareWindowInsets.current.asPaddingValues(),
                 ) {
-                    item(
-                        key = "filter",
-                        contentType = CONTENT_TYPE_HEADER,
-                    ) {
-                        filterContent()
-                    }
-
-                    item(
-                        key = "header",
-                        contentType = CONTENT_TYPE_HEADER,
-                    ) {
-                        headerContent()
-                    }
+                    item(key = "filter", contentType = CONTENT_TYPE_HEADER) { filterContent() }
+                    item(key = "header", contentType = CONTENT_TYPE_HEADER) { headerContent() }
 
                     if (visibleResults.isEmpty()) {
                         item(key = "empty_placeholder") {
@@ -439,23 +449,43 @@ fun LibraryPlaylistsScreen(
                         }
                     }
 
+                    // Auto-playlists (non-draggable)
                     items(
-                        items = visibleResults,
+                        items = autoItems,
                         key = { it.key },
                         contentType = { CONTENT_TYPE_PLAYLIST },
                     ) { item ->
-                        if (item.autoPlaylist) {
-                            PlaylistListItem(
-                                playlist = item.playlist,
-                                autoPlaylist = true,
-                                modifier =
-                                    Modifier
-                                        .fillMaxWidth()
-                                        .clickable {
-                                            item.route?.let(navController::navigate)
-                                        }
-                                        .animateItem(),
-                            )
+                        PlaylistListItem(
+                            playlist = item.playlist,
+                            autoPlaylist = true,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clickable { item.route?.let(navController::navigate) }
+                                .animateItem(),
+                        )
+                    }
+
+                    // User playlists — reorderable when reorderMode is on
+                    items(
+                        items = mutablePlaylists,
+                        key = { it.key },
+                        contentType = { CONTENT_TYPE_PLAYLIST },
+                    ) { item ->
+                        if (reorderMode && sortType == PlaylistSortType.CUSTOM) {
+                            ReorderableItem(state = reorderableState, key = item.key) {
+                                LibraryPlaylistListItem(
+                                    menuState = menuState,
+                                    coroutineScope = coroutineScope,
+                                    playlist = item.playlist,
+                                    modifier = Modifier
+                                        .animateItem()
+                                        .longPressDraggableHandle(
+                                            onDragStarted = {
+                                                haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                                            },
+                                        ),
+                                )
+                            }
                         } else {
                             LibraryPlaylistListItem(
                                 menuState = menuState,
@@ -471,25 +501,15 @@ fun LibraryPlaylistsScreen(
             LibraryViewType.GRID -> {
                 LazyVerticalGrid(
                     state = lazyGridState,
-                    columns =
-                    GridCells.Adaptive(
+                    columns = GridCells.Adaptive(
                         minSize = GridThumbnailHeight + if (gridItemSize == GridItemSize.BIG) 24.dp else (-24).dp,
                     ),
                     contentPadding = LocalPlayerAwareWindowInsets.current.asPaddingValues(),
                 ) {
-                    item(
-                        key = "filter",
-                        span = { GridItemSpan(maxLineSpan) },
-                        contentType = CONTENT_TYPE_HEADER,
-                    ) {
+                    item(key = "filter", span = { GridItemSpan(maxLineSpan) }, contentType = CONTENT_TYPE_HEADER) {
                         filterContent()
                     }
-
-                    item(
-                        key = "header",
-                        span = { GridItemSpan(maxLineSpan) },
-                        contentType = CONTENT_TYPE_HEADER,
-                    ) {
+                    item(key = "header", span = { GridItemSpan(maxLineSpan) }, contentType = CONTENT_TYPE_HEADER) {
                         headerContent()
                     }
 
@@ -508,39 +528,37 @@ fun LibraryPlaylistsScreen(
                     }
 
                     items(
-                        items = visibleResults,
+                        items = autoItems,
                         key = { it.key },
                         contentType = { CONTENT_TYPE_PLAYLIST },
                     ) { item ->
-                        if (item.autoPlaylist) {
-                            PlaylistGridItem(
-                                playlist = item.playlist,
-                                fillMaxWidth = true,
-                                autoPlaylist = true,
-                                modifier =
-                                    Modifier
-                                        .fillMaxWidth()
-                                        .combinedClickable(
-                                            onClick = {
-                                                item.route?.let(navController::navigate)
-                                            },
-                                        )
-                                        .animateItem(),
-                            )
-                        } else {
-                            LibraryPlaylistGridItem(
-                                menuState = menuState,
-                                coroutineScope = coroutineScope,
-                                playlist = item.playlist,
-                                modifier = Modifier.animateItem(),
-                            )
-                        }
+                        PlaylistGridItem(
+                            playlist = item.playlist,
+                            fillMaxWidth = true,
+                            autoPlaylist = true,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .combinedClickable(onClick = { item.route?.let(navController::navigate) })
+                                .animateItem(),
+                        )
+                    }
+
+                    items(
+                        items = mutablePlaylists,
+                        key = { it.key },
+                        contentType = { CONTENT_TYPE_PLAYLIST },
+                    ) { item ->
+                        LibraryPlaylistGridItem(
+                            menuState = menuState,
+                            coroutineScope = coroutineScope,
+                            playlist = item.playlist,
+                            modifier = Modifier.animateItem(),
+                        )
                     }
                 }
             }
         }
 
-        // Always visible + button (no scroll hiding)
         FloatingActionButton(
             onClick = { showCreatePlaylistDialog = true },
             modifier = Modifier

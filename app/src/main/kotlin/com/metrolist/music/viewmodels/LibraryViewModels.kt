@@ -33,6 +33,7 @@ import com.metrolist.music.constants.HideYoutubeShortsKey
 import com.metrolist.music.constants.PlaylistSortDescendingKey
 import com.metrolist.music.constants.PlaylistSortType
 import com.metrolist.music.constants.PlaylistSortTypeKey
+import com.metrolist.music.constants.PlaylistCustomOrderKey
 import com.metrolist.music.constants.SongFilter
 import com.metrolist.music.constants.SongFilterKey
 import com.metrolist.music.constants.SongSortDescendingKey
@@ -51,6 +52,7 @@ import com.metrolist.music.playback.DownloadUtil
 import com.metrolist.music.utils.PodcastRefreshTrigger
 import com.metrolist.music.utils.SyncUtils
 import com.metrolist.music.utils.dataStore
+import com.metrolist.music.utils.safeDataStoreEdit
 import com.metrolist.music.utils.reportException
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -267,7 +269,7 @@ constructor(
 class LibraryPlaylistsViewModel
 @Inject
 constructor(
-    @ApplicationContext context: Context,
+    @ApplicationContext private val context: Context,
     database: MusicDatabase,
     private val syncUtils: SyncUtils,
 ) : ViewModel() {
@@ -287,12 +289,32 @@ constructor(
                 Triple(
                     it[PlaylistSortTypeKey].toEnum(PlaylistSortType.CREATE_DATE),
                     it[PlaylistSortDescendingKey] ?: true,
-                    it[HideYoutubeShortsKey] ?: false
+                    Triple(
+                        it[HideYoutubeShortsKey] ?: false,
+                        it[PlaylistCustomOrderKey] ?: "",
+                        Unit,
+                    )
                 )
             }.distinctUntilChanged()
-            .flatMapLatest { (sortType, descending, hideYoutubeShorts) ->
-                database.playlists(sortType, descending).map { it.filterYoutubeShorts(hideYoutubeShorts) }
+            .flatMapLatest { (sortType, descending, extra) ->
+                val (hideYoutubeShorts, customOrder, _) = extra
+                database.playlists(sortType, descending).map { list ->
+                    val filtered = list.filterYoutubeShorts(hideYoutubeShorts)
+                    if (sortType == PlaylistSortType.CUSTOM && customOrder.isNotBlank()) {
+                        val orderedIds = customOrder.split(",")
+                        val indexMap = orderedIds.withIndex().associate { (i, id) -> id to i }
+                        filtered.sortedBy { indexMap[it.id] ?: Int.MAX_VALUE }
+                    } else filtered
+                }
             }.stateIn(viewModelScope, SharingStarted.Lazily, emptyList())
+
+    fun saveCustomOrder(orderedIds: List<String>) {
+        viewModelScope.launch {
+            context.safeDataStoreEdit { prefs ->
+                prefs[PlaylistCustomOrderKey] = orderedIds.joinToString(",")
+            }
+        }
+    }
 
     fun sync() {
         viewModelScope.launch(Dispatchers.IO) { syncUtils.syncSavedPlaylists() }

@@ -8,9 +8,11 @@ package com.metrolist.music.ui.component
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarDefaults
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationRail
 import androidx.compose.material3.NavigationRailItem
@@ -29,7 +31,16 @@ import androidx.compose.ui.platform.LocalViewConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.dp
+import com.metrolist.music.constants.GlassIntensityDefault
+import com.metrolist.music.constants.GlassIntensityKey
+import com.metrolist.music.constants.GlassStyle
+import com.metrolist.music.constants.GlassStyleDefault
+import com.metrolist.music.constants.GlassStyleKey
 import com.metrolist.music.ui.screens.Screens
+import com.metrolist.music.ui.utils.glassmorphic
+import com.metrolist.music.utils.rememberEnumPreference
+import com.metrolist.music.utils.rememberPreference
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 
@@ -57,12 +68,16 @@ fun AppNavigationRail(
     onSearchLongClick: (() -> Unit)? = null,
     onHomeLongHold: (() -> Unit)? = null,
 ) {
-    val containerColor = if (pureBlack) Color.Black else MaterialTheme.colorScheme.surfaceContainer
+    val glassStyle by rememberEnumPreference(GlassStyleKey, defaultValue = GlassStyleDefault)
+    val glassIntensity by rememberPreference(GlassIntensityKey, defaultValue = GlassIntensityDefault)
+    val isGlass = glassStyle != GlassStyle.NONE
+
+    val containerColor = if (isGlass) Color.Transparent else if (pureBlack) Color.Black else MaterialTheme.colorScheme.surfaceContainer
     val haptics = LocalHapticFeedback.current
     val viewConfiguration = LocalViewConfiguration.current
 
     NavigationRail(
-        modifier = modifier,
+        modifier = modifier.glassmorphic(glassStyle, glassIntensity, RoundedCornerShape(topEnd = 16.dp, bottomEnd = 16.dp)),
         containerColor = containerColor
     ) {
         Spacer(modifier = Modifier.weight(1f))
@@ -139,15 +154,20 @@ fun AppNavigationBar(
     onSearchLongClick: (() -> Unit)? = null,
     onHomeLongHold: (() -> Unit)? = null,
 ) {
-    val containerColor = if (pureBlack) Color.Black else MaterialTheme.colorScheme.surfaceContainer
+    val glassStyle by rememberEnumPreference(GlassStyleKey, defaultValue = GlassStyleDefault)
+    val glassIntensity by rememberPreference(GlassIntensityKey, defaultValue = GlassIntensityDefault)
+    val isGlass = glassStyle != GlassStyle.NONE
+
+    val containerColor = if (isGlass) Color.Transparent else if (pureBlack) Color.Black else MaterialTheme.colorScheme.surfaceContainer
     val contentColor = if (pureBlack) Color.White else MaterialTheme.colorScheme.onSurfaceVariant
     val haptics = LocalHapticFeedback.current
     val viewConfiguration = LocalViewConfiguration.current
 
     NavigationBar(
-        modifier = modifier,
+        modifier = modifier.glassmorphic(glassStyle, glassIntensity, RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)),
         containerColor = containerColor,
-        contentColor = contentColor
+        contentColor = contentColor,
+        tonalElevation = if (isGlass) 0.dp else NavigationBarDefaults.Elevation,
     ) {
         navigationItems.forEach { screen ->
             val isSelected = remember(currentRoute, screen.route) {

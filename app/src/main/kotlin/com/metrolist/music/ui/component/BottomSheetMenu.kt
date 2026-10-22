@@ -40,6 +40,14 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.metrolist.music.constants.GlassIntensityDefault
+import com.metrolist.music.constants.GlassIntensityKey
+import com.metrolist.music.constants.GlassStyle
+import com.metrolist.music.constants.GlassStyleDefault
+import com.metrolist.music.constants.GlassStyleKey
+import com.metrolist.music.ui.utils.glassmorphic
+import com.metrolist.music.utils.rememberEnumPreference
+import com.metrolist.music.utils.rememberPreference
 
 val LocalMenuState = compositionLocalOf { MenuState() }
 
@@ -61,6 +69,7 @@ class MenuState(
     }
 }
 
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AnimatedBottomSheet(
@@ -79,6 +88,10 @@ fun AnimatedBottomSheet(
     properties: ModalBottomSheetProperties = ModalBottomSheetDefaults.properties,
     content: @Composable ColumnScope.() -> Unit,
 ) {
+    val glassStyle by rememberEnumPreference(GlassStyleKey, defaultValue = GlassStyleDefault)
+    val glassIntensity by rememberPreference(GlassIntensityKey, defaultValue = GlassIntensityDefault)
+    val isGlass = glassStyle != GlassStyle.NONE
+
     var lastContent by remember { mutableStateOf(content) }
 
     LaunchedEffect(content) {
@@ -101,13 +114,13 @@ fun AnimatedBottomSheet(
 
     ModalBottomSheet(
         onDismissRequest = onDismissRequest,
-        modifier = modifier,
+        modifier = modifier.glassmorphic(glassStyle, glassIntensity, shape),
         sheetState = sheetState,
         sheetMaxWidth = sheetMaxWidth,
         shape = shape,
-        containerColor = containerColor,
+        containerColor = if (isGlass) Color.Transparent else containerColor,
         contentColor = contentColor,
-        tonalElevation = tonalElevation,
+        tonalElevation = if (isGlass) 0.dp else tonalElevation,
         scrimColor = scrimColor,
         dragHandle = dragHandle,
         contentWindowInsets = contentWindowInsets,

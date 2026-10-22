@@ -238,6 +238,7 @@ fun AddToPlaylistDialogOnline(
                                                 PlaylistSortType.NAME         -> R.string.sort_by_name
                                                 PlaylistSortType.SONG_COUNT   -> R.string.sort_by_song_count
                                                 PlaylistSortType.LAST_UPDATED -> R.string.sort_by_last_updated
+                                                PlaylistSortType.CUSTOM       -> R.string.sort_by_custom
                                             }),
                                             fontWeight = if (selected) FontWeight.Bold else FontWeight.Normal,
                                         )

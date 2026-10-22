@@ -8,10 +8,12 @@ import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
@@ -46,6 +48,9 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SegmentedButton
+import androidx.compose.material3.SegmentedButtonDefaults
+import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.dynamicDarkColorScheme
@@ -53,12 +58,15 @@ import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.ripple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.toArgb
@@ -68,16 +76,36 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.materialkolor.PaletteStyle
 import com.materialkolor.rememberDynamicColorScheme
 import com.metrolist.music.R
+import com.metrolist.music.constants.BackgroundStyle
+import com.metrolist.music.constants.BackgroundStyleDefault
+import com.metrolist.music.constants.BackgroundStyleKey
+import com.metrolist.music.constants.CustomBgColorDefault
+import com.metrolist.music.constants.CustomBgColorKey
+import com.metrolist.music.constants.CustomPrimaryColorDefault
+import com.metrolist.music.constants.CustomPrimaryColorKey
+import com.metrolist.music.constants.CustomSecondaryColorDefault
+import com.metrolist.music.constants.CustomSecondaryColorKey
 import com.metrolist.music.constants.DarkModeKey
 import com.metrolist.music.constants.DynamicThemeKey
+import com.metrolist.music.constants.GradientDirection
+import com.metrolist.music.constants.GradientDirectionDefault
+import com.metrolist.music.constants.GradientDirectionKey
+import com.metrolist.music.constants.GradientEndColorDefault
+import com.metrolist.music.constants.GradientEndColorKey
+import com.metrolist.music.constants.GradientStartColorDefault
+import com.metrolist.music.constants.GradientStartColorKey
 import com.metrolist.music.constants.PureBlackKey
 import com.metrolist.music.constants.PureBlackMiniPlayerKey
 import com.metrolist.music.constants.SelectedThemeColorKey
+import com.metrolist.music.constants.UseCustomAccentDefault
+import com.metrolist.music.constants.UseCustomAccentKey
+import com.metrolist.music.ui.component.ColorPickerDialog
 import com.metrolist.music.ui.theme.DefaultThemeColor
 import com.metrolist.music.ui.theme.MetrolistTheme
 import com.metrolist.music.utils.rememberEnumPreference
@@ -111,6 +139,15 @@ val PaletteColors = listOf(
     ThemePalette(R.string.palette_blue_grey, Color(0xFF546E7A)),
 )
 
+private enum class ActiveColorPicker {
+    NONE,
+    PRIMARY_COLOR,
+    SECONDARY_COLOR,
+    CUSTOM_BG,
+    GRADIENT_START,
+    GRADIENT_END,
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ThemeScreen(
@@ -133,17 +170,62 @@ fun ThemeScreen(
     )
     val (_, onDynamicThemeChange) = rememberPreference(DynamicThemeKey, defaultValue = true)
 
+    val (useCustomAccent, onUseCustomAccentChange) = rememberPreference(
+        UseCustomAccentKey,
+        defaultValue = UseCustomAccentDefault
+    )
+    val (customPrimaryColorInt, onCustomPrimaryColorChange) = rememberPreference(
+        CustomPrimaryColorKey,
+        defaultValue = CustomPrimaryColorDefault
+    )
+    val (customSecondaryColorInt, onCustomSecondaryColorChange) = rememberPreference(
+        CustomSecondaryColorKey,
+        defaultValue = CustomSecondaryColorDefault
+    )
+    val (backgroundStyle, onBackgroundStyleChange) = rememberEnumPreference(
+        BackgroundStyleKey,
+        defaultValue = BackgroundStyleDefault
+    )
+    val (customBgColorInt, onCustomBgColorChange) = rememberPreference(
+        CustomBgColorKey,
+        defaultValue = CustomBgColorDefault
+    )
+    val (gradientStartColorInt, onGradientStartColorChange) = rememberPreference(
+        GradientStartColorKey,
+        defaultValue = GradientStartColorDefault
+    )
+    val (gradientEndColorInt, onGradientEndColorChange) = rememberPreference(
+        GradientEndColorKey,
+        defaultValue = GradientEndColorDefault
+    )
+    val (gradientDirection, onGradientDirectionChange) = rememberEnumPreference(
+        GradientDirectionKey,
+        defaultValue = GradientDirectionDefault
+    )
+
     val selectedThemeColor = Color(selectedThemeColorInt)
+    val customPrimaryColor = Color(customPrimaryColorInt)
+    val customSecondaryColor = Color(customSecondaryColorInt)
+    val customBgColor = Color(customBgColorInt)
+    val gradientStartColor = Color(gradientStartColorInt)
+    val gradientEndColor = Color(gradientEndColorInt)
+
     val configuration = LocalConfiguration.current
     val isLandscape = configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
 
     // Helper function to handle color selection with dynamic theme toggle
     val handleColorSelection: (Color) -> Unit = { color ->
+        onUseCustomAccentChange(false)
         onSelectedThemeColorChange(color.toArgb())
-        // Enable dynamic theme only when selecting the default/dynamic color
-        // Disable it when selecting any other color
         val isDynamicColor = color == DefaultThemeColor
         onDynamicThemeChange(isDynamicColor)
+    }
+
+    val handleCustomAccentToggle: (Boolean) -> Unit = { enabled ->
+        onUseCustomAccentChange(enabled)
+        if (enabled) {
+            onDynamicThemeChange(false)
+        }
     }
 
     if (isLandscape) {
@@ -154,7 +236,23 @@ fun ThemeScreen(
             pureBlack = pureBlack,
             onPureBlackChange = onPureBlackChange,
             selectedThemeColor = selectedThemeColor,
-            onSelectedThemeColorChange = handleColorSelection
+            onSelectedThemeColorChange = handleColorSelection,
+            useCustomAccent = useCustomAccent,
+            onUseCustomAccentChange = handleCustomAccentToggle,
+            customPrimaryColor = customPrimaryColor,
+            onCustomPrimaryColorChange = { onCustomPrimaryColorChange(it.toArgb()) },
+            customSecondaryColor = customSecondaryColor,
+            onCustomSecondaryColorChange = { onCustomSecondaryColorChange(it.toArgb()) },
+            backgroundStyle = backgroundStyle,
+            onBackgroundStyleChange = onBackgroundStyleChange,
+            customBgColor = customBgColor,
+            onCustomBgColorChange = { onCustomBgColorChange(it.toArgb()) },
+            gradientStartColor = gradientStartColor,
+            onGradientStartColorChange = { onGradientStartColorChange(it.toArgb()) },
+            gradientEndColor = gradientEndColor,
+            onGradientEndColorChange = { onGradientEndColorChange(it.toArgb()) },
+            gradientDirection = gradientDirection,
+            onGradientDirectionChange = onGradientDirectionChange,
         )
     } else {
         PortraitThemeLayout(
@@ -164,7 +262,23 @@ fun ThemeScreen(
             pureBlack = pureBlack,
             onPureBlackChange = onPureBlackChange,
             selectedThemeColor = selectedThemeColor,
-            onSelectedThemeColorChange = handleColorSelection
+            onSelectedThemeColorChange = handleColorSelection,
+            useCustomAccent = useCustomAccent,
+            onUseCustomAccentChange = handleCustomAccentToggle,
+            customPrimaryColor = customPrimaryColor,
+            onCustomPrimaryColorChange = { onCustomPrimaryColorChange(it.toArgb()) },
+            customSecondaryColor = customSecondaryColor,
+            onCustomSecondaryColorChange = { onCustomSecondaryColorChange(it.toArgb()) },
+            backgroundStyle = backgroundStyle,
+            onBackgroundStyleChange = onBackgroundStyleChange,
+            customBgColor = customBgColor,
+            onCustomBgColorChange = { onCustomBgColorChange(it.toArgb()) },
+            gradientStartColor = gradientStartColor,
+            onGradientStartColorChange = { onGradientStartColorChange(it.toArgb()) },
+            gradientEndColor = gradientEndColor,
+            onGradientEndColorChange = { onGradientEndColorChange(it.toArgb()) },
+            gradientDirection = gradientDirection,
+            onGradientDirectionChange = onGradientDirectionChange,
         )
     }
 
@@ -189,15 +303,32 @@ fun PortraitThemeLayout(
     pureBlack: Boolean,
     onPureBlackChange: (Boolean) -> Unit,
     selectedThemeColor: Color,
-    onSelectedThemeColorChange: (Color) -> Unit
+    onSelectedThemeColorChange: (Color) -> Unit,
+    useCustomAccent: Boolean,
+    onUseCustomAccentChange: (Boolean) -> Unit,
+    customPrimaryColor: Color,
+    onCustomPrimaryColorChange: (Color) -> Unit,
+    customSecondaryColor: Color,
+    onCustomSecondaryColorChange: (Color) -> Unit,
+    backgroundStyle: BackgroundStyle,
+    onBackgroundStyleChange: (BackgroundStyle) -> Unit,
+    customBgColor: Color,
+    onCustomBgColorChange: (Color) -> Unit,
+    gradientStartColor: Color,
+    onGradientStartColorChange: (Color) -> Unit,
+    gradientEndColor: Color,
+    onGradientEndColorChange: (Color) -> Unit,
+    gradientDirection: GradientDirection,
+    onGradientDirectionChange: (GradientDirection) -> Unit,
 ) {
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .verticalScroll(rememberScrollState())
             .padding(innerPadding),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Spacer(modifier = Modifier.weight(1f))
+        Spacer(modifier = Modifier.height(16.dp))
 
         Box(
             modifier = Modifier
@@ -208,11 +339,19 @@ fun PortraitThemeLayout(
             ThemeMockupPortrait(
                 darkMode = darkMode,
                 pureBlack = pureBlack,
-                themeColor = selectedThemeColor
+                themeColor = selectedThemeColor,
+                useCustomAccent = useCustomAccent,
+                customPrimaryColor = customPrimaryColor,
+                customSecondaryColor = customSecondaryColor,
+                backgroundStyle = backgroundStyle,
+                customBgColor = customBgColor,
+                gradientStartColor = gradientStartColor,
+                gradientEndColor = gradientEndColor,
+                gradientDirection = gradientDirection,
             )
         }
 
-        Spacer(modifier = Modifier.weight(1f))
+        Spacer(modifier = Modifier.height(24.dp))
 
         ThemeControls(
             darkMode = darkMode,
@@ -220,7 +359,23 @@ fun PortraitThemeLayout(
             pureBlack = pureBlack,
             onPureBlackChange = onPureBlackChange,
             selectedThemeColor = selectedThemeColor,
-            onSelectedThemeColorChange = onSelectedThemeColorChange
+            onSelectedThemeColorChange = onSelectedThemeColorChange,
+            useCustomAccent = useCustomAccent,
+            onUseCustomAccentChange = onUseCustomAccentChange,
+            customPrimaryColor = customPrimaryColor,
+            onCustomPrimaryColorChange = onCustomPrimaryColorChange,
+            customSecondaryColor = customSecondaryColor,
+            onCustomSecondaryColorChange = onCustomSecondaryColorChange,
+            backgroundStyle = backgroundStyle,
+            onBackgroundStyleChange = onBackgroundStyleChange,
+            customBgColor = customBgColor,
+            onCustomBgColorChange = onCustomBgColorChange,
+            gradientStartColor = gradientStartColor,
+            onGradientStartColorChange = onGradientStartColorChange,
+            gradientEndColor = gradientEndColor,
+            onGradientEndColorChange = onGradientEndColorChange,
+            gradientDirection = gradientDirection,
+            onGradientDirectionChange = onGradientDirectionChange,
         )
 
         Spacer(modifier = Modifier.height(120.dp))
@@ -235,7 +390,23 @@ fun LandscapeThemeLayout(
     pureBlack: Boolean,
     onPureBlackChange: (Boolean) -> Unit,
     selectedThemeColor: Color,
-    onSelectedThemeColorChange: (Color) -> Unit
+    onSelectedThemeColorChange: (Color) -> Unit,
+    useCustomAccent: Boolean,
+    onUseCustomAccentChange: (Boolean) -> Unit,
+    customPrimaryColor: Color,
+    onCustomPrimaryColorChange: (Color) -> Unit,
+    customSecondaryColor: Color,
+    onCustomSecondaryColorChange: (Color) -> Unit,
+    backgroundStyle: BackgroundStyle,
+    onBackgroundStyleChange: (BackgroundStyle) -> Unit,
+    customBgColor: Color,
+    onCustomBgColorChange: (Color) -> Unit,
+    gradientStartColor: Color,
+    onGradientStartColorChange: (Color) -> Unit,
+    gradientEndColor: Color,
+    onGradientEndColorChange: (Color) -> Unit,
+    gradientDirection: GradientDirection,
+    onGradientDirectionChange: (GradientDirection) -> Unit,
 ) {
     Row(
         modifier = Modifier
@@ -259,7 +430,15 @@ fun LandscapeThemeLayout(
                 ThemeMockup(
                     darkMode = darkMode,
                     pureBlack = pureBlack,
-                    themeColor = selectedThemeColor
+                    themeColor = selectedThemeColor,
+                    useCustomAccent = useCustomAccent,
+                    customPrimaryColor = customPrimaryColor,
+                    customSecondaryColor = customSecondaryColor,
+                    backgroundStyle = backgroundStyle,
+                    customBgColor = customBgColor,
+                    gradientStartColor = gradientStartColor,
+                    gradientEndColor = gradientEndColor,
+                    gradientDirection = gradientDirection,
                 )
             }
         }
@@ -277,7 +456,23 @@ fun LandscapeThemeLayout(
                 pureBlack = pureBlack,
                 onPureBlackChange = onPureBlackChange,
                 selectedThemeColor = selectedThemeColor,
-                onSelectedThemeColorChange = onSelectedThemeColorChange
+                onSelectedThemeColorChange = onSelectedThemeColorChange,
+                useCustomAccent = useCustomAccent,
+                onUseCustomAccentChange = onUseCustomAccentChange,
+                customPrimaryColor = customPrimaryColor,
+                onCustomPrimaryColorChange = onCustomPrimaryColorChange,
+                customSecondaryColor = customSecondaryColor,
+                onCustomSecondaryColorChange = onCustomSecondaryColorChange,
+                backgroundStyle = backgroundStyle,
+                onBackgroundStyleChange = onBackgroundStyleChange,
+                customBgColor = customBgColor,
+                onCustomBgColorChange = onCustomBgColorChange,
+                gradientStartColor = gradientStartColor,
+                onGradientStartColorChange = onGradientStartColorChange,
+                gradientEndColor = gradientEndColor,
+                onGradientEndColorChange = onGradientEndColorChange,
+                gradientDirection = gradientDirection,
+                onGradientDirectionChange = onGradientDirectionChange,
             )
 
             Spacer(modifier = Modifier.height(80.dp))
@@ -292,8 +487,26 @@ fun ThemeControls(
     pureBlack: Boolean,
     onPureBlackChange: (Boolean) -> Unit,
     selectedThemeColor: Color,
-    onSelectedThemeColorChange: (Color) -> Unit
+    onSelectedThemeColorChange: (Color) -> Unit,
+    useCustomAccent: Boolean,
+    onUseCustomAccentChange: (Boolean) -> Unit,
+    customPrimaryColor: Color,
+    onCustomPrimaryColorChange: (Color) -> Unit,
+    customSecondaryColor: Color,
+    onCustomSecondaryColorChange: (Color) -> Unit,
+    backgroundStyle: BackgroundStyle,
+    onBackgroundStyleChange: (BackgroundStyle) -> Unit,
+    customBgColor: Color,
+    onCustomBgColorChange: (Color) -> Unit,
+    gradientStartColor: Color,
+    onGradientStartColorChange: (Color) -> Unit,
+    gradientEndColor: Color,
+    onGradientEndColorChange: (Color) -> Unit,
+    gradientDirection: GradientDirection,
+    onGradientDirectionChange: (GradientDirection) -> Unit,
 ) {
+    var activeColorPicker by remember { mutableStateOf(ActiveColorPicker.NONE) }
+
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -308,6 +521,7 @@ fun ThemeControls(
             modifier = Modifier.padding(20.dp),
             verticalArrangement = Arrangement.spacedBy(24.dp)
         ) {
+            // Theme Mode Selector
             Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
                 Text(
                     text = stringResource(R.string.theme_mode),
@@ -379,6 +593,7 @@ fun ThemeControls(
                 }
             }
 
+            // Color Palette Selector
             Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
                 Text(
                     text = stringResource(R.string.color_palette),
@@ -390,9 +605,20 @@ fun ThemeControls(
                     horizontalArrangement = Arrangement.spacedBy(12.dp, Alignment.CenterHorizontally),
                     contentPadding = PaddingValues(horizontal = 4.dp)
                 ) {
+                    item {
+                        CustomPaletteItem(
+                            isSelected = useCustomAccent,
+                            primaryColor = customPrimaryColor,
+                            secondaryColor = customSecondaryColor,
+                            onClick = {
+                                onUseCustomAccentChange(true)
+                            }
+                        )
+                    }
+
                     items(PaletteColors) { palette ->
                         val isDynamicPalette = palette.seedColor == Color.Transparent
-                        val isSelected = if (isDynamicPalette) {
+                        val isSelected = !useCustomAccent && if (isDynamicPalette) {
                             selectedThemeColor == DefaultThemeColor
                         } else {
                             selectedThemeColor == palette.seedColor
@@ -408,6 +634,286 @@ fun ThemeControls(
                         )
                     }
                 }
+
+                // Custom Primary & Secondary Color Swatch Pills
+                AnimatedVisibility(
+                    visible = useCustomAccent,
+                    enter = fadeIn() + expandVertically(),
+                    exit = fadeOut() + shrinkVertically()
+                ) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 4.dp),
+                        horizontalArrangement = Arrangement.spacedBy(12.dp)
+                    ) {
+                        ColorSwatchPill(
+                            modifier = Modifier.weight(1f),
+                            label = stringResource(R.string.primary_color),
+                            color = customPrimaryColor,
+                            onClick = { activeColorPicker = ActiveColorPicker.PRIMARY_COLOR }
+                        )
+
+                        ColorSwatchPill(
+                            modifier = Modifier.weight(1f),
+                            label = stringResource(R.string.secondary_color),
+                            color = customSecondaryColor,
+                            onClick = { activeColorPicker = ActiveColorPicker.SECONDARY_COLOR }
+                        )
+                    }
+                }
+            }
+
+            // Background Style Section
+            Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                Text(
+                    text = stringResource(R.string.background_style),
+                    style = MaterialTheme.typography.titleMedium,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+
+                SingleChoiceSegmentedButtonRow(
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    SegmentedButton(
+                        selected = backgroundStyle == BackgroundStyle.DEFAULT,
+                        onClick = { onBackgroundStyleChange(BackgroundStyle.DEFAULT) },
+                        shape = SegmentedButtonDefaults.itemShape(index = 0, count = 3),
+                        label = {
+                            Text(
+                                text = stringResource(R.string.background_default),
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis
+                            )
+                        }
+                    )
+                    SegmentedButton(
+                        selected = backgroundStyle == BackgroundStyle.SOLID_CUSTOM,
+                        onClick = { onBackgroundStyleChange(BackgroundStyle.SOLID_CUSTOM) },
+                        shape = SegmentedButtonDefaults.itemShape(index = 1, count = 3),
+                        label = {
+                            Text(
+                                text = stringResource(R.string.background_solid),
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis
+                            )
+                        }
+                    )
+                    SegmentedButton(
+                        selected = backgroundStyle == BackgroundStyle.GRADIENT,
+                        onClick = { onBackgroundStyleChange(BackgroundStyle.GRADIENT) },
+                        shape = SegmentedButtonDefaults.itemShape(index = 2, count = 3),
+                        label = {
+                            Text(
+                                text = stringResource(R.string.background_gradient),
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis
+                            )
+                        }
+                    )
+                }
+
+                // Solid Color picker pill
+                AnimatedVisibility(
+                    visible = backgroundStyle == BackgroundStyle.SOLID_CUSTOM,
+                    enter = fadeIn() + expandVertically(),
+                    exit = fadeOut() + shrinkVertically()
+                ) {
+                    ColorSwatchPill(
+                        label = stringResource(R.string.background_color),
+                        color = customBgColor,
+                        onClick = { activeColorPicker = ActiveColorPicker.CUSTOM_BG },
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
+
+                // Gradient Controls (Start/End Swatches & Direction Selector)
+                AnimatedVisibility(
+                    visible = backgroundStyle == BackgroundStyle.GRADIENT,
+                    enter = fadeIn() + expandVertically(),
+                    exit = fadeOut() + shrinkVertically()
+                ) {
+                    Column(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalArrangement = Arrangement.spacedBy(12.dp)
+                    ) {
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.spacedBy(12.dp)
+                        ) {
+                            ColorSwatchPill(
+                                modifier = Modifier.weight(1f),
+                                label = stringResource(R.string.gradient_start_color),
+                                color = gradientStartColor,
+                                onClick = { activeColorPicker = ActiveColorPicker.GRADIENT_START }
+                            )
+
+                            ColorSwatchPill(
+                                modifier = Modifier.weight(1f),
+                                label = stringResource(R.string.gradient_end_color),
+                                color = gradientEndColor,
+                                onClick = { activeColorPicker = ActiveColorPicker.GRADIENT_END }
+                            )
+                        }
+
+                        Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                            Text(
+                                text = stringResource(R.string.gradient_direction),
+                                style = MaterialTheme.typography.labelLarge,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+
+                            SingleChoiceSegmentedButtonRow(
+                                modifier = Modifier.fillMaxWidth()
+                            ) {
+                                SegmentedButton(
+                                    selected = gradientDirection == GradientDirection.TOP_TO_BOTTOM,
+                                    onClick = { onGradientDirectionChange(GradientDirection.TOP_TO_BOTTOM) },
+                                    shape = SegmentedButtonDefaults.itemShape(index = 0, count = 3),
+                                    label = {
+                                        Text(
+                                            text = stringResource(R.string.gradient_vertical),
+                                            maxLines = 1,
+                                            overflow = TextOverflow.Ellipsis
+                                        )
+                                    }
+                                )
+                                SegmentedButton(
+                                    selected = gradientDirection == GradientDirection.DIAGONAL,
+                                    onClick = { onGradientDirectionChange(GradientDirection.DIAGONAL) },
+                                    shape = SegmentedButtonDefaults.itemShape(index = 1, count = 3),
+                                    label = {
+                                        Text(
+                                            text = stringResource(R.string.gradient_diagonal),
+                                            maxLines = 1,
+                                            overflow = TextOverflow.Ellipsis
+                                        )
+                                    }
+                                )
+                                SegmentedButton(
+                                    selected = gradientDirection == GradientDirection.RADIAL,
+                                    onClick = { onGradientDirectionChange(GradientDirection.RADIAL) },
+                                    shape = SegmentedButtonDefaults.itemShape(index = 2, count = 3),
+                                    label = {
+                                        Text(
+                                            text = stringResource(R.string.gradient_radial),
+                                            maxLines = 1,
+                                            overflow = TextOverflow.Ellipsis
+                                        )
+                                    }
+                                )
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // Active Color Picker Dialogs
+    when (activeColorPicker) {
+        ActiveColorPicker.PRIMARY_COLOR -> {
+            ColorPickerDialog(
+                initialColor = customPrimaryColor,
+                title = stringResource(R.string.primary_color),
+                onDismiss = { activeColorPicker = ActiveColorPicker.NONE },
+                onColorSelected = {
+                    onCustomPrimaryColorChange(it)
+                    activeColorPicker = ActiveColorPicker.NONE
+                }
+            )
+        }
+        ActiveColorPicker.SECONDARY_COLOR -> {
+            ColorPickerDialog(
+                initialColor = customSecondaryColor,
+                title = stringResource(R.string.secondary_color),
+                onDismiss = { activeColorPicker = ActiveColorPicker.NONE },
+                onColorSelected = {
+                    onCustomSecondaryColorChange(it)
+                    activeColorPicker = ActiveColorPicker.NONE
+                }
+            )
+        }
+        ActiveColorPicker.CUSTOM_BG -> {
+            ColorPickerDialog(
+                initialColor = customBgColor,
+                title = stringResource(R.string.background_color),
+                onDismiss = { activeColorPicker = ActiveColorPicker.NONE },
+                onColorSelected = {
+                    onCustomBgColorChange(it)
+                    activeColorPicker = ActiveColorPicker.NONE
+                }
+            )
+        }
+        ActiveColorPicker.GRADIENT_START -> {
+            ColorPickerDialog(
+                initialColor = gradientStartColor,
+                title = stringResource(R.string.gradient_start_color),
+                onDismiss = { activeColorPicker = ActiveColorPicker.NONE },
+                onColorSelected = {
+                    onGradientStartColorChange(it)
+                    activeColorPicker = ActiveColorPicker.NONE
+                }
+            )
+        }
+        ActiveColorPicker.GRADIENT_END -> {
+            ColorPickerDialog(
+                initialColor = gradientEndColor,
+                title = stringResource(R.string.gradient_end_color),
+                onDismiss = { activeColorPicker = ActiveColorPicker.NONE },
+                onColorSelected = {
+                    onGradientEndColorChange(it)
+                    activeColorPicker = ActiveColorPicker.NONE
+                }
+            )
+        }
+        ActiveColorPicker.NONE -> Unit
+    }
+}
+
+@Composable
+fun ColorSwatchPill(
+    label: String,
+    color: Color,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    Card(
+        modifier = modifier
+            .clip(RoundedCornerShape(16.dp))
+            .clickable(onClick = onClick),
+        shape = RoundedCornerShape(16.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surfaceContainerHighest.copy(alpha = 0.6f)
+        ),
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f))
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 12.dp, vertical = 10.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(10.dp)
+        ) {
+            Box(
+                modifier = Modifier
+                    .size(28.dp)
+                    .background(color, CircleShape)
+                    .border(1.5.dp, MaterialTheme.colorScheme.outlineVariant, CircleShape)
+            )
+            Column(modifier = Modifier.weight(1f)) {
+                Text(
+                    text = label,
+                    style = MaterialTheme.typography.labelMedium,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+                Text(
+                    text = String.format("#%06X", 0xFFFFFF and color.toArgb()),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
             }
         }
     }
@@ -545,6 +1051,104 @@ fun ModeCircle(
 }
 
 @Composable
+fun CustomPaletteItem(
+    isSelected: Boolean,
+    primaryColor: Color,
+    secondaryColor: Color,
+    onClick: () -> Unit
+) {
+    val cornerRadius by animateDpAsState(
+        targetValue = if (isSelected) 48.dp * 0.25f else 24.dp,
+        animationSpec = spring(
+            dampingRatio = Spring.DampingRatioLowBouncy,
+            stiffness = Spring.StiffnessMedium
+        ),
+        label = "customCornerRadius"
+    )
+    
+    val borderWidth by animateDpAsState(
+        targetValue = if (isSelected) 3.dp else 0.dp,
+        animationSpec = spring(
+            dampingRatio = Spring.DampingRatioMediumBouncy,
+            stiffness = Spring.StiffnessMedium
+        ),
+        label = "customBorderWidth"
+    )
+    
+    val scale by animateFloatAsState(
+        targetValue = if (isSelected) 1.08f else 1f,
+        animationSpec = spring(
+            dampingRatio = Spring.DampingRatioMediumBouncy,
+            stiffness = Spring.StiffnessMedium
+        ),
+        label = "customScale"
+    )
+    
+    val shape = RoundedCornerShape(cornerRadius)
+    val interactionSource = remember { MutableInteractionSource() }
+    val contentDesc = stringResource(R.string.custom_color_palette)
+    
+    Box(
+        modifier = Modifier
+            .size(48.dp)
+            .graphicsLayer {
+                scaleX = scale
+                scaleY = scale
+            }
+            .clip(shape)
+            .then(
+                if (borderWidth > 0.dp) {
+                    Modifier.border(
+                        width = borderWidth,
+                        color = MaterialTheme.colorScheme.inversePrimary,
+                        shape = shape
+                    )
+                } else {
+                    Modifier
+                }
+            )
+            .clickable(
+                interactionSource = interactionSource,
+                indication = ripple(),
+                onClick = onClick
+            )
+            .semantics {
+                contentDescription = contentDesc
+            }
+    ) {
+        Canvas(modifier = Modifier.fillMaxSize()) {
+            val width = size.width
+            val height = size.height
+            
+            drawRect(
+                color = primaryColor,
+                topLeft = Offset(0f, 0f),
+                size = Size(width, height / 2)
+            )
+            drawRect(
+                color = secondaryColor,
+                topLeft = Offset(0f, height / 2),
+                size = Size(width, height / 2)
+            )
+        }
+        
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color.Black.copy(alpha = 0.2f)),
+            contentAlignment = Alignment.Center
+        ) {
+            Icon(
+                painter = painterResource(R.drawable.palette),
+                contentDescription = null,
+                tint = Color.White,
+                modifier = Modifier.size(20.dp)
+            )
+        }
+    }
+}
+
+@Composable
 fun PaletteItem(
     palette: ThemePalette,
     isSelected: Boolean,
@@ -661,11 +1265,49 @@ fun PaletteItem(
     }
 }
 
+private fun Modifier.mockupBackground(
+    backgroundStyle: BackgroundStyle,
+    customBgColor: Color,
+    gradientStartColor: Color,
+    gradientEndColor: Color,
+    gradientDirection: GradientDirection,
+    defaultColor: Color
+): Modifier {
+    return when (backgroundStyle) {
+        BackgroundStyle.DEFAULT -> this.background(defaultColor)
+        BackgroundStyle.SOLID_CUSTOM -> this.background(customBgColor)
+        BackgroundStyle.GRADIENT -> {
+            val brush = when (gradientDirection) {
+                GradientDirection.TOP_TO_BOTTOM -> Brush.verticalGradient(
+                    colors = listOf(gradientStartColor, gradientEndColor)
+                )
+                GradientDirection.DIAGONAL -> Brush.linearGradient(
+                    colors = listOf(gradientStartColor, gradientEndColor),
+                    start = Offset.Zero,
+                    end = Offset.Infinite
+                )
+                GradientDirection.RADIAL -> Brush.radialGradient(
+                    colors = listOf(gradientStartColor, gradientEndColor)
+                )
+            }
+            this.background(brush)
+        }
+    }
+}
+
 @Composable
 fun ThemeMockup(
     darkMode: DarkMode,
     pureBlack: Boolean,
-    themeColor: Color
+    themeColor: Color,
+    useCustomAccent: Boolean,
+    customPrimaryColor: Color,
+    customSecondaryColor: Color,
+    backgroundStyle: BackgroundStyle,
+    customBgColor: Color,
+    gradientStartColor: Color,
+    gradientEndColor: Color,
+    gradientDirection: GradientDirection
 ) {
     val isSystemDark = isSystemInDarkTheme()
     val useDark = when (darkMode) {
@@ -674,95 +1316,125 @@ fun ThemeMockup(
         DarkMode.OFF -> false
     }
 
+    val effectivePrimary = if (useCustomAccent) customPrimaryColor else null
+    val effectiveSecondary = if (useCustomAccent) customSecondaryColor else null
+
     MetrolistTheme(
         darkTheme = useDark,
         pureBlack = pureBlack,
         themeColor = themeColor
     ) {
+        val primary = effectivePrimary ?: MaterialTheme.colorScheme.primary
+        val secondary = effectiveSecondary ?: MaterialTheme.colorScheme.secondary
+        val tertiary = if (useCustomAccent) secondary.copy(alpha = 0.7f) else MaterialTheme.colorScheme.tertiary
+        val defaultBg = if (pureBlack && useDark) Color.Black else MaterialTheme.colorScheme.surface
+
         Card(
             modifier = Modifier
                 .fillMaxSize()
                 .aspectRatio(9f / 18f),
             shape = RoundedCornerShape(16.dp),
             colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.surface
+                containerColor = Color.Transparent
             ),
             border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
             elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
         ) {
-            Column(
-                modifier = Modifier.fillMaxSize()
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .mockupBackground(
+                        backgroundStyle = backgroundStyle,
+                        customBgColor = customBgColor,
+                        gradientStartColor = gradientStartColor,
+                        gradientEndColor = gradientEndColor,
+                        gradientDirection = gradientDirection,
+                        defaultColor = defaultBg
+                    )
             ) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(40.dp)
-                        .background(MaterialTheme.colorScheme.surfaceContainer)
-                        .padding(10.dp),
-                    contentAlignment = Alignment.CenterStart
-                ) {
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Box(
-                            modifier = Modifier
-                                .size(18.dp)
-                                .background(MaterialTheme.colorScheme.primary, CircleShape)
-                        )
-                        Box(
-                            modifier = Modifier
-                                .size(18.dp)
-                                .background(MaterialTheme.colorScheme.secondary, CircleShape)
-                        )
-                    }
-                }
-
                 Column(
-                    modifier = Modifier
-                        .weight(1f)
-                        .padding(10.dp),
-                    verticalArrangement = Arrangement.spacedBy(6.dp)
+                    modifier = Modifier.fillMaxSize()
                 ) {
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(32.dp)
-                            .background(MaterialTheme.colorScheme.primary, RoundedCornerShape(6.dp))
-                    )
-                    
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(6.dp)
+                            .height(40.dp)
+                            .background(
+                                if (backgroundStyle == BackgroundStyle.DEFAULT) {
+                                    MaterialTheme.colorScheme.surfaceContainer
+                                } else {
+                                    Color.Black.copy(alpha = 0.25f)
+                                }
+                            )
+                            .padding(10.dp),
+                        contentAlignment = Alignment.CenterStart
+                    ) {
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Box(
+                                modifier = Modifier
+                                    .size(18.dp)
+                                    .background(primary, CircleShape)
+                            )
+                            Box(
+                                modifier = Modifier
+                                    .size(18.dp)
+                                    .background(secondary, CircleShape)
+                            )
+                        }
+                    }
+
+                    Column(
+                        modifier = Modifier
+                            .weight(1f)
+                            .padding(10.dp),
+                        verticalArrangement = Arrangement.spacedBy(6.dp)
                     ) {
                         Box(
                             modifier = Modifier
-                                .weight(1f)
-                                .height(40.dp)
-                                .background(MaterialTheme.colorScheme.secondary, RoundedCornerShape(6.dp))
+                                .fillMaxWidth()
+                                .height(32.dp)
+                                .background(primary, RoundedCornerShape(6.dp))
                         )
                         
-                        Box(
-                            modifier = Modifier
-                                .weight(1f)
-                                .height(40.dp)
-                                .background(MaterialTheme.colorScheme.tertiary, RoundedCornerShape(6.dp))
-                        )
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.spacedBy(6.dp)
+                        ) {
+                            Box(
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .height(40.dp)
+                                    .background(secondary, RoundedCornerShape(6.dp))
+                            )
+                            
+                            Box(
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .height(40.dp)
+                                    .background(tertiary, RoundedCornerShape(6.dp))
+                            )
+                        }
                     }
-                }
 
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(10.dp),
-                    contentAlignment = Alignment.BottomEnd
-                ) {
                     Box(
                         modifier = Modifier
-                            .size(30.dp)
-                            .background(MaterialTheme.colorScheme.primaryContainer, CircleShape)
-                    )
+                            .fillMaxWidth()
+                            .padding(10.dp),
+                        contentAlignment = Alignment.BottomEnd
+                    ) {
+                        Box(
+                            modifier = Modifier
+                                .size(30.dp)
+                                .background(
+                                    if (useCustomAccent) primary else MaterialTheme.colorScheme.primaryContainer,
+                                    CircleShape
+                                )
+                        )
+                    }
                 }
             }
         }
@@ -773,7 +1445,15 @@ fun ThemeMockup(
 fun ThemeMockupPortrait(
     darkMode: DarkMode,
     pureBlack: Boolean,
-    themeColor: Color
+    themeColor: Color,
+    useCustomAccent: Boolean,
+    customPrimaryColor: Color,
+    customSecondaryColor: Color,
+    backgroundStyle: BackgroundStyle,
+    customBgColor: Color,
+    gradientStartColor: Color,
+    gradientEndColor: Color,
+    gradientDirection: GradientDirection
 ) {
     val isSystemDark = isSystemInDarkTheme()
     val useDark = when (darkMode) {
@@ -782,100 +1462,130 @@ fun ThemeMockupPortrait(
         DarkMode.OFF -> false
     }
 
+    val effectivePrimary = if (useCustomAccent) customPrimaryColor else null
+    val effectiveSecondary = if (useCustomAccent) customSecondaryColor else null
+
     MetrolistTheme(
         darkTheme = useDark,
         pureBlack = pureBlack,
         themeColor = themeColor
     ) {
+        val primary = effectivePrimary ?: MaterialTheme.colorScheme.primary
+        val secondary = effectiveSecondary ?: MaterialTheme.colorScheme.secondary
+        val tertiary = if (useCustomAccent) secondary.copy(alpha = 0.7f) else MaterialTheme.colorScheme.tertiary
+        val defaultBg = if (pureBlack && useDark) Color.Black else MaterialTheme.colorScheme.surface
+
         Card(
             modifier = Modifier
                 .fillMaxSize(),
             shape = RoundedCornerShape(12.dp),
             colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.surface
+                containerColor = Color.Transparent
             ),
             border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
             elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
         ) {
-            Column(
-                modifier = Modifier.fillMaxSize()
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .mockupBackground(
+                        backgroundStyle = backgroundStyle,
+                        customBgColor = customBgColor,
+                        gradientStartColor = gradientStartColor,
+                        gradientEndColor = gradientEndColor,
+                        gradientDirection = gradientDirection,
+                        defaultColor = defaultBg
+                    )
             ) {
-                // Header (20% of height)
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .weight(0.2f)
-                        .background(MaterialTheme.colorScheme.surfaceContainer)
-                        .padding(6.dp),
-                    contentAlignment = Alignment.CenterStart
-                ) {
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Box(
-                            modifier = Modifier
-                                .size(12.dp)
-                                .background(MaterialTheme.colorScheme.primary, CircleShape)
-                        )
-                        Box(
-                            modifier = Modifier
-                                .size(12.dp)
-                                .background(MaterialTheme.colorScheme.secondary, CircleShape)
-                        )
-                    }
-                }
-
-                // Main Content (60% of height)
                 Column(
-                    modifier = Modifier
-                        .weight(0.6f)
-                        .padding(6.dp),
-                    verticalArrangement = Arrangement.spacedBy(4.dp)
+                    modifier = Modifier.fillMaxSize()
                 ) {
+                    // Header (20% of height)
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .weight(1f)
-                            .background(MaterialTheme.colorScheme.primary, RoundedCornerShape(4.dp))
-                    )
-                    
-                    Row(
+                            .weight(0.2f)
+                            .background(
+                                if (backgroundStyle == BackgroundStyle.DEFAULT) {
+                                    MaterialTheme.colorScheme.surfaceContainer
+                                } else {
+                                    Color.Black.copy(alpha = 0.25f)
+                                }
+                            )
+                            .padding(6.dp),
+                        contentAlignment = Alignment.CenterStart
+                    ) {
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Box(
+                                modifier = Modifier
+                                    .size(12.dp)
+                                    .background(primary, CircleShape)
+                            )
+                            Box(
+                                modifier = Modifier
+                                    .size(12.dp)
+                                    .background(secondary, CircleShape)
+                            )
+                        }
+                    }
+
+                    // Main Content (60% of height)
+                    Column(
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .weight(1.2f),
-                        horizontalArrangement = Arrangement.spacedBy(4.dp)
+                            .weight(0.6f)
+                            .padding(6.dp),
+                        verticalArrangement = Arrangement.spacedBy(4.dp)
                     ) {
                         Box(
                             modifier = Modifier
+                                .fillMaxWidth()
                                 .weight(1f)
-                                .fillMaxHeight()
-                                .background(MaterialTheme.colorScheme.secondary, RoundedCornerShape(4.dp))
+                                .background(primary, RoundedCornerShape(4.dp))
                         )
                         
-                        Box(
+                        Row(
                             modifier = Modifier
-                                .weight(1f)
-                                .fillMaxHeight()
-                                .background(MaterialTheme.colorScheme.tertiary, RoundedCornerShape(4.dp))
-                        )
+                                .fillMaxWidth()
+                                .weight(1.2f),
+                            horizontalArrangement = Arrangement.spacedBy(4.dp)
+                        ) {
+                            Box(
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .fillMaxHeight()
+                                    .background(secondary, RoundedCornerShape(4.dp))
+                            )
+                            
+                            Box(
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .fillMaxHeight()
+                                    .background(tertiary, RoundedCornerShape(4.dp))
+                            )
+                        }
                     }
-                }
 
-                // FAB Area (20% of height)
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .weight(0.2f)
-                        .padding(6.dp),
-                    contentAlignment = Alignment.BottomEnd
-                ) {
+                    // FAB Area (20% of height)
                     Box(
                         modifier = Modifier
-                            .size(18.dp)
-                            .background(MaterialTheme.colorScheme.primaryContainer, CircleShape)
-                    )
+                            .fillMaxWidth()
+                            .weight(0.2f)
+                            .padding(6.dp),
+                        contentAlignment = Alignment.BottomEnd
+                    ) {
+                        Box(
+                            modifier = Modifier
+                                .size(18.dp)
+                                .background(
+                                    if (useCustomAccent) primary else MaterialTheme.colorScheme.primaryContainer,
+                                    CircleShape
+                                )
+                        )
+                    }
                 }
             }
         }

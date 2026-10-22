@@ -56,6 +56,7 @@ fun LibraryScreen() {
                 filterContent = filterContent,
                 viewType = libraryViewType,
                 onViewTypeChange = { libraryViewType = it },
+                onSelectPlaylists = { filterType = LibraryFilter.PLAYLISTS },
             )
             LibraryFilter.PLAYLISTS -> LibraryPlaylistsScreen(
                 navController = navController,

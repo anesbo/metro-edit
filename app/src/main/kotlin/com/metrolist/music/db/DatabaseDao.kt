@@ -1134,6 +1134,7 @@ interface DatabaseDao {
 
         PlaylistSortType.SONG_COUNT -> playlistsBySongCountAsc()
         PlaylistSortType.LAST_UPDATED -> playlistsByUpdatedDateAsc()
+        PlaylistSortType.CUSTOM -> playlistsByCreateDateAsc() // ordering applied in ViewModel
     }.map { it.reversed(descending) }
 
     @Transaction

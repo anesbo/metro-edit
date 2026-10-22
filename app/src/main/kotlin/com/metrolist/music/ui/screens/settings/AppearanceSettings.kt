@@ -6,6 +6,11 @@
 package com.metrolist.music.ui.screens.settings
 
 import android.os.Build
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -25,6 +30,9 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SegmentedButton
+import androidx.compose.material3.SegmentedButtonDefaults
+import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderState
 import androidx.compose.material3.SnackbarHostState
@@ -64,6 +72,9 @@ import com.metrolist.music.constants.EnableHighRefreshRateKey
 import com.metrolist.music.constants.EnableLandscapeScalingKey
 import com.metrolist.music.constants.ExperimentalLyricsKey
 import com.metrolist.music.constants.ForceBottomNavBarKey
+import com.metrolist.music.constants.GlassIntensityKey
+import com.metrolist.music.constants.GlassStyle
+import com.metrolist.music.constants.GlassStyleKey
 import com.metrolist.music.constants.GridItemSize
 import com.metrolist.music.constants.GridItemsSizeKey
 import com.metrolist.music.constants.HidePlayerThumbnailKey
@@ -158,6 +169,17 @@ fun AppearanceSettings(
         )
     // Check if user has selected a custom color (not the default/dynamic color)
     val isUsingCustomColor = selectedThemeColorInt != DefaultThemeColor.toArgb()
+
+    val (glassStyle, onGlassStyleChange) =
+        rememberEnumPreference(
+            GlassStyleKey,
+            defaultValue = GlassStyle.NONE,
+        )
+    val (glassIntensity, onGlassIntensityChange) =
+        rememberPreference(
+            GlassIntensityKey,
+            defaultValue = 0.5f,
+        )
 
     val (useNewPlayerDesign, onUseNewPlayerDesignChange) =
         rememberPreference(
@@ -1014,6 +1036,78 @@ fun AppearanceSettings(
                             title = { Text(stringResource(R.string.theme)) },
                             description = { Text(stringResource(R.string.theme_desc)) },
                             onClick = { navController.navigate("settings/appearance/theme") },
+                        ),
+                    )
+                    add(
+                        Material3SettingsItem(
+                            icon = painterResource(R.drawable.contrast),
+                            title = { Text(stringResource(R.string.liquid_glass)) },
+                            description = {
+                                Column(modifier = Modifier.fillMaxWidth()) {
+                                    Text(
+                                        text = stringResource(R.string.liquid_glass_desc),
+                                        style = MaterialTheme.typography.bodyMedium,
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                    )
+                                    Spacer(modifier = Modifier.height(10.dp))
+                                    SingleChoiceSegmentedButtonRow(
+                                        modifier = Modifier.fillMaxWidth(),
+                                    ) {
+                                        SegmentedButton(
+                                            selected = glassStyle == GlassStyle.NONE,
+                                            onClick = { onGlassStyleChange(GlassStyle.NONE) },
+                                            shape = SegmentedButtonDefaults.itemShape(index = 0, count = 3),
+                                            label = { Text(stringResource(R.string.liquid_glass_off)) },
+                                        )
+                                        SegmentedButton(
+                                            selected = glassStyle == GlassStyle.BLURRY,
+                                            onClick = { onGlassStyleChange(GlassStyle.BLURRY) },
+                                            shape = SegmentedButtonDefaults.itemShape(index = 1, count = 3),
+                                            label = { Text(stringResource(R.string.liquid_glass_blurry)) },
+                                        )
+                                        SegmentedButton(
+                                            selected = glassStyle == GlassStyle.FROSTY,
+                                            onClick = { onGlassStyleChange(GlassStyle.FROSTY) },
+                                            shape = SegmentedButtonDefaults.itemShape(index = 2, count = 3),
+                                            label = { Text(stringResource(R.string.liquid_glass_frosty)) },
+                                        )
+                                    }
+
+                                    AnimatedVisibility(
+                                        visible = glassStyle != GlassStyle.NONE,
+                                        enter = fadeIn() + expandVertically(),
+                                        exit = fadeOut() + shrinkVertically(),
+                                    ) {
+                                        Column(
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .padding(top = 16.dp),
+                                        ) {
+                                            Row(
+                                                modifier = Modifier.fillMaxWidth(),
+                                                horizontalArrangement = Arrangement.SpaceBetween,
+                                                verticalAlignment = Alignment.CenterVertically,
+                                            ) {
+                                                Text(
+                                                    text = stringResource(R.string.glass_intensity),
+                                                    style = MaterialTheme.typography.bodyMedium,
+                                                )
+                                                Text(
+                                                    text = "${(glassIntensity * 100).roundToInt()}%",
+                                                    style = MaterialTheme.typography.bodySmall,
+                                                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                                )
+                                            }
+                                            Slider(
+                                                value = glassIntensity,
+                                                onValueChange = onGlassIntensityChange,
+                                                valueRange = 0.1f..1.0f,
+                                                modifier = Modifier.fillMaxWidth(),
+                                            )
+                                        }
+                                    }
+                                }
+                            },
                         ),
                     )
                 },

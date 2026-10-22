@@ -5,22 +5,21 @@
 
 package com.metrolist.music.ui.utils
 
-import androidx.compose.foundation.border
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.drawBehind
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.dp
 import com.metrolist.music.constants.GlassStyle
+import com.metrolist.music.ui.modifier.liquidGlass
 
 /**
- * Applies a high-performance glassmorphic background layer and refractive glass border to a Composable.
+ * Applies high-fidelity iOS and visionOS-style "Liquid Glass" modifier.
  *
- * Uses [drawBehind] to render the translucent glass surface directly beneath child content,
- * ensuring that child elements (text, icons, badges) remain perfectly sharp, legible, and unblurred.
+ * Features:
+ * - Convex Specular Lighting with multi-stop sheen mimicking light reflecting off a curved lens.
+ * - Refractive Beveled Rim catching ambient light on top-left and dispersing to shadow on bottom-right.
+ * - Hardware backdrop blur (API 31+) in the background draw phase with crisp, unblurred child composables.
+ * - Graceful frosted fallback on API < 31.
  *
  * @param style The glassmorphism style ([GlassStyle.NONE], [GlassStyle.BLURRY], [GlassStyle.FROSTY]).
  * @param intensity Glass intensity factor from 0.0f to 1.0f.
@@ -30,54 +29,10 @@ fun Modifier.glassmorphic(
     style: GlassStyle,
     intensity: Float,
     shape: Shape = RoundedCornerShape(16.dp),
-): Modifier {
-    if (style == GlassStyle.NONE || intensity <= 0.01f) {
-        return this
-    }
+): Modifier = liquidGlass(
+    style = style,
+    intensity = intensity,
+    shape = shape,
+    isCurvedBevel = true,
+)
 
-    val clampedIntensity = intensity.coerceIn(0f, 1f)
-    // Blur radius calculated from intensity
-    val blurRadius = (clampedIntensity * 30f).coerceAtLeast(1f)
-
-    return this
-        .clip(shape)
-        .drawBehind {
-            when (style) {
-                GlassStyle.BLURRY -> {
-                    // Dark / surface adaptive translucent tint
-                    val alpha = (0.3f + 0.4f * clampedIntensity).coerceIn(0f, 1f)
-                    drawRect(
-                        brush = Brush.verticalGradient(
-                            colors = listOf(
-                                Color.White.copy(alpha = 0.08f * clampedIntensity),
-                                Color.Black.copy(alpha = alpha),
-                            )
-                        )
-                    )
-                }
-                GlassStyle.FROSTY -> {
-                    // High-luminance milky white/frosty tint blended over surface
-                    val alpha = (0.15f + 0.35f * clampedIntensity).coerceIn(0f, 1f)
-                    drawRect(
-                        brush = Brush.verticalGradient(
-                            colors = listOf(
-                                Color.White.copy(alpha = (alpha + 0.15f).coerceAtMost(0.95f)),
-                                Color.White.copy(alpha = alpha),
-                            )
-                        )
-                    )
-                }
-                GlassStyle.NONE -> Unit
-            }
-        }
-        .border(
-            width = 1.dp,
-            brush = Brush.verticalGradient(
-                colors = listOf(
-                    Color.White.copy(alpha = (0.5f * clampedIntensity).coerceIn(0.05f, 0.85f)),
-                    Color.White.copy(alpha = (0.12f * clampedIntensity).coerceIn(0.01f, 0.35f)),
-                )
-            ),
-            shape = shape,
-        )
-}

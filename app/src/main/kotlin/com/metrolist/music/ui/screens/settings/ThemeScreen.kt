@@ -51,6 +51,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SegmentedButton
 import androidx.compose.material3.SegmentedButtonDefaults
 import androidx.compose.material3.SingleChoiceSegmentedButtonRow
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.dynamicDarkColorScheme
@@ -76,6 +77,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -105,7 +107,15 @@ import com.metrolist.music.constants.PureBlackMiniPlayerKey
 import com.metrolist.music.constants.SelectedThemeColorKey
 import com.metrolist.music.constants.UseCustomAccentDefault
 import com.metrolist.music.constants.UseCustomAccentKey
+import com.metrolist.music.constants.GlassCurvedRefractionDefault
+import com.metrolist.music.constants.GlassCurvedRefractionKey
+import com.metrolist.music.constants.GlassIntensityDefault
+import com.metrolist.music.constants.GlassIntensityKey
+import com.metrolist.music.constants.GlassStyle
+import com.metrolist.music.constants.GlassStyleDefault
+import com.metrolist.music.constants.GlassStyleKey
 import com.metrolist.music.ui.component.ColorPickerDialog
+import com.metrolist.music.ui.modifier.liquidGlass
 import com.metrolist.music.ui.theme.DefaultThemeColor
 import com.metrolist.music.ui.theme.MetrolistTheme
 import com.metrolist.music.utils.rememberEnumPreference
@@ -203,6 +213,10 @@ fun ThemeScreen(
         defaultValue = GradientDirectionDefault
     )
 
+    val (glassStyle) = rememberEnumPreference(GlassStyleKey, defaultValue = GlassStyleDefault)
+    val (glassIntensity) = rememberPreference(GlassIntensityKey, defaultValue = GlassIntensityDefault)
+    val (glassCurvedRefraction) = rememberPreference(GlassCurvedRefractionKey, defaultValue = GlassCurvedRefractionDefault)
+
     val selectedThemeColor = Color(selectedThemeColorInt)
     val customPrimaryColor = Color(customPrimaryColorInt)
     val customSecondaryColor = Color(customSecondaryColorInt)
@@ -253,6 +267,10 @@ fun ThemeScreen(
             onGradientEndColorChange = { onGradientEndColorChange(it.toArgb()) },
             gradientDirection = gradientDirection,
             onGradientDirectionChange = onGradientDirectionChange,
+            onNavigateToCatalog = { navController.navigate("settings/appearance/theme_catalog") },
+            glassStyle = glassStyle,
+            glassIntensity = glassIntensity,
+            isCurvedBevel = glassCurvedRefraction,
         )
     } else {
         PortraitThemeLayout(
@@ -279,6 +297,10 @@ fun ThemeScreen(
             onGradientEndColorChange = { onGradientEndColorChange(it.toArgb()) },
             gradientDirection = gradientDirection,
             onGradientDirectionChange = onGradientDirectionChange,
+            onNavigateToCatalog = { navController.navigate("settings/appearance/theme_catalog") },
+            glassStyle = glassStyle,
+            glassIntensity = glassIntensity,
+            isCurvedBevel = glassCurvedRefraction,
         )
     }
 
@@ -289,6 +311,15 @@ fun ThemeScreen(
                 Icon(
                     painter = painterResource(R.drawable.arrow_back),
                     contentDescription = stringResource(R.string.cd_back)
+                )
+            }
+        },
+        actions = {
+            IconButton(onClick = { navController.navigate("settings/appearance/theme_catalog") }) {
+                Icon(
+                    painter = painterResource(R.drawable.grid_view),
+                    contentDescription = stringResource(R.string.theme_gallery),
+                    tint = MaterialTheme.colorScheme.primary,
                 )
             }
         }
@@ -320,6 +351,10 @@ fun PortraitThemeLayout(
     onGradientEndColorChange: (Color) -> Unit,
     gradientDirection: GradientDirection,
     onGradientDirectionChange: (GradientDirection) -> Unit,
+    onNavigateToCatalog: () -> Unit = {},
+    glassStyle: GlassStyle = GlassStyle.NONE,
+    glassIntensity: Float = 0.5f,
+    isCurvedBevel: Boolean = true,
 ) {
     Column(
         modifier = Modifier
@@ -348,10 +383,72 @@ fun PortraitThemeLayout(
                 gradientStartColor = gradientStartColor,
                 gradientEndColor = gradientEndColor,
                 gradientDirection = gradientDirection,
+                glassStyle = glassStyle,
+                glassIntensity = glassIntensity,
+                isCurvedBevel = isCurvedBevel,
             )
         }
 
-        Spacer(modifier = Modifier.height(24.dp))
+        Spacer(modifier = Modifier.height(20.dp))
+
+        // Theme Gallery banner button
+        Surface(
+            shape = RoundedCornerShape(20.dp),
+            color = MaterialTheme.colorScheme.primaryContainer,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp)
+                .clip(RoundedCornerShape(20.dp))
+                .clickable { onNavigateToCatalog() },
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 12.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween,
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(12.dp),
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .size(40.dp)
+                            .clip(CircleShape)
+                            .background(MaterialTheme.colorScheme.primary),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        Icon(
+                            painter = painterResource(R.drawable.palette),
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.onPrimary,
+                            modifier = Modifier.size(22.dp),
+                        )
+                    }
+                    Column {
+                        Text(
+                            text = stringResource(R.string.theme_gallery_title),
+                            style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+                            color = MaterialTheme.colorScheme.onPrimaryContainer,
+                        )
+                        Text(
+                            text = stringResource(R.string.theme_gallery_desc),
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.8f),
+                        )
+                    }
+                }
+                Icon(
+                    painter = painterResource(R.drawable.arrow_forward),
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.onPrimaryContainer,
+                    modifier = Modifier.size(20.dp),
+                )
+            }
+        }
+
+        Spacer(modifier = Modifier.height(20.dp))
 
         ThemeControls(
             darkMode = darkMode,
@@ -407,6 +504,10 @@ fun LandscapeThemeLayout(
     onGradientEndColorChange: (Color) -> Unit,
     gradientDirection: GradientDirection,
     onGradientDirectionChange: (GradientDirection) -> Unit,
+    onNavigateToCatalog: () -> Unit = {},
+    glassStyle: GlassStyle = GlassStyle.NONE,
+    glassIntensity: Float = 0.5f,
+    isCurvedBevel: Boolean = true,
 ) {
     Row(
         modifier = Modifier
@@ -439,6 +540,9 @@ fun LandscapeThemeLayout(
                     gradientStartColor = gradientStartColor,
                     gradientEndColor = gradientEndColor,
                     gradientDirection = gradientDirection,
+                    glassStyle = glassStyle,
+                    glassIntensity = glassIntensity,
+                    isCurvedBevel = isCurvedBevel,
                 )
             }
         }
@@ -1307,7 +1411,10 @@ fun ThemeMockup(
     customBgColor: Color,
     gradientStartColor: Color,
     gradientEndColor: Color,
-    gradientDirection: GradientDirection
+    gradientDirection: GradientDirection,
+    glassStyle: GlassStyle = GlassStyle.NONE,
+    glassIntensity: Float = 0.5f,
+    isCurvedBevel: Boolean = true,
 ) {
     val isSystemDark = isSystemInDarkTheme()
     val useDark = when (darkMode) {
@@ -1453,7 +1560,10 @@ fun ThemeMockupPortrait(
     customBgColor: Color,
     gradientStartColor: Color,
     gradientEndColor: Color,
-    gradientDirection: GradientDirection
+    gradientDirection: GradientDirection,
+    glassStyle: GlassStyle = GlassStyle.NONE,
+    glassIntensity: Float = 0.5f,
+    isCurvedBevel: Boolean = true,
 ) {
     val isSystemDark = isSystemInDarkTheme()
     val useDark = when (darkMode) {
@@ -1533,10 +1643,10 @@ fun ThemeMockupPortrait(
                         }
                     }
 
-                    // Main Content (60% of height)
+                    // Main Content (52% of height)
                     Column(
                         modifier = Modifier
-                            .weight(0.6f)
+                            .weight(0.52f)
                             .padding(6.dp),
                         verticalArrangement = Arrangement.spacedBy(4.dp)
                     ) {
@@ -1569,22 +1679,94 @@ fun ThemeMockupPortrait(
                         }
                     }
 
-                    // FAB Area (20% of height)
-                    Box(
+                    // Floating Glass Surfaces: MiniPlayer Pill & Navigation Dock (28% of height)
+                    Column(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .weight(0.2f)
-                            .padding(6.dp),
-                        contentAlignment = Alignment.BottomEnd
+                            .weight(0.28f)
+                            .padding(horizontal = 4.dp, vertical = 2.dp),
+                        verticalArrangement = Arrangement.spacedBy(3.dp, Alignment.Bottom),
                     ) {
+                        // Floating Glass MiniPlayer Pill
                         Box(
                             modifier = Modifier
-                                .size(18.dp)
-                                .background(
-                                    if (useCustomAccent) primary else MaterialTheme.colorScheme.primaryContainer,
-                                    CircleShape
+                                .fillMaxWidth()
+                                .liquidGlass(
+                                    style = glassStyle,
+                                    intensity = glassIntensity,
+                                    shape = RoundedCornerShape(6.dp),
+                                    isCurvedBevel = isCurvedBevel,
                                 )
-                        )
+                                .background(
+                                    if (glassStyle == GlassStyle.NONE) {
+                                        MaterialTheme.colorScheme.surfaceContainerHigh
+                                    } else {
+                                        Color.Transparent
+                                    },
+                                    RoundedCornerShape(6.dp),
+                                )
+                                .padding(horizontal = 5.dp, vertical = 3.dp),
+                        ) {
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                            ) {
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.spacedBy(4.dp),
+                                ) {
+                                    Box(
+                                        modifier = Modifier
+                                            .size(10.dp)
+                                            .background(primary, RoundedCornerShape(2.dp)),
+                                    )
+                                    Box(
+                                        modifier = Modifier
+                                            .width(36.dp)
+                                            .height(3.dp)
+                                            .background(MaterialTheme.colorScheme.onSurface.copy(alpha = 0.8f), RoundedCornerShape(1.dp)),
+                                    )
+                                }
+                                Box(
+                                    modifier = Modifier
+                                        .size(8.dp)
+                                        .background(primary, CircleShape),
+                                )
+                            }
+                        }
+
+                        // Floating Glass Navigation Dock
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .liquidGlass(
+                                    style = glassStyle,
+                                    intensity = glassIntensity,
+                                    shape = RoundedCornerShape(8.dp),
+                                    isCurvedBevel = isCurvedBevel,
+                                )
+                                .background(
+                                    if (glassStyle == GlassStyle.NONE) {
+                                        MaterialTheme.colorScheme.surfaceContainer
+                                    } else {
+                                        Color.Transparent
+                                    },
+                                    RoundedCornerShape(8.dp),
+                                )
+                                .padding(vertical = 3.dp),
+                            contentAlignment = Alignment.Center,
+                        ) {
+                            Row(
+                                modifier = Modifier.fillMaxWidth(0.75f),
+                                horizontalArrangement = Arrangement.SpaceEvenly,
+                                verticalAlignment = Alignment.CenterVertically,
+                            ) {
+                                Box(modifier = Modifier.size(5.dp).background(primary, CircleShape))
+                                Box(modifier = Modifier.size(5.dp).background(MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f), CircleShape))
+                                Box(modifier = Modifier.size(5.dp).background(MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f), CircleShape))
+                            }
+                        }
                     }
                 }
             }

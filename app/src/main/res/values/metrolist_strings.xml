@@ -1024,4 +1024,22 @@
     <string name="gradient_vertical">Vertical</string>
     <string name="gradient_diagonal">Diagonal</string>
     <string name="gradient_radial">Radial</string>
+
+    <!-- Theme Catalog Gallery -->
+    <string name="theme_gallery">Theme Gallery</string>
+    <string name="theme_gallery_title">Theme Gallery (300+)</string>
+    <string name="theme_gallery_desc">Explore 300+ curated color palettes &amp; themes</string>
+    <string name="theme_gallery_300">Theme Gallery (300+ Palettes)</string>
+    <string name="theme_gallery_300_desc">Cyberpunk, Anime, AMOLED, Pastels &amp; more</string>
+    <string name="curved_refractive_bevel">Curved Refractive Bevel</string>
+    <string name="curved_refractive_bevel_desc">3D optical lens sheen on buttons and bars</string>
+    <string name="liquid_glass_blurry_glass">Blurry Glass</string>
+    <string name="liquid_glass_frosty_glass">Frosty Glass</string>
+    <string name="search_themes_placeholder">Search 300+ themes, colors, hex…</string>
+    <string name="theme_active">Active</string>
+    <string name="no_themes_found">No themes found</string>
+    <string name="reset_filters">Reset Filters</string>
+    <string name="all_categories">All</string>
+    <string name="dark_themes">Dark</string>
+    <string name="light_themes">Light</string>
 </resources>

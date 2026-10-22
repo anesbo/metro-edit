@@ -56,6 +56,7 @@ import com.metrolist.music.ui.screens.settings.SettingsScreen
 import com.metrolist.music.ui.screens.settings.StorageSettings
 import com.metrolist.music.ui.screens.settings.ThemeScreen
 import com.metrolist.music.ui.screens.settings.UpdaterScreen
+import com.zionhuang.music.ui.screens.settings.ThemeCatalogScreen
 import com.metrolist.music.ui.screens.settings.integrations.DiscordSettings
 import com.metrolist.music.ui.screens.settings.integrations.IntegrationScreen
 import com.metrolist.music.ui.screens.settings.integrations.LastFMSettings
@@ -354,6 +355,10 @@ fun NavGraphBuilder.navigationBuilder(
 
     composable("settings/appearance/theme") {
         ThemeScreen(navController)
+    }
+
+    composable("settings/appearance/theme_catalog") {
+        ThemeCatalogScreen(navController)
     }
 
     composable("settings/content") {

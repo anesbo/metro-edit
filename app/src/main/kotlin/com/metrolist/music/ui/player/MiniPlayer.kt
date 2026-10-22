@@ -127,7 +127,11 @@ import com.metrolist.music.constants.GlassIntensityKey
 import com.metrolist.music.constants.GlassStyle
 import com.metrolist.music.constants.GlassStyleDefault
 import com.metrolist.music.constants.GlassStyleKey
+import com.metrolist.music.ui.modifier.liquidGlass
 import com.metrolist.music.ui.utils.glassmorphic
+import androidx.compose.material3.LocalContentColor
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.ui.draw.shadow
 
 /**
  * Stable wrapper for progress state - reads values only during draw phase
@@ -194,7 +198,7 @@ private fun NewMiniPlayer(
     val glassStyle by rememberEnumPreference(GlassStyleKey, defaultValue = GlassStyleDefault)
     val glassIntensity by rememberPreference(GlassIntensityKey, defaultValue = GlassIntensityDefault)
     val isGlass = glassStyle != GlassStyle.NONE
-    val miniPlayerShape = RoundedCornerShape(32.dp)
+    val miniPlayerShape = if (isGlass) RoundedCornerShape(20.dp) else RoundedCornerShape(32.dp)
     val context = LocalContext.current
     var gradientColors by remember { mutableStateOf<List<Color>>(emptyList()) }
     val isSystemInDarkTheme = isSystemInDarkTheme()
@@ -307,10 +311,14 @@ private fun NewMiniPlayer(
             miniPlayerBackground == MiniPlayerBackgroundStyle.BLUR ||
             miniPlayerBackground == MiniPlayerBackgroundStyle.GRADIENT)
 
-    val primaryColor = if (forceLightColors) Color.White else MaterialTheme.colorScheme.primary
-    val outlineColor = if (forceLightColors) Color.White else MaterialTheme.colorScheme.outline
-    val onSurfaceColor = if (forceLightColors) Color.White else MaterialTheme.colorScheme.onSurface
-    val errorColor = if (forceLightColors) Color(0xFFFF6B6B) else MaterialTheme.colorScheme.error
+    val glassTextOnSurface = if (glassStyle == GlassStyle.FROSTY) Color(0xFF121417) else Color.White
+    val glassPrimary = if (glassStyle == GlassStyle.FROSTY) MaterialTheme.colorScheme.primary else Color.White
+    val glassOutline = if (glassStyle == GlassStyle.FROSTY) Color(0xFF121417).copy(alpha = 0.7f) else Color.White.copy(alpha = 0.7f)
+
+    val primaryColor = if (isGlass) glassPrimary else if (forceLightColors) Color.White else MaterialTheme.colorScheme.primary
+    val outlineColor = if (isGlass) glassOutline else if (forceLightColors) Color.White else MaterialTheme.colorScheme.outline
+    val onSurfaceColor = if (isGlass) glassTextOnSurface else if (forceLightColors) Color.White else MaterialTheme.colorScheme.onSurface
+    val errorColor = if (isGlass) (if (glassStyle == GlassStyle.FROSTY) Color(0xFFBA1A1A) else Color(0xFFFF6B6B)) else if (forceLightColors) Color(0xFFFF6B6B) else MaterialTheme.colorScheme.error
 
     Box(
         modifier =
@@ -389,12 +397,27 @@ private fun NewMiniPlayer(
                     .then(if (isTabletLandscape) Modifier.width(500.dp).align(Alignment.Center) else Modifier.fillMaxWidth())
                     .height(64.dp)
                     .offset { IntOffset(offsetXAnimatable.value.roundToInt(), 0) }
-                    .glassmorphic(glassStyle, glassIntensity, miniPlayerShape)
-                    .clip(miniPlayerShape)
-                    .background(color = if (isGlass) Color.Transparent else backgroundColor)
                     .then(
-                        if (!isGlass) Modifier.border(1.dp, outlineColor.copy(alpha = 0.3f), miniPlayerShape)
-                        else Modifier
+                        if (isGlass) {
+                            Modifier
+                                .shadow(
+                                    elevation = 10.dp,
+                                    shape = miniPlayerShape,
+                                    clip = false,
+                                    ambientColor = Color.Black.copy(alpha = 0.25f),
+                                    spotColor = Color.Black.copy(alpha = 0.35f),
+                                )
+                                .liquidGlass(
+                                    style = glassStyle,
+                                    intensity = glassIntensity,
+                                    shape = miniPlayerShape,
+                                )
+                        } else {
+                            Modifier
+                                .clip(miniPlayerShape)
+                                .background(color = backgroundColor)
+                                .border(1.dp, outlineColor.copy(alpha = 0.3f), miniPlayerShape)
+                        }
                     )
                     .clickable(
                         interactionSource = interactionSource,
@@ -752,13 +775,18 @@ private fun LegacyMiniPlayer(
             (600 / (1f + kotlin.math.exp(-(-11.44748 * swipeSensitivity + 9.04945)))).roundToInt()
         }
 
-    val primaryColor = MaterialTheme.colorScheme.primary
-    val trackColor = MaterialTheme.colorScheme.surfaceVariant
-
     val glassStyle by rememberEnumPreference(GlassStyleKey, defaultValue = GlassStyleDefault)
     val glassIntensity by rememberPreference(GlassIntensityKey, defaultValue = GlassIntensityDefault)
     val isGlass = glassStyle != GlassStyle.NONE
-    val legacyShape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)
+    val legacyShape = if (isGlass) RoundedCornerShape(20.dp) else RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)
+
+    val glassTextOnSurface = if (glassStyle == GlassStyle.FROSTY) Color(0xFF121417) else Color.White
+    val glassPrimary = if (glassStyle == GlassStyle.FROSTY) MaterialTheme.colorScheme.primary else Color.White
+    val glassOutline = if (glassStyle == GlassStyle.FROSTY) Color(0xFF121417).copy(alpha = 0.7f) else Color.White.copy(alpha = 0.7f)
+
+    val primaryColor = if (isGlass) glassPrimary else MaterialTheme.colorScheme.primary
+    val contentColor = if (isGlass) glassTextOnSurface else if (pureBlack && isSystemInDarkTheme()) Color.White else MaterialTheme.colorScheme.onSurface
+    val trackColor = if (isGlass) glassOutline.copy(alpha = 0.25f) else MaterialTheme.colorScheme.surfaceVariant
 
     val interactionSource = remember { MutableInteractionSource() }
 
@@ -766,18 +794,35 @@ private fun LegacyMiniPlayer(
         modifier =
             modifier
                 .then(if (isTabletLandscape) Modifier.width(500.dp) else Modifier.fillMaxWidth())
+                .then(if (isGlass) Modifier.padding(horizontal = 12.dp).padding(bottom = 4.dp) else Modifier)
                 .height(MiniPlayerHeight)
                 .windowInsetsPadding(WindowInsets.systemBars.only(WindowInsetsSides.Horizontal))
-                .glassmorphic(glassStyle, glassIntensity, legacyShape)
-                .clip(legacyShape)
-                .background(
+                .then(
                     if (isGlass) {
-                        Color.Transparent
-                    } else if (pureBlack && isSystemInDarkTheme()) {
-                        Color.Black
+                        Modifier
+                            .shadow(
+                                elevation = 10.dp,
+                                shape = legacyShape,
+                                clip = false,
+                                ambientColor = Color.Black.copy(alpha = 0.25f),
+                                spotColor = Color.Black.copy(alpha = 0.35f),
+                            )
+                            .liquidGlass(
+                                style = glassStyle,
+                                intensity = glassIntensity,
+                                shape = legacyShape,
+                            )
                     } else {
-                        MaterialTheme.colorScheme.surfaceContainer
-                    },
+                        Modifier
+                            .clip(legacyShape)
+                            .background(
+                                if (pureBlack && isSystemInDarkTheme()) {
+                                    Color.Black
+                                } else {
+                                    MaterialTheme.colorScheme.surfaceContainer
+                                },
+                            )
+                    }
                 ).clickable(
                     interactionSource = interactionSource,
                     indication = LocalIndication.current,
@@ -855,37 +900,40 @@ private fun LegacyMiniPlayer(
                     },
         )
 
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier =
-                Modifier
-                    .fillMaxSize()
-                    .offset { IntOffset(offsetXAnimatable.value.roundToInt(), 0) }
-                    .padding(end = 12.dp),
-        ) {
-            Box(Modifier.weight(1f)) {
-                mediaMetadata?.let {
-                    LegacyMiniMediaInfo(
-                        mediaMetadata = it,
-                        pureBlack = pureBlack,
-                        modifier = Modifier.padding(horizontal = 6.dp),
-                    )
-                }
-            }
-
-            LegacyPlayPauseButton(
-                playbackState = playbackState,
-                isCasting = isCasting,
-                castHandler = castHandler,
-                playerConnection = playerConnection,
-                listenTogetherManager = listenTogetherManager,
-            )
-
-            IconButton(
-                enabled = canSkipNext && !isListenTogetherGuest,
-                onClick = if (isListenTogetherGuest) ({}) else ({ playerConnection.seekToNext() }),
+        CompositionLocalProvider(LocalContentColor provides contentColor) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier =
+                    Modifier
+                        .fillMaxSize()
+                        .offset { IntOffset(offsetXAnimatable.value.roundToInt(), 0) }
+                        .padding(end = 12.dp),
             ) {
-                Icon(painter = painterResource(R.drawable.skip_next), contentDescription = null)
+                Box(Modifier.weight(1f)) {
+                    mediaMetadata?.let {
+                        LegacyMiniMediaInfo(
+                            mediaMetadata = it,
+                            pureBlack = pureBlack,
+                            contentColor = contentColor,
+                            modifier = Modifier.padding(horizontal = 6.dp),
+                        )
+                    }
+                }
+
+                LegacyPlayPauseButton(
+                    playbackState = playbackState,
+                    isCasting = isCasting,
+                    castHandler = castHandler,
+                    playerConnection = playerConnection,
+                    listenTogetherManager = listenTogetherManager,
+                )
+
+                IconButton(
+                    enabled = canSkipNext && !isListenTogetherGuest,
+                    onClick = if (isListenTogetherGuest) ({}) else ({ playerConnection.seekToNext() }),
+                ) {
+                    Icon(painter = painterResource(R.drawable.skip_next), contentDescription = null, tint = contentColor)
+                }
             }
         }
 
@@ -964,6 +1012,7 @@ private fun LegacyMiniMediaInfo(
     mediaMetadata: MediaMetadata,
     pureBlack: Boolean,
     modifier: Modifier = Modifier,
+    contentColor: Color? = null,
 ) {
     val error by LocalPlayerConnection.current?.error?.collectAsState() ?: remember { mutableStateOf(null) }
     val cropAlbumArt by rememberPreference(CropAlbumArtKey, false)
@@ -1027,7 +1076,7 @@ private fun LegacyMiniMediaInfo(
         ) {
             Text(
                 text = mediaMetadata.title,
-                color = MaterialTheme.colorScheme.onSurface,
+                color = contentColor ?: MaterialTheme.colorScheme.onSurface,
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Bold,
                 maxLines = 1,
@@ -1038,7 +1087,7 @@ private fun LegacyMiniMediaInfo(
              if (mediaMetadata.artists.any { it.name.isNotBlank() }) {
                  Text(
                      text = mediaMetadata.artists.joinToArtistString(" ${stringResource(R.string.and)} ") { it.name },
-                     color = MaterialTheme.colorScheme.secondary,
+                     color = contentColor?.copy(alpha = 0.7f) ?: MaterialTheme.colorScheme.secondary,
                     fontSize = 12.sp,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,

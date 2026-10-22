@@ -15,6 +15,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -23,10 +24,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.ui.draw.clip
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -51,18 +54,29 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.metrolist.music.LocalPlayerAwareWindowInsets
 import com.metrolist.music.R
+import com.metrolist.music.constants.BackgroundStyle
+import com.metrolist.music.constants.BackgroundStyleDefault
+import com.metrolist.music.constants.BackgroundStyleKey
 import com.metrolist.music.constants.ChipSortTypeKey
 import com.metrolist.music.constants.CropAlbumArtKey
+import com.metrolist.music.constants.CustomBgColorDefault
+import com.metrolist.music.constants.CustomBgColorKey
+import com.metrolist.music.constants.CustomPrimaryColorDefault
+import com.metrolist.music.constants.CustomPrimaryColorKey
+import com.metrolist.music.constants.CustomSecondaryColorDefault
+import com.metrolist.music.constants.CustomSecondaryColorKey
+import com.metrolist.music.constants.DarkModeKey
 import com.metrolist.music.constants.DefaultOpenTabKey
 import com.metrolist.music.constants.DensityScale
 import com.metrolist.music.constants.DensityScaleKey
@@ -72,12 +86,24 @@ import com.metrolist.music.constants.EnableHighRefreshRateKey
 import com.metrolist.music.constants.EnableLandscapeScalingKey
 import com.metrolist.music.constants.ExperimentalLyricsKey
 import com.metrolist.music.constants.ForceBottomNavBarKey
+import com.metrolist.music.constants.GlassCurvedRefractionDefault
+import com.metrolist.music.constants.GlassCurvedRefractionKey
 import com.metrolist.music.constants.GlassIntensityKey
 import com.metrolist.music.constants.GlassStyle
 import com.metrolist.music.constants.GlassStyleKey
+import com.metrolist.music.constants.GradientDirection
+import com.metrolist.music.constants.GradientDirectionDefault
+import com.metrolist.music.constants.GradientDirectionKey
+import com.metrolist.music.constants.GradientEndColorDefault
+import com.metrolist.music.constants.GradientEndColorKey
+import com.metrolist.music.constants.GradientStartColorDefault
+import com.metrolist.music.constants.GradientStartColorKey
 import com.metrolist.music.constants.GridItemSize
 import com.metrolist.music.constants.GridItemsSizeKey
 import com.metrolist.music.constants.HidePlayerThumbnailKey
+import com.metrolist.music.constants.PureBlackKey
+import com.metrolist.music.constants.UseCustomAccentDefault
+import com.metrolist.music.constants.UseCustomAccentKey
 import com.metrolist.music.constants.HideStatusBarOnFullscreenKey
 import com.metrolist.music.constants.LibraryFilter
 import com.metrolist.music.constants.ListenTogetherInTopBarKey
@@ -180,6 +206,29 @@ fun AppearanceSettings(
             GlassIntensityKey,
             defaultValue = 0.5f,
         )
+    val (glassCurvedRefraction, onGlassCurvedRefractionChange) =
+        rememberPreference(
+            GlassCurvedRefractionKey,
+            defaultValue = GlassCurvedRefractionDefault,
+        )
+
+    val (darkMode) = rememberEnumPreference(DarkModeKey, DarkMode.AUTO)
+    val (pureBlack) = rememberPreference(PureBlackKey, defaultValue = false)
+    val (useCustomAccent) = rememberPreference(UseCustomAccentKey, defaultValue = UseCustomAccentDefault)
+    val (customPrimaryColorInt) = rememberPreference(CustomPrimaryColorKey, defaultValue = CustomPrimaryColorDefault)
+    val (customSecondaryColorInt) = rememberPreference(CustomSecondaryColorKey, defaultValue = CustomSecondaryColorDefault)
+    val (backgroundStyle) = rememberEnumPreference(BackgroundStyleKey, defaultValue = BackgroundStyleDefault)
+    val (customBgColorInt) = rememberPreference(CustomBgColorKey, defaultValue = CustomBgColorDefault)
+    val (gradientStartColorInt) = rememberPreference(GradientStartColorKey, defaultValue = GradientStartColorDefault)
+    val (gradientEndColorInt) = rememberPreference(GradientEndColorKey, defaultValue = GradientEndColorDefault)
+    val (gradientDirection) = rememberEnumPreference(GradientDirectionKey, defaultValue = GradientDirectionDefault)
+
+    val selectedThemeColor = Color(selectedThemeColorInt)
+    val customPrimaryColor = Color(customPrimaryColorInt)
+    val customSecondaryColor = Color(customSecondaryColorInt)
+    val customBgColor = Color(customBgColorInt)
+    val gradientStartColor = Color(gradientStartColorInt)
+    val gradientEndColor = Color(gradientEndColorInt)
 
     val (useNewPlayerDesign, onUseNewPlayerDesignChange) =
         rememberPreference(
@@ -927,6 +976,42 @@ fun AppearanceSettings(
             .verticalScroll(rememberScrollState())
             .padding(horizontal = 16.dp),
     ) {
+        Spacer(modifier = Modifier.height(12.dp))
+
+        // Live Interactive Phone Mockup
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(240.dp),
+            contentAlignment = Alignment.Center,
+        ) {
+            Box(
+                modifier = Modifier
+                    .width(120.dp)
+                    .height(240.dp),
+                contentAlignment = Alignment.Center,
+            ) {
+                ThemeMockupPortrait(
+                    darkMode = darkMode,
+                    pureBlack = pureBlack,
+                    themeColor = selectedThemeColor,
+                    useCustomAccent = useCustomAccent,
+                    customPrimaryColor = customPrimaryColor,
+                    customSecondaryColor = customSecondaryColor,
+                    backgroundStyle = backgroundStyle,
+                    customBgColor = customBgColor,
+                    gradientStartColor = gradientStartColor,
+                    gradientEndColor = gradientEndColor,
+                    gradientDirection = gradientDirection,
+                    glassStyle = glassStyle,
+                    glassIntensity = glassIntensity,
+                    isCurvedBevel = glassCurvedRefraction,
+                )
+            }
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
         Material3SettingsGroup(
             title = stringResource(R.string.theme),
             items =
@@ -1030,6 +1115,26 @@ fun AppearanceSettings(
                             onClick = { onEnableDynamicIconChange(!enableDynamicIcon) },
                         ),
                     )
+                    // 1. Prominent Theme Gallery Entry Card
+                    add(
+                        Material3SettingsItem(
+                            icon = painterResource(R.drawable.grid_view),
+                            title = {
+                                Text(
+                                    text = stringResource(R.string.theme_gallery_300),
+                                    style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+                                )
+                            },
+                            description = {
+                                Text(
+                                    text = stringResource(R.string.theme_gallery_300_desc),
+                                    color = MaterialTheme.colorScheme.primary,
+                                    style = MaterialTheme.typography.bodyMedium,
+                                )
+                            },
+                            onClick = { navController.navigate("settings/appearance/theme_catalog") },
+                        ),
+                    )
                     add(
                         Material3SettingsItem(
                             icon = painterResource(R.drawable.palette),
@@ -1038,6 +1143,7 @@ fun AppearanceSettings(
                             onClick = { navController.navigate("settings/appearance/theme") },
                         ),
                     )
+                    // 2. Liquid Glass Effect Studio Panel
                     add(
                         Material3SettingsItem(
                             icon = painterResource(R.drawable.contrast),
@@ -1063,13 +1169,13 @@ fun AppearanceSettings(
                                             selected = glassStyle == GlassStyle.BLURRY,
                                             onClick = { onGlassStyleChange(GlassStyle.BLURRY) },
                                             shape = SegmentedButtonDefaults.itemShape(index = 1, count = 3),
-                                            label = { Text(stringResource(R.string.liquid_glass_blurry)) },
+                                            label = { Text(stringResource(R.string.liquid_glass_blurry_glass)) },
                                         )
                                         SegmentedButton(
                                             selected = glassStyle == GlassStyle.FROSTY,
                                             onClick = { onGlassStyleChange(GlassStyle.FROSTY) },
                                             shape = SegmentedButtonDefaults.itemShape(index = 2, count = 3),
-                                            label = { Text(stringResource(R.string.liquid_glass_frosty)) },
+                                            label = { Text(stringResource(R.string.liquid_glass_frosty_glass)) },
                                         )
                                     }
 
@@ -1104,6 +1210,41 @@ fun AppearanceSettings(
                                                 valueRange = 0.1f..1.0f,
                                                 modifier = Modifier.fillMaxWidth(),
                                             )
+                                            Spacer(modifier = Modifier.height(12.dp))
+                                            Row(
+                                                modifier = Modifier
+                                                    .fillMaxWidth()
+                                                    .clip(RoundedCornerShape(12.dp))
+                                                    .clickable { onGlassCurvedRefractionChange(!glassCurvedRefraction) }
+                                                    .padding(vertical = 4.dp),
+                                                horizontalArrangement = Arrangement.SpaceBetween,
+                                                verticalAlignment = Alignment.CenterVertically,
+                                            ) {
+                                                Column(modifier = Modifier.weight(1f).padding(end = 12.dp)) {
+                                                    Text(
+                                                        text = stringResource(R.string.curved_refractive_bevel),
+                                                        style = MaterialTheme.typography.bodyMedium,
+                                                    )
+                                                    Text(
+                                                        text = stringResource(R.string.curved_refractive_bevel_desc),
+                                                        style = MaterialTheme.typography.bodySmall,
+                                                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                                    )
+                                                }
+                                                Switch(
+                                                    checked = glassCurvedRefraction,
+                                                    onCheckedChange = onGlassCurvedRefractionChange,
+                                                    thumbContent = {
+                                                        Icon(
+                                                            painter = painterResource(
+                                                                id = if (glassCurvedRefraction) R.drawable.check else R.drawable.close,
+                                                            ),
+                                                            contentDescription = null,
+                                                            modifier = Modifier.size(SwitchDefaults.IconSize),
+                                                        )
+                                                    },
+                                                )
+                                            }
                                         }
                                     }
                                 }

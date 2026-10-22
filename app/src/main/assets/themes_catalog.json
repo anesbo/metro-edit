@@ -1,0 +1,3682 @@
+{
+  "version": 1,
+  "categories": [
+    {
+      "id": "cyberpunk_synth",
+      "title": "Cyberpunk & Synthwave",
+      "icon": "🌆"
+    },
+    {
+      "id": "deep_space",
+      "title": "Deep Space & Galaxy",
+      "icon": "🌌"
+    },
+    {
+      "id": "nature_earth",
+      "title": "Nature & Botanicals",
+      "icon": "🌿"
+    },
+    {
+      "id": "ocean_aquatic",
+      "title": "Ocean & Deep Sea",
+      "icon": "🌊"
+    },
+    {
+      "id": "sunset_dusk",
+      "title": "Sunset & Twilight",
+      "icon": "🌅"
+    },
+    {
+      "id": "minimal_oled",
+      "title": "Minimalist & OLED",
+      "icon": "🌑"
+    },
+    {
+      "id": "tokyo_night",
+      "title": "Tokyo After Dark",
+      "icon": "🏮"
+    },
+    {
+      "id": "nordic_pastel",
+      "title": "Nordic & Pastels",
+      "icon": "❄️"
+    },
+    {
+      "id": "retro_vintage",
+      "title": "Retro & Vintage",
+      "icon": "📻"
+    },
+    {
+      "id": "coffee_warmth",
+      "title": "Coffee & Warmth",
+      "icon": "☕"
+    },
+    {
+      "id": "gemstones_luxury",
+      "title": "Gemstones & Luxury",
+      "icon": "💎"
+    },
+    {
+      "id": "anime_fantasy",
+      "title": "Anime & Fantasy",
+      "icon": "✨"
+    },
+    {
+      "id": "fine_arts",
+      "title": "Fine Arts & Canvas",
+      "icon": "🎨"
+    },
+    {
+      "id": "desert_dunes",
+      "title": "Desert & Terracotta",
+      "icon": "🏜️"
+    },
+    {
+      "id": "code_terminal",
+      "title": "Code & Developer Syntax",
+      "icon": "💻"
+    }
+  ],
+  "themes": [
+    {
+      "id": "cyber-neon-pink",
+      "name": "Neon Overdrive",
+      "categoryId": "cyberpunk_synth",
+      "primaryHex": "#FF007F",
+      "secondaryHex": "#00F0FF",
+      "backgroundHex": "#0A0A12",
+      "surfaceHex": "#141424",
+      "isDark": true
+    },
+    {
+      "id": "cyber-outrun-grid",
+      "name": "Outrun Horizon",
+      "categoryId": "cyberpunk_synth",
+      "primaryHex": "#FF71CE",
+      "secondaryHex": "#01CDFE",
+      "backgroundHex": "#100520",
+      "surfaceHex": "#1E0E38",
+      "isDark": true
+    },
+    {
+      "id": "cyber-laser-night",
+      "name": "Laser City",
+      "categoryId": "cyberpunk_synth",
+      "primaryHex": "#05FFA1",
+      "secondaryHex": "#B967FF",
+      "backgroundHex": "#0B0D1B",
+      "surfaceHex": "#161933",
+      "isDark": true
+    },
+    {
+      "id": "cyber-matrix-reloaded",
+      "name": "Neo Glitch",
+      "categoryId": "cyberpunk_synth",
+      "primaryHex": "#00FF66",
+      "secondaryHex": "#00CCFF",
+      "backgroundHex": "#06100A",
+      "surfaceHex": "#0C1F14",
+      "isDark": true
+    },
+    {
+      "id": "cyber-blade-runner",
+      "name": "Tears in Rain",
+      "categoryId": "cyberpunk_synth",
+      "primaryHex": "#FF3366",
+      "secondaryHex": "#33CCFF",
+      "backgroundHex": "#0D1117",
+      "surfaceHex": "#161B22",
+      "isDark": true
+    },
+    {
+      "id": "cyber-miami-nights",
+      "name": "Miami Nights 84",
+      "categoryId": "cyberpunk_synth",
+      "primaryHex": "#F72585",
+      "secondaryHex": "#7209B7",
+      "backgroundHex": "#0D0221",
+      "surfaceHex": "#1B063A",
+      "isDark": true
+    },
+    {
+      "id": "cyber-rad-grid",
+      "name": "Retro Grid Pulse",
+      "categoryId": "cyberpunk_synth",
+      "primaryHex": "#FF5E7E",
+      "secondaryHex": "#A0E7E5",
+      "backgroundHex": "#180B22",
+      "surfaceHex": "#261536",
+      "isDark": true
+    },
+    {
+      "id": "cyber-synth-sunset",
+      "name": "Synth Sunrise",
+      "categoryId": "cyberpunk_synth",
+      "primaryHex": "#FF9E00",
+      "secondaryHex": "#FF0054",
+      "backgroundHex": "#120320",
+      "surfaceHex": "#21093A",
+      "isDark": true
+    },
+    {
+      "id": "cyber-arcade-fever",
+      "name": "Arcade 1989",
+      "categoryId": "cyberpunk_synth",
+      "primaryHex": "#39FF14",
+      "secondaryHex": "#FF007F",
+      "backgroundHex": "#0C071E",
+      "surfaceHex": "#191136",
+      "isDark": true
+    },
+    {
+      "id": "cyber-chrome-violet",
+      "name": "Chrome Violet",
+      "categoryId": "cyberpunk_synth",
+      "primaryHex": "#BE00FE",
+      "secondaryHex": "#00D2FE",
+      "backgroundHex": "#0B0718",
+      "surfaceHex": "#17102E",
+      "isDark": true
+    },
+    {
+      "id": "cyber-hologram",
+      "name": "Holo Shimmer",
+      "categoryId": "cyberpunk_synth",
+      "primaryHex": "#00F5D4",
+      "secondaryHex": "#7B2CBF",
+      "backgroundHex": "#070E1A",
+      "surfaceHex": "#101D33",
+      "isDark": true
+    },
+    {
+      "id": "cyber-megacity",
+      "name": "Night City Central",
+      "categoryId": "cyberpunk_synth",
+      "primaryHex": "#FEE440",
+      "secondaryHex": "#F72585",
+      "backgroundHex": "#0B0914",
+      "surfaceHex": "#181427",
+      "isDark": true
+    },
+    {
+      "id": "cyber-hyperdrive",
+      "name": "Hyperdrive Core",
+      "categoryId": "cyberpunk_synth",
+      "primaryHex": "#4CC9F0",
+      "secondaryHex": "#4361EE",
+      "backgroundHex": "#090C1A",
+      "surfaceHex": "#131831",
+      "isDark": true
+    },
+    {
+      "id": "cyber-glitch-art",
+      "name": "RGB Distortion",
+      "categoryId": "cyberpunk_synth",
+      "primaryHex": "#FF1744",
+      "secondaryHex": "#00E5FF",
+      "backgroundHex": "#111116",
+      "surfaceHex": "#1C1C24",
+      "isDark": true
+    },
+    {
+      "id": "cyber-vector-dash",
+      "name": "Vector Velocity",
+      "categoryId": "cyberpunk_synth",
+      "primaryHex": "#FFE600",
+      "secondaryHex": "#00F0FF",
+      "backgroundHex": "#091016",
+      "surfaceHex": "#12202C",
+      "isDark": true
+    },
+    {
+      "id": "cyber-netrunner",
+      "name": "Netrunner Ghost",
+      "categoryId": "cyberpunk_synth",
+      "primaryHex": "#57F287",
+      "secondaryHex": "#EB459E",
+      "backgroundHex": "#0B1214",
+      "surfaceHex": "#142125",
+      "isDark": true
+    },
+    {
+      "id": "cyber-plasma-wave",
+      "name": "Plasma Surge",
+      "categoryId": "cyberpunk_synth",
+      "primaryHex": "#E040FB",
+      "secondaryHex": "#00E5FF",
+      "backgroundHex": "#11091F",
+      "surfaceHex": "#201438",
+      "isDark": true
+    },
+    {
+      "id": "cyber-neon-rain",
+      "name": "Neon Drizzle",
+      "categoryId": "cyberpunk_synth",
+      "primaryHex": "#00B4D8",
+      "secondaryHex": "#90E0EF",
+      "backgroundHex": "#03045E",
+      "surfaceHex": "#081078",
+      "isDark": true
+    },
+    {
+      "id": "cyber-vapor-sunset",
+      "name": "Vapor Sunset",
+      "categoryId": "cyberpunk_synth",
+      "primaryHex": "#FF6B6B",
+      "secondaryHex": "#FFE66D",
+      "backgroundHex": "#1A0926",
+      "surfaceHex": "#2D143F",
+      "isDark": true
+    },
+    {
+      "id": "cyber-techno-bunker",
+      "name": "Techno Bunker",
+      "categoryId": "cyberpunk_synth",
+      "primaryHex": "#CCFF00",
+      "secondaryHex": "#FF0055",
+      "backgroundHex": "#0E0E0E",
+      "surfaceHex": "#1A1A1A",
+      "isDark": true
+    },
+    {
+      "id": "cyber-subwoofer",
+      "name": "Bass Resonance",
+      "categoryId": "cyberpunk_synth",
+      "primaryHex": "#7928CA",
+      "secondaryHex": "#FF0080",
+      "backgroundHex": "#080613",
+      "surfaceHex": "#140F27",
+      "isDark": true
+    },
+    {
+      "id": "cyber-optic-fiber",
+      "name": "Optic Highway",
+      "categoryId": "cyberpunk_synth",
+      "primaryHex": "#00F5D4",
+      "secondaryHex": "#9B5DE5",
+      "backgroundHex": "#08111B",
+      "surfaceHex": "#112030",
+      "isDark": true
+    },
+    {
+      "id": "cyber-dystopia",
+      "name": "Dystopian Dawn",
+      "categoryId": "cyberpunk_synth",
+      "primaryHex": "#FF385C",
+      "secondaryHex": "#FFA600",
+      "backgroundHex": "#140D17",
+      "surfaceHex": "#241929",
+      "isDark": true
+    },
+    {
+      "id": "cyber-light-vapor",
+      "name": "Vaporwave Pastel Day",
+      "categoryId": "cyberpunk_synth",
+      "primaryHex": "#E056FD",
+      "secondaryHex": "#686DE0",
+      "backgroundHex": "#F8F0FB",
+      "surfaceHex": "#EDE2F5",
+      "isDark": false
+    },
+    {
+      "id": "space-andromeda",
+      "name": "Andromeda Core",
+      "categoryId": "deep_space",
+      "primaryHex": "#9D4EDD",
+      "secondaryHex": "#C77DFF",
+      "backgroundHex": "#080612",
+      "surfaceHex": "#130F24",
+      "isDark": true
+    },
+    {
+      "id": "space-nebula-flare",
+      "name": "Orion Nebula",
+      "categoryId": "deep_space",
+      "primaryHex": "#E056FD",
+      "secondaryHex": "#F368E0",
+      "backgroundHex": "#0A071A",
+      "surfaceHex": "#161131",
+      "isDark": true
+    },
+    {
+      "id": "space-black-hole",
+      "name": "Event Horizon",
+      "categoryId": "deep_space",
+      "primaryHex": "#FF8500",
+      "secondaryHex": "#FFB703",
+      "backgroundHex": "#050505",
+      "surfaceHex": "#121212",
+      "isDark": true
+    },
+    {
+      "id": "space-aurora-borealis",
+      "name": "Cosmic Aurora",
+      "categoryId": "deep_space",
+      "primaryHex": "#2EC4B6",
+      "secondaryHex": "#CBF3F0",
+      "backgroundHex": "#05131C",
+      "surfaceHex": "#0D2536",
+      "isDark": true
+    },
+    {
+      "id": "space-pulsar-burst",
+      "name": "Pulsar Beam",
+      "categoryId": "deep_space",
+      "primaryHex": "#00B4D8",
+      "secondaryHex": "#CAF0F8",
+      "backgroundHex": "#020D1A",
+      "surfaceHex": "#061A31",
+      "isDark": true
+    },
+    {
+      "id": "space-supernova",
+      "name": "Supernova Blast",
+      "categoryId": "deep_space",
+      "primaryHex": "#FF477E",
+      "secondaryHex": "#FF85A1",
+      "backgroundHex": "#14050E",
+      "surfaceHex": "#260E1D",
+      "isDark": true
+    },
+    {
+      "id": "space-interstellar",
+      "name": "Interstellar Drift",
+      "categoryId": "deep_space",
+      "primaryHex": "#48CAE4",
+      "secondaryHex": "#0077B6",
+      "backgroundHex": "#040914",
+      "surfaceHex": "#0B1528",
+      "isDark": true
+    },
+    {
+      "id": "space-stardust",
+      "name": "Stardust Trail",
+      "categoryId": "deep_space",
+      "primaryHex": "#DDA15E",
+      "secondaryHex": "#BC6C25",
+      "backgroundHex": "#0C0A08",
+      "surfaceHex": "#1A1613",
+      "isDark": true
+    },
+    {
+      "id": "space-dark-matter",
+      "name": "Dark Matter Void",
+      "categoryId": "deep_space",
+      "primaryHex": "#7209B7",
+      "secondaryHex": "#3A0CA3",
+      "backgroundHex": "#040209",
+      "surfaceHex": "#0B071A",
+      "isDark": true
+    },
+    {
+      "id": "space-solar-eclipse",
+      "name": "Corona Eclipse",
+      "categoryId": "deep_space",
+      "primaryHex": "#F77F00",
+      "secondaryHex": "#FCBF49",
+      "backgroundHex": "#080706",
+      "surfaceHex": "#171411",
+      "isDark": true
+    },
+    {
+      "id": "space-saturn-rings",
+      "name": "Cassini Rings",
+      "categoryId": "deep_space",
+      "primaryHex": "#E9C46A",
+      "secondaryHex": "#F4A261",
+      "backgroundHex": "#0F0D0A",
+      "surfaceHex": "#1D1914",
+      "isDark": true
+    },
+    {
+      "id": "space-voyager-signal",
+      "name": "Pale Blue Dot",
+      "categoryId": "deep_space",
+      "primaryHex": "#64DFDF",
+      "secondaryHex": "#48CAE4",
+      "backgroundHex": "#06111C",
+      "surfaceHex": "#0E2135",
+      "isDark": true
+    },
+    {
+      "id": "space-hubble-deep",
+      "name": "Hubble Ultra Deep",
+      "categoryId": "deep_space",
+      "primaryHex": "#A370F7",
+      "secondaryHex": "#58A6FF",
+      "backgroundHex": "#070B14",
+      "surfaceHex": "#101726",
+      "isDark": true
+    },
+    {
+      "id": "space-red-dwarf",
+      "name": "Proxima Flare",
+      "categoryId": "deep_space",
+      "primaryHex": "#E63946",
+      "secondaryHex": "#F1A7A7",
+      "backgroundHex": "#120507",
+      "surfaceHex": "#220D10",
+      "isDark": true
+    },
+    {
+      "id": "space-quasar",
+      "name": "Quasar Blaze",
+      "categoryId": "deep_space",
+      "primaryHex": "#00E5FF",
+      "secondaryHex": "#7C4DFF",
+      "backgroundHex": "#050A1A",
+      "surfaceHex": "#0D1630",
+      "isDark": true
+    },
+    {
+      "id": "space-milky-way",
+      "name": "Milky Way Dust",
+      "categoryId": "deep_space",
+      "primaryHex": "#CDB4DB",
+      "secondaryHex": "#FFC8DD",
+      "backgroundHex": "#0C0913",
+      "surfaceHex": "#1A1526",
+      "isDark": true
+    },
+    {
+      "id": "space-lunar-crater",
+      "name": "Mare Tranquillitatis",
+      "categoryId": "deep_space",
+      "primaryHex": "#E0E1DD",
+      "secondaryHex": "#778DA9",
+      "backgroundHex": "#0D1B2A",
+      "surfaceHex": "#1B263B",
+      "isDark": true
+    },
+    {
+      "id": "space-neutron-star",
+      "name": "Neutron Pulse",
+      "categoryId": "deep_space",
+      "primaryHex": "#38EF7D",
+      "secondaryHex": "#11998E",
+      "backgroundHex": "#05130E",
+      "surfaceHex": "#0D251D",
+      "isDark": true
+    },
+    {
+      "id": "space-meteor-shower",
+      "name": "Perseid Trails",
+      "categoryId": "deep_space",
+      "primaryHex": "#FF9F1C",
+      "secondaryHex": "#2EC4B6",
+      "backgroundHex": "#0B0F15",
+      "surfaceHex": "#161D27",
+      "isDark": true
+    },
+    {
+      "id": "space-dark-energy",
+      "name": "Expansion Wave",
+      "categoryId": "deep_space",
+      "primaryHex": "#8338EC",
+      "secondaryHex": "#3A86FF",
+      "backgroundHex": "#070517",
+      "surfaceHex": "#120E30",
+      "isDark": true
+    },
+    {
+      "id": "space-cosmic-dust",
+      "name": "Cosmic Dust Cloud",
+      "categoryId": "deep_space",
+      "primaryHex": "#D4A373",
+      "secondaryHex": "#CCD5AE",
+      "backgroundHex": "#100E0C",
+      "surfaceHex": "#211D1A",
+      "isDark": true
+    },
+    {
+      "id": "space-titan-fog",
+      "name": "Titan Methane Sea",
+      "categoryId": "deep_space",
+      "primaryHex": "#F48C06",
+      "secondaryHex": "#FAA307",
+      "backgroundHex": "#140A02",
+      "surfaceHex": "#261608",
+      "isDark": true
+    },
+    {
+      "id": "space-kepler-exoplanet",
+      "name": "Kepler 452b",
+      "categoryId": "deep_space",
+      "primaryHex": "#52B788",
+      "secondaryHex": "#74C69D",
+      "backgroundHex": "#08140E",
+      "surfaceHex": "#11261C",
+      "isDark": true
+    },
+    {
+      "id": "space-stellar-day",
+      "name": "Orbital Sunrise",
+      "categoryId": "deep_space",
+      "primaryHex": "#7058FF",
+      "secondaryHex": "#0099FF",
+      "backgroundHex": "#F4F6FC",
+      "surfaceHex": "#E5EBFA",
+      "isDark": false
+    },
+    {
+      "id": "nature-rainforest",
+      "name": "Amazon Rainforest",
+      "categoryId": "nature_earth",
+      "primaryHex": "#2D6A4F",
+      "secondaryHex": "#52B788",
+      "backgroundHex": "#08140E",
+      "surfaceHex": "#11271D",
+      "isDark": true
+    },
+    {
+      "id": "nature-bamboo-grove",
+      "name": "Kyoto Bamboo",
+      "categoryId": "nature_earth",
+      "primaryHex": "#40916C",
+      "secondaryHex": "#74C69D",
+      "backgroundHex": "#0A1710",
+      "surfaceHex": "#14281E",
+      "isDark": true
+    },
+    {
+      "id": "nature-emerald-canopy",
+      "name": "Emerald Canopy",
+      "categoryId": "nature_earth",
+      "primaryHex": "#1B4332",
+      "secondaryHex": "#2D6A4F",
+      "backgroundHex": "#06120C",
+      "surfaceHex": "#0D2117",
+      "isDark": true
+    },
+    {
+      "id": "nature-moss-stone",
+      "name": "Lichen & Moss",
+      "categoryId": "nature_earth",
+      "primaryHex": "#606C38",
+      "secondaryHex": "#DDA15E",
+      "backgroundHex": "#11140C",
+      "surfaceHex": "#1E2216",
+      "isDark": true
+    },
+    {
+      "id": "nature-eucalyptus",
+      "name": "Blue Eucalyptus",
+      "categoryId": "nature_earth",
+      "primaryHex": "#457B9D",
+      "secondaryHex": "#A8DADC",
+      "backgroundHex": "#0B151A",
+      "surfaceHex": "#16252C",
+      "isDark": true
+    },
+    {
+      "id": "nature-pine-forest",
+      "name": "Nordic Pine Woods",
+      "categoryId": "nature_earth",
+      "primaryHex": "#283618",
+      "secondaryHex": "#606C38",
+      "backgroundHex": "#0B1008",
+      "surfaceHex": "#172012",
+      "isDark": true
+    },
+    {
+      "id": "nature-succulent",
+      "name": "Sage & Aloe",
+      "categoryId": "nature_earth",
+      "primaryHex": "#84A59D",
+      "secondaryHex": "#F5CAC3",
+      "backgroundHex": "#0E1513",
+      "surfaceHex": "#1A2522",
+      "isDark": true
+    },
+    {
+      "id": "nature-autumn-leaf",
+      "name": "Autumn Foliage",
+      "categoryId": "nature_earth",
+      "primaryHex": "#D62828",
+      "secondaryHex": "#F77F00",
+      "backgroundHex": "#140706",
+      "surfaceHex": "#251210",
+      "isDark": true
+    },
+    {
+      "id": "nature-golden-wheat",
+      "name": "Harvest Field",
+      "categoryId": "nature_earth",
+      "primaryHex": "#E9C46A",
+      "secondaryHex": "#F4A261",
+      "backgroundHex": "#151108",
+      "surfaceHex": "#241F12",
+      "isDark": true
+    },
+    {
+      "id": "nature-jungle-fern",
+      "name": "Fern Blossom",
+      "categoryId": "nature_earth",
+      "primaryHex": "#38B000",
+      "secondaryHex": "#70E000",
+      "backgroundHex": "#081604",
+      "surfaceHex": "#12260B",
+      "isDark": true
+    },
+    {
+      "id": "nature-redwood",
+      "name": "Giant Sequoia",
+      "categoryId": "nature_earth",
+      "primaryHex": "#9C6644",
+      "secondaryHex": "#DDB892",
+      "backgroundHex": "#130D09",
+      "surfaceHex": "#241A14",
+      "isDark": true
+    },
+    {
+      "id": "nature-olive-grove",
+      "name": "Tuscan Olive",
+      "categoryId": "nature_earth",
+      "primaryHex": "#556B2F",
+      "secondaryHex": "#8FBC8F",
+      "backgroundHex": "#0E1308",
+      "surfaceHex": "#1A2211",
+      "isDark": true
+    },
+    {
+      "id": "nature-lavender-field",
+      "name": "Provence Lavender",
+      "categoryId": "nature_earth",
+      "primaryHex": "#8E7DBE",
+      "secondaryHex": "#C3B1E1",
+      "backgroundHex": "#100D18",
+      "surfaceHex": "#1E1A29",
+      "isDark": true
+    },
+    {
+      "id": "nature-wild-poppy",
+      "name": "Scarlet Poppy",
+      "categoryId": "nature_earth",
+      "primaryHex": "#E63946",
+      "secondaryHex": "#457B9D",
+      "backgroundHex": "#140809",
+      "surfaceHex": "#241214",
+      "isDark": true
+    },
+    {
+      "id": "nature-mountain-lichen",
+      "name": "Alpine Heather",
+      "categoryId": "nature_earth",
+      "primaryHex": "#B56576",
+      "secondaryHex": "#E56B6F",
+      "backgroundHex": "#140A0D",
+      "surfaceHex": "#231519",
+      "isDark": true
+    },
+    {
+      "id": "nature-deep-cedar",
+      "name": "Cedar Hollow",
+      "categoryId": "nature_earth",
+      "primaryHex": "#6B705C",
+      "secondaryHex": "#A5A58D",
+      "backgroundHex": "#11120F",
+      "surfaceHex": "#1F201C",
+      "isDark": true
+    },
+    {
+      "id": "nature-cherry-orchard",
+      "name": "Cherry Blossom Tree",
+      "categoryId": "nature_earth",
+      "primaryHex": "#FF85A1",
+      "secondaryHex": "#FBB1BD",
+      "backgroundHex": "#14070A",
+      "surfaceHex": "#251218",
+      "isDark": true
+    },
+    {
+      "id": "nature-dewdrop",
+      "name": "Morning Dewdrop",
+      "categoryId": "nature_earth",
+      "primaryHex": "#00AFB9",
+      "secondaryHex": "#FED9B7",
+      "backgroundHex": "#051315",
+      "surfaceHex": "#0F2327",
+      "isDark": true
+    },
+    {
+      "id": "nature-lichen-bark",
+      "name": "Ancient Oak",
+      "categoryId": "nature_earth",
+      "primaryHex": "#7F4F24",
+      "secondaryHex": "#936639",
+      "backgroundHex": "#110B07",
+      "surfaceHex": "#201711",
+      "isDark": true
+    },
+    {
+      "id": "nature-mangrove",
+      "name": "Tidal Mangrove",
+      "categoryId": "nature_earth",
+      "primaryHex": "#3A5A40",
+      "secondaryHex": "#A3B18A",
+      "backgroundHex": "#0C130D",
+      "surfaceHex": "#18221A",
+      "isDark": true
+    },
+    {
+      "id": "nature-orchid-bloom",
+      "name": "Wild Orchid",
+      "categoryId": "nature_earth",
+      "primaryHex": "#D100D1",
+      "secondaryHex": "#F72585",
+      "backgroundHex": "#140414",
+      "surfaceHex": "#250E25",
+      "isDark": true
+    },
+    {
+      "id": "nature-clover-meadow",
+      "name": "Four Leaf Clover",
+      "categoryId": "nature_earth",
+      "primaryHex": "#008000",
+      "secondaryHex": "#66BB6A",
+      "backgroundHex": "#061306",
+      "surfaceHex": "#0E220E",
+      "isDark": true
+    },
+    {
+      "id": "nature-sage-day",
+      "name": "Botanical Herbarium",
+      "categoryId": "nature_earth",
+      "primaryHex": "#3D7055",
+      "secondaryHex": "#6B9B7E",
+      "backgroundHex": "#F4F7F4",
+      "surfaceHex": "#E4EBE5",
+      "isDark": false
+    },
+    {
+      "id": "nature-matcha-day",
+      "name": "Matcha & Cream",
+      "categoryId": "nature_earth",
+      "primaryHex": "#5A7342",
+      "secondaryHex": "#87A96B",
+      "backgroundHex": "#F7F8F3",
+      "surfaceHex": "#EAEFE3",
+      "isDark": false
+    },
+    {
+      "id": "ocean-abyss",
+      "name": "Mariana Abyss",
+      "categoryId": "ocean_aquatic",
+      "primaryHex": "#00B4D8",
+      "secondaryHex": "#0077B6",
+      "backgroundHex": "#020B14",
+      "surfaceHex": "#061524",
+      "isDark": true
+    },
+    {
+      "id": "ocean-bioluminescence",
+      "name": "Bioluminescent Lagoon",
+      "categoryId": "ocean_aquatic",
+      "primaryHex": "#00F5D4",
+      "secondaryHex": "#03045E",
+      "backgroundHex": "#040D17",
+      "surfaceHex": "#091A2B",
+      "isDark": true
+    },
+    {
+      "id": "ocean-coral-reef",
+      "name": "Coral Barrier",
+      "categoryId": "ocean_aquatic",
+      "primaryHex": "#FF6B6B",
+      "secondaryHex": "#4ECDC4",
+      "backgroundHex": "#0C1417",
+      "surfaceHex": "#15242A",
+      "isDark": true
+    },
+    {
+      "id": "ocean-caribbean",
+      "name": "Turquoise Bay",
+      "categoryId": "ocean_aquatic",
+      "primaryHex": "#06D6A0",
+      "secondaryHex": "#118AB2",
+      "backgroundHex": "#051517",
+      "surfaceHex": "#0B2629",
+      "isDark": true
+    },
+    {
+      "id": "ocean-deep-trench",
+      "name": "Hadal Zone",
+      "categoryId": "ocean_aquatic",
+      "primaryHex": "#023E8A",
+      "secondaryHex": "#0096C7",
+      "backgroundHex": "#010712",
+      "surfaceHex": "#041125",
+      "isDark": true
+    },
+    {
+      "id": "ocean-seafoam",
+      "name": "Frothing Seafoam",
+      "categoryId": "ocean_aquatic",
+      "primaryHex": "#90E0EF",
+      "secondaryHex": "#48CAE4",
+      "backgroundHex": "#07131B",
+      "surfaceHex": "#0F222F",
+      "isDark": true
+    },
+    {
+      "id": "ocean-jellyfish",
+      "name": "Moon Jellyfish",
+      "categoryId": "ocean_aquatic",
+      "primaryHex": "#BE00FE",
+      "secondaryHex": "#00D2FE",
+      "backgroundHex": "#090615",
+      "surfaceHex": "#150F28",
+      "isDark": true
+    },
+    {
+      "id": "ocean-kelp-forest",
+      "name": "Giant Kelp",
+      "categoryId": "ocean_aquatic",
+      "primaryHex": "#2EC4B6",
+      "secondaryHex": "#48CAE4",
+      "backgroundHex": "#051314",
+      "surfaceHex": "#0E2325",
+      "isDark": true
+    },
+    {
+      "id": "ocean-orca",
+      "name": "Blackfish Crest",
+      "categoryId": "ocean_aquatic",
+      "primaryHex": "#E2E8F0",
+      "secondaryHex": "#38BDF8",
+      "backgroundHex": "#080C12",
+      "surfaceHex": "#111822",
+      "isDark": true
+    },
+    {
+      "id": "ocean-poseidon",
+      "name": "Poseidon Trident",
+      "categoryId": "ocean_aquatic",
+      "primaryHex": "#0077B6",
+      "secondaryHex": "#0096C7",
+      "backgroundHex": "#030C19",
+      "surfaceHex": "#081B34",
+      "isDark": true
+    },
+    {
+      "id": "ocean-manta",
+      "name": "Manta Ray Glide",
+      "categoryId": "ocean_aquatic",
+      "primaryHex": "#64748B",
+      "secondaryHex": "#38BDF8",
+      "backgroundHex": "#0A0E15",
+      "surfaceHex": "#131C28",
+      "isDark": true
+    },
+    {
+      "id": "ocean-nautilus",
+      "name": "Spiral Nautilus",
+      "categoryId": "ocean_aquatic",
+      "primaryHex": "#F4A261",
+      "secondaryHex": "#2A9D8F",
+      "backgroundHex": "#111210",
+      "surfaceHex": "#1F2321",
+      "isDark": true
+    },
+    {
+      "id": "ocean-atlantis",
+      "name": "Sunken Atlantis",
+      "categoryId": "ocean_aquatic",
+      "primaryHex": "#20B2AA",
+      "secondaryHex": "#48D1CC",
+      "backgroundHex": "#051415",
+      "surfaceHex": "#0C2426",
+      "isDark": true
+    },
+    {
+      "id": "ocean-iceberg",
+      "name": "Arctic Drift",
+      "categoryId": "ocean_aquatic",
+      "primaryHex": "#A5F3FC",
+      "secondaryHex": "#38BDF8",
+      "backgroundHex": "#09131C",
+      "surfaceHex": "#122230",
+      "isDark": true
+    },
+    {
+      "id": "ocean-siren",
+      "name": "Siren Call",
+      "categoryId": "ocean_aquatic",
+      "primaryHex": "#7B2CBF",
+      "secondaryHex": "#00B4D8",
+      "backgroundHex": "#0B0616",
+      "surfaceHex": "#160F2A",
+      "isDark": true
+    },
+    {
+      "id": "ocean-pearl",
+      "name": "Tahitian Black Pearl",
+      "categoryId": "ocean_aquatic",
+      "primaryHex": "#94A3B8",
+      "secondaryHex": "#67E8F9",
+      "backgroundHex": "#090B0E",
+      "surfaceHex": "#14171D",
+      "isDark": true
+    },
+    {
+      "id": "ocean-whaleshark",
+      "name": "Whale Shark Spot",
+      "categoryId": "ocean_aquatic",
+      "primaryHex": "#38BDF8",
+      "secondaryHex": "#93C5FD",
+      "backgroundHex": "#07101B",
+      "surfaceHex": "#0F1E30",
+      "isDark": true
+    },
+    {
+      "id": "ocean-storm",
+      "name": "Tempest Waves",
+      "categoryId": "ocean_aquatic",
+      "primaryHex": "#0284C7",
+      "secondaryHex": "#38BDF8",
+      "backgroundHex": "#06121D",
+      "surfaceHex": "#0D2032",
+      "isDark": true
+    },
+    {
+      "id": "ocean-maldives",
+      "name": "Maldives Sandbar",
+      "categoryId": "ocean_aquatic",
+      "primaryHex": "#14B8A6",
+      "secondaryHex": "#2DD4BF",
+      "backgroundHex": "#061413",
+      "surfaceHex": "#0E2523",
+      "isDark": true
+    },
+    {
+      "id": "ocean-dune-sea",
+      "name": "Coastal Marsh",
+      "categoryId": "ocean_aquatic",
+      "primaryHex": "#0D9488",
+      "secondaryHex": "#5EEAD4",
+      "backgroundHex": "#061312",
+      "surfaceHex": "#0E2220",
+      "isDark": true
+    },
+    {
+      "id": "ocean-anemone",
+      "name": "Clownfish & Anemone",
+      "categoryId": "ocean_aquatic",
+      "primaryHex": "#FB923C",
+      "secondaryHex": "#38BDF8",
+      "backgroundHex": "#120B0B",
+      "surfaceHex": "#221617",
+      "isDark": true
+    },
+    {
+      "id": "ocean-deep-blue",
+      "name": "Pure Ultramarine",
+      "categoryId": "ocean_aquatic",
+      "primaryHex": "#2563EB",
+      "secondaryHex": "#60A5FA",
+      "backgroundHex": "#060C1B",
+      "surfaceHex": "#0C162E",
+      "isDark": true
+    },
+    {
+      "id": "ocean-breeze-day",
+      "name": "Breezy Shoreline",
+      "categoryId": "ocean_aquatic",
+      "primaryHex": "#0284C7",
+      "secondaryHex": "#0EA5E9",
+      "backgroundHex": "#F0F9FF",
+      "surfaceHex": "#E0F2FE",
+      "isDark": false
+    },
+    {
+      "id": "ocean-caribbean-day",
+      "name": "Caribbean White Sands",
+      "categoryId": "ocean_aquatic",
+      "primaryHex": "#0D9488",
+      "secondaryHex": "#14B8A6",
+      "backgroundHex": "#F0FDFA",
+      "surfaceHex": "#CCFBF1",
+      "isDark": false
+    },
+    {
+      "id": "sunset-golden-hour",
+      "name": "Golden Hour Glow",
+      "categoryId": "sunset_dusk",
+      "primaryHex": "#F59E0B",
+      "secondaryHex": "#EF4444",
+      "backgroundHex": "#150C06",
+      "surfaceHex": "#26170D",
+      "isDark": true
+    },
+    {
+      "id": "sunset-california",
+      "name": "Santa Monica Pier",
+      "categoryId": "sunset_dusk",
+      "primaryHex": "#EC4899",
+      "secondaryHex": "#F59E0B",
+      "backgroundHex": "#170814",
+      "surfaceHex": "#281224",
+      "isDark": true
+    },
+    {
+      "id": "sunset-crimson-sky",
+      "name": "Crimson Twilight",
+      "categoryId": "sunset_dusk",
+      "primaryHex": "#E11D48",
+      "secondaryHex": "#FB7185",
+      "backgroundHex": "#16060A",
+      "surfaceHex": "#260E15",
+      "isDark": true
+    },
+    {
+      "id": "sunset-dusk-purple",
+      "name": "Dusk Horizon",
+      "categoryId": "sunset_dusk",
+      "primaryHex": "#8B5CF6",
+      "secondaryHex": "#EC4899",
+      "backgroundHex": "#110A1E",
+      "surfaceHex": "#201435",
+      "isDark": true
+    },
+    {
+      "id": "sunset-desert-blaze",
+      "name": "Sonoran Sunset",
+      "categoryId": "sunset_dusk",
+      "primaryHex": "#F97316",
+      "secondaryHex": "#FB923C",
+      "backgroundHex": "#170C05",
+      "surfaceHex": "#28170D",
+      "isDark": true
+    },
+    {
+      "id": "sunset-afterglow",
+      "name": "Lilac Afterglow",
+      "categoryId": "sunset_dusk",
+      "primaryHex": "#A855F7",
+      "secondaryHex": "#F43F5E",
+      "backgroundHex": "#13091B",
+      "surfaceHex": "#231331",
+      "isDark": true
+    },
+    {
+      "id": "sunset-venice-beach",
+      "name": "Venice Boardwalk",
+      "categoryId": "sunset_dusk",
+      "primaryHex": "#06B6D4",
+      "secondaryHex": "#F43F5E",
+      "backgroundHex": "#0B0C18",
+      "surfaceHex": "#15172B",
+      "isDark": true
+    },
+    {
+      "id": "sunset-amber-flame",
+      "name": "Campfire Embers",
+      "categoryId": "sunset_dusk",
+      "primaryHex": "#D97706",
+      "secondaryHex": "#DC2626",
+      "backgroundHex": "#160904",
+      "surfaceHex": "#26140B",
+      "isDark": true
+    },
+    {
+      "id": "sunset-mauve-mist",
+      "name": "Mauve Twilight",
+      "categoryId": "sunset_dusk",
+      "primaryHex": "#C084FC",
+      "secondaryHex": "#F472B6",
+      "backgroundHex": "#120B1A",
+      "surfaceHex": "#21162C",
+      "isDark": true
+    },
+    {
+      "id": "sunset-santorini",
+      "name": "Oia Caldera Sunset",
+      "categoryId": "sunset_dusk",
+      "primaryHex": "#FB923C",
+      "secondaryHex": "#38BDF8",
+      "backgroundHex": "#100D1A",
+      "surfaceHex": "#1D1A2E",
+      "isDark": true
+    },
+    {
+      "id": "sunset-coastal-cliff",
+      "name": "Big Sur Dusk",
+      "categoryId": "sunset_dusk",
+      "primaryHex": "#EA580C",
+      "secondaryHex": "#9333EA",
+      "backgroundHex": "#130814",
+      "surfaceHex": "#241126",
+      "isDark": true
+    },
+    {
+      "id": "sunset-fiery-clouds",
+      "name": "Fiery Nimbus",
+      "categoryId": "sunset_dusk",
+      "primaryHex": "#FF0055",
+      "secondaryHex": "#FFAA00",
+      "backgroundHex": "#14040A",
+      "surfaceHex": "#260C17",
+      "isDark": true
+    },
+    {
+      "id": "sunset-twilight-zone",
+      "name": "Blue Hour Edge",
+      "categoryId": "sunset_dusk",
+      "primaryHex": "#6366F1",
+      "secondaryHex": "#A855F7",
+      "backgroundHex": "#0C0E1E",
+      "surfaceHex": "#161933",
+      "isDark": true
+    },
+    {
+      "id": "sunset-tropical",
+      "name": "Tahiti Sunfall",
+      "categoryId": "sunset_dusk",
+      "primaryHex": "#F43F5E",
+      "secondaryHex": "#FBBF24",
+      "backgroundHex": "#15060E",
+      "surfaceHex": "#25101C",
+      "isDark": true
+    },
+    {
+      "id": "sunset-copper-sky",
+      "name": "Burnished Copper",
+      "categoryId": "sunset_dusk",
+      "primaryHex": "#B45309",
+      "secondaryHex": "#D97706",
+      "backgroundHex": "#130A04",
+      "surfaceHex": "#23150B",
+      "isDark": true
+    },
+    {
+      "id": "sunset-magenta-fade",
+      "name": "Magenta Gradient",
+      "categoryId": "sunset_dusk",
+      "primaryHex": "#D946EF",
+      "secondaryHex": "#FB7185",
+      "backgroundHex": "#140718",
+      "surfaceHex": "#231129",
+      "isDark": true
+    },
+    {
+      "id": "sunset-apricot",
+      "name": "Apricot Evening",
+      "categoryId": "sunset_dusk",
+      "primaryHex": "#FB923C",
+      "secondaryHex": "#F472B6",
+      "backgroundHex": "#150C0A",
+      "surfaceHex": "#251715",
+      "isDark": true
+    },
+    {
+      "id": "sunset-valencia",
+      "name": "Valencia Oranges",
+      "categoryId": "sunset_dusk",
+      "primaryHex": "#EA580C",
+      "secondaryHex": "#F59E0B",
+      "backgroundHex": "#150A04",
+      "surfaceHex": "#24140B",
+      "isDark": true
+    },
+    {
+      "id": "sunset-violet-flare",
+      "name": "Solar Prominence",
+      "categoryId": "sunset_dusk",
+      "primaryHex": "#C026D3",
+      "secondaryHex": "#F97316",
+      "backgroundHex": "#150614",
+      "surfaceHex": "#251025",
+      "isDark": true
+    },
+    {
+      "id": "sunset-rose-gold",
+      "name": "Evening Rose Gold",
+      "categoryId": "sunset_dusk",
+      "primaryHex": "#FB7185",
+      "secondaryHex": "#FDE047",
+      "backgroundHex": "#15080C",
+      "surfaceHex": "#24131A",
+      "isDark": true
+    },
+    {
+      "id": "sunset-himalaya",
+      "name": "Alpenglow Peak",
+      "categoryId": "sunset_dusk",
+      "primaryHex": "#FDA4AF",
+      "secondaryHex": "#F43F5E",
+      "backgroundHex": "#150A11",
+      "surfaceHex": "#241520",
+      "isDark": true
+    },
+    {
+      "id": "sunset-sahara",
+      "name": "Mirage Silhouette",
+      "categoryId": "sunset_dusk",
+      "primaryHex": "#CA8A04",
+      "secondaryHex": "#DC2626",
+      "backgroundHex": "#140C04",
+      "surfaceHex": "#23180C",
+      "isDark": true
+    },
+    {
+      "id": "sunset-blush-day",
+      "name": "Morning Peach Mist",
+      "categoryId": "sunset_dusk",
+      "primaryHex": "#F43F5E",
+      "secondaryHex": "#FB923C",
+      "backgroundHex": "#FFF1F2",
+      "surfaceHex": "#FFE4E6",
+      "isDark": false
+    },
+    {
+      "id": "sunset-creamsicle-day",
+      "name": "Creamsicle Sundown",
+      "categoryId": "sunset_dusk",
+      "primaryHex": "#EA580C",
+      "secondaryHex": "#F59E0B",
+      "backgroundHex": "#FFFBEB",
+      "surfaceHex": "#FEF3C7",
+      "isDark": false
+    },
+    {
+      "id": "oled-pure-monochrome",
+      "name": "True OLED Pitch Black",
+      "categoryId": "minimal_oled",
+      "primaryHex": "#FFFFFF",
+      "secondaryHex": "#94A3B8",
+      "backgroundHex": "#000000",
+      "surfaceHex": "#111111",
+      "isDark": true
+    },
+    {
+      "id": "oled-titanium",
+      "name": "Titanium Frame",
+      "categoryId": "minimal_oled",
+      "primaryHex": "#E2E8F0",
+      "secondaryHex": "#64748B",
+      "backgroundHex": "#050505",
+      "surfaceHex": "#141414",
+      "isDark": true
+    },
+    {
+      "id": "oled-carbon-fiber",
+      "name": "Carbon Weave",
+      "categoryId": "minimal_oled",
+      "primaryHex": "#38BDF8",
+      "secondaryHex": "#94A3B8",
+      "backgroundHex": "#030303",
+      "surfaceHex": "#121212",
+      "isDark": true
+    },
+    {
+      "id": "oled-obsidian",
+      "name": "Black Obsidian",
+      "categoryId": "minimal_oled",
+      "primaryHex": "#A855F7",
+      "secondaryHex": "#CBD5E1",
+      "backgroundHex": "#020202",
+      "surfaceHex": "#101010",
+      "isDark": true
+    },
+    {
+      "id": "oled-monolith",
+      "name": "2001 Monolith",
+      "categoryId": "minimal_oled",
+      "primaryHex": "#F8FAFC",
+      "secondaryHex": "#475569",
+      "backgroundHex": "#000000",
+      "surfaceHex": "#0D0D0D",
+      "isDark": true
+    },
+    {
+      "id": "oled-slate-gray",
+      "name": "Deep Slate",
+      "categoryId": "minimal_oled",
+      "primaryHex": "#0EA5E9",
+      "secondaryHex": "#E2E8F0",
+      "backgroundHex": "#040507",
+      "surfaceHex": "#0F1318",
+      "isDark": true
+    },
+    {
+      "id": "oled-charcoal",
+      "name": "Charcoal Sketch",
+      "categoryId": "minimal_oled",
+      "primaryHex": "#F1F5F9",
+      "secondaryHex": "#64748B",
+      "backgroundHex": "#080808",
+      "surfaceHex": "#161616",
+      "isDark": true
+    },
+    {
+      "id": "oled-matte-black",
+      "name": "Matte Stealth",
+      "categoryId": "minimal_oled",
+      "primaryHex": "#F43F5E",
+      "secondaryHex": "#A1A1AA",
+      "backgroundHex": "#050505",
+      "surfaceHex": "#131313",
+      "isDark": true
+    },
+    {
+      "id": "oled-graphite",
+      "name": "Graphite Pencil",
+      "categoryId": "minimal_oled",
+      "primaryHex": "#10B981",
+      "secondaryHex": "#E2E8F0",
+      "backgroundHex": "#030504",
+      "surfaceHex": "#0E1410",
+      "isDark": true
+    },
+    {
+      "id": "oled-space-gray",
+      "name": "Apple Space Gray",
+      "categoryId": "minimal_oled",
+      "primaryHex": "#3B82F6",
+      "secondaryHex": "#94A3B8",
+      "backgroundHex": "#07080A",
+      "surfaceHex": "#13161C",
+      "isDark": true
+    },
+    {
+      "id": "oled-minimal-amber",
+      "name": "Amber Monochrome",
+      "categoryId": "minimal_oled",
+      "primaryHex": "#F59E0B",
+      "secondaryHex": "#FCD34D",
+      "backgroundHex": "#000000",
+      "surfaceHex": "#121008",
+      "isDark": true
+    },
+    {
+      "id": "oled-minimal-cyan",
+      "name": "Cyan Cold Line",
+      "categoryId": "minimal_oled",
+      "primaryHex": "#06B6D4",
+      "secondaryHex": "#67E8F9",
+      "backgroundHex": "#000000",
+      "surfaceHex": "#081014",
+      "isDark": true
+    },
+    {
+      "id": "oled-minimal-violet",
+      "name": "Electric Iris",
+      "categoryId": "minimal_oled",
+      "primaryHex": "#8B5CF6",
+      "secondaryHex": "#C4B5FD",
+      "backgroundHex": "#000000",
+      "surfaceHex": "#100B1A",
+      "isDark": true
+    },
+    {
+      "id": "oled-minimal-lime",
+      "name": "Terminal Pulse",
+      "categoryId": "minimal_oled",
+      "primaryHex": "#84CC16",
+      "secondaryHex": "#BEF264",
+      "backgroundHex": "#000000",
+      "surfaceHex": "#0B1204",
+      "isDark": true
+    },
+    {
+      "id": "oled-smoke",
+      "name": "Smoky Glass",
+      "categoryId": "minimal_oled",
+      "primaryHex": "#D1D5DB",
+      "secondaryHex": "#9CA3AF",
+      "backgroundHex": "#060608",
+      "surfaceHex": "#121317",
+      "isDark": true
+    },
+    {
+      "id": "oled-shadow",
+      "name": "Midnight Shadow",
+      "categoryId": "minimal_oled",
+      "primaryHex": "#6366F1",
+      "secondaryHex": "#A5B4FC",
+      "backgroundHex": "#030308",
+      "surfaceHex": "#0D0D18",
+      "isDark": true
+    },
+    {
+      "id": "oled-black-gold",
+      "name": "OLED Luxury Gold",
+      "categoryId": "minimal_oled",
+      "primaryHex": "#EAB308",
+      "secondaryHex": "#CA8A04",
+      "backgroundHex": "#000000",
+      "surfaceHex": "#141206",
+      "isDark": true
+    },
+    {
+      "id": "oled-black-ruby",
+      "name": "Black Velvet Ruby",
+      "categoryId": "minimal_oled",
+      "primaryHex": "#EF4444",
+      "secondaryHex": "#DC2626",
+      "backgroundHex": "#000000",
+      "surfaceHex": "#140606",
+      "isDark": true
+    },
+    {
+      "id": "oled-black-emerald",
+      "name": "Deep Forest OLED",
+      "categoryId": "minimal_oled",
+      "primaryHex": "#059669",
+      "secondaryHex": "#34D399",
+      "backgroundHex": "#000000",
+      "surfaceHex": "#06140D",
+      "isDark": true
+    },
+    {
+      "id": "oled-ink",
+      "name": "Chinese Calligraphy Ink",
+      "categoryId": "minimal_oled",
+      "primaryHex": "#E5E7EB",
+      "secondaryHex": "#4B5563",
+      "backgroundHex": "#040404",
+      "surfaceHex": "#111111",
+      "isDark": true
+    },
+    {
+      "id": "oled-e-ink",
+      "name": "Kindle Dark",
+      "categoryId": "minimal_oled",
+      "primaryHex": "#D6D3D1",
+      "secondaryHex": "#78716C",
+      "backgroundHex": "#0C0A09",
+      "surfaceHex": "#1C1917",
+      "isDark": true
+    },
+    {
+      "id": "oled-pure-paper",
+      "name": "Architect Linen",
+      "categoryId": "minimal_oled",
+      "primaryHex": "#1E293B",
+      "secondaryHex": "#64748B",
+      "backgroundHex": "#F8FAFC",
+      "surfaceHex": "#F1F5F9",
+      "isDark": false
+    },
+    {
+      "id": "oled-minimal-white",
+      "name": "Clean Snow",
+      "categoryId": "minimal_oled",
+      "primaryHex": "#0F172A",
+      "secondaryHex": "#334155",
+      "backgroundHex": "#FFFFFF",
+      "surfaceHex": "#F8FAFC",
+      "isDark": false
+    },
+    {
+      "id": "oled-editorial",
+      "name": "The New Yorker",
+      "categoryId": "minimal_oled",
+      "primaryHex": "#000000",
+      "secondaryHex": "#4B5563",
+      "backgroundHex": "#FAF8F5",
+      "surfaceHex": "#F0EDE6",
+      "isDark": false
+    },
+    {
+      "id": "tokyo-shinjuku",
+      "name": "Shinjuku Neon Alley",
+      "categoryId": "tokyo_night",
+      "primaryHex": "#FF007F",
+      "secondaryHex": "#00F5D4",
+      "backgroundHex": "#0C0717",
+      "surfaceHex": "#19102B",
+      "isDark": true
+    },
+    {
+      "id": "tokyo-shibuya-crossing",
+      "name": "Shibuya Scramble",
+      "categoryId": "tokyo_night",
+      "primaryHex": "#FFE600",
+      "secondaryHex": "#FF0055",
+      "backgroundHex": "#0D0C15",
+      "surfaceHex": "#1A1828",
+      "isDark": true
+    },
+    {
+      "id": "tokyo-akihabara",
+      "name": "Akiba Electric Town",
+      "categoryId": "tokyo_night",
+      "primaryHex": "#00E5FF",
+      "secondaryHex": "#FF1744",
+      "backgroundHex": "#080F1E",
+      "surfaceHex": "#111C36",
+      "isDark": true
+    },
+    {
+      "id": "tokyo-roppongi",
+      "name": "Roppongi Skyline",
+      "categoryId": "tokyo_night",
+      "primaryHex": "#7C4DFF",
+      "secondaryHex": "#FF4081",
+      "backgroundHex": "#0B071A",
+      "surfaceHex": "#171032",
+      "isDark": true
+    },
+    {
+      "id": "tokyo-ginza",
+      "name": "Ginza Luxury Noir",
+      "categoryId": "tokyo_night",
+      "primaryHex": "#D4AF37",
+      "secondaryHex": "#FFFFFF",
+      "backgroundHex": "#0A0908",
+      "surfaceHex": "#171512",
+      "isDark": true
+    },
+    {
+      "id": "tokyo-harajuku",
+      "name": "Harajuku Pop",
+      "categoryId": "tokyo_night",
+      "primaryHex": "#FF70A6",
+      "secondaryHex": "#70D6FF",
+      "backgroundHex": "#11071B",
+      "surfaceHex": "#221133",
+      "isDark": true
+    },
+    {
+      "id": "tokyo-odaiba",
+      "name": "Odaiba Rainbow Bridge",
+      "categoryId": "tokyo_night",
+      "primaryHex": "#00F0FF",
+      "secondaryHex": "#FF00A0",
+      "backgroundHex": "#080E1C",
+      "surfaceHex": "#111D36",
+      "isDark": true
+    },
+    {
+      "id": "tokyo-ueno-cherry",
+      "name": "Ueno Night Sakura",
+      "categoryId": "tokyo_night",
+      "primaryHex": "#FFB7B2",
+      "secondaryHex": "#FF69B4",
+      "backgroundHex": "#120812",
+      "surfaceHex": "#241223",
+      "isDark": true
+    },
+    {
+      "id": "tokyo-asakusa",
+      "name": "Asakusa Lantern",
+      "categoryId": "tokyo_night",
+      "primaryHex": "#FF2A2A",
+      "secondaryHex": "#FFD700",
+      "backgroundHex": "#140404",
+      "surfaceHex": "#260A0A",
+      "isDark": true
+    },
+    {
+      "id": "tokyo-kabukicho",
+      "name": "Kabukicho Arch",
+      "categoryId": "tokyo_night",
+      "primaryHex": "#FF0844",
+      "secondaryHex": "#FFB199",
+      "backgroundHex": "#140608",
+      "surfaceHex": "#240F13",
+      "isDark": true
+    },
+    {
+      "id": "tokyo-yokohama-bay",
+      "name": "Yokohama Port Lights",
+      "categoryId": "tokyo_night",
+      "primaryHex": "#38EF7D",
+      "secondaryHex": "#11998E",
+      "backgroundHex": "#061314",
+      "surfaceHex": "#0E2426",
+      "isDark": true
+    },
+    {
+      "id": "tokyo-meguro-river",
+      "name": "Meguro Lantern Petals",
+      "categoryId": "tokyo_night",
+      "primaryHex": "#E056FD",
+      "secondaryHex": "#FF9FF3",
+      "backgroundHex": "#120619",
+      "surfaceHex": "#22102E",
+      "isDark": true
+    },
+    {
+      "id": "tokyo-ramen-shop",
+      "name": "Late Night Izakaya",
+      "categoryId": "tokyo_night",
+      "primaryHex": "#FF9F1C",
+      "secondaryHex": "#E71D36",
+      "backgroundHex": "#140A06",
+      "surfaceHex": "#251610",
+      "isDark": true
+    },
+    {
+      "id": "tokyo-bullet-train",
+      "name": "Shinkansen Night",
+      "categoryId": "tokyo_night",
+      "primaryHex": "#00B4D8",
+      "secondaryHex": "#90E0EF",
+      "backgroundHex": "#060D17",
+      "surfaceHex": "#0E1A2C",
+      "isDark": true
+    },
+    {
+      "id": "tokyo-capsule-hotel",
+      "name": "Cyber Capsule",
+      "categoryId": "tokyo_night",
+      "primaryHex": "#00F5D4",
+      "secondaryHex": "#7B2CBF",
+      "backgroundHex": "#080D17",
+      "surfaceHex": "#111A2D",
+      "isDark": true
+    },
+    {
+      "id": "tokyo-metro-subway",
+      "name": "Ginza Line Yellow",
+      "categoryId": "tokyo_night",
+      "primaryHex": "#FFB703",
+      "secondaryHex": "#FB8500",
+      "backgroundHex": "#120E05",
+      "surfaceHex": "#221C0E",
+      "isDark": true
+    },
+    {
+      "id": "tokyo-pachinko",
+      "name": "Pachinko Frenzy",
+      "categoryId": "tokyo_night",
+      "primaryHex": "#FF007F",
+      "secondaryHex": "#FFE600",
+      "backgroundHex": "#140718",
+      "surfaceHex": "#25122B",
+      "isDark": true
+    },
+    {
+      "id": "tokyo-vending-machine",
+      "name": "Warm Coffee Can",
+      "categoryId": "tokyo_night",
+      "primaryHex": "#F77F00",
+      "secondaryHex": "#003049",
+      "backgroundHex": "#110906",
+      "surfaceHex": "#221510",
+      "isDark": true
+    },
+    {
+      "id": "tokyo-drizzle",
+      "name": "Rain on Asphalt",
+      "categoryId": "tokyo_night",
+      "primaryHex": "#64DFDF",
+      "secondaryHex": "#48CAE4",
+      "backgroundHex": "#0B1017",
+      "surfaceHex": "#151F2A",
+      "isDark": true
+    },
+    {
+      "id": "tokyo-manga-cafe",
+      "name": "Net Cafe Midnight",
+      "categoryId": "tokyo_night",
+      "primaryHex": "#A855F7",
+      "secondaryHex": "#EC4899",
+      "backgroundHex": "#0F0B18",
+      "surfaceHex": "#1E182D",
+      "isDark": true
+    },
+    {
+      "id": "tokyo-fuji-silhouette",
+      "name": "Fuji at Nightfall",
+      "categoryId": "tokyo_night",
+      "primaryHex": "#6366F1",
+      "secondaryHex": "#EC4899",
+      "backgroundHex": "#0A0B1A",
+      "surfaceHex": "#151731",
+      "isDark": true
+    },
+    {
+      "id": "tokyo-torii-gate",
+      "name": "Fushimi Vermilion",
+      "categoryId": "tokyo_night",
+      "primaryHex": "#FF4500",
+      "secondaryHex": "#FFA500",
+      "backgroundHex": "#150602",
+      "surfaceHex": "#261008",
+      "isDark": true
+    },
+    {
+      "id": "tokyo-morning-mist",
+      "name": "Meiji Shrine Morning",
+      "categoryId": "tokyo_night",
+      "primaryHex": "#2B580C",
+      "secondaryHex": "#639A67",
+      "backgroundHex": "#F5F7F2",
+      "surfaceHex": "#E8EDE2",
+      "isDark": false
+    },
+    {
+      "id": "tokyo-sakura-day",
+      "name": "Chidorigafuchi Blossom",
+      "categoryId": "tokyo_night",
+      "primaryHex": "#D81B60",
+      "secondaryHex": "#FF4081",
+      "backgroundHex": "#FFF0F5",
+      "surfaceHex": "#FCE4EC",
+      "isDark": false
+    },
+    {
+      "id": "nordic-fjord-frost",
+      "name": "Fjord Frost",
+      "categoryId": "nordic_pastel",
+      "primaryHex": "#88C0D0",
+      "secondaryHex": "#81A1C1",
+      "backgroundHex": "#0D1318",
+      "surfaceHex": "#18222A",
+      "isDark": true
+    },
+    {
+      "id": "nordic-arctic-mist",
+      "name": "Arctic Mist",
+      "categoryId": "nordic_pastel",
+      "primaryHex": "#8FBCBB",
+      "secondaryHex": "#D8DEE9",
+      "backgroundHex": "#0F1416",
+      "surfaceHex": "#1A2226",
+      "isDark": true
+    },
+    {
+      "id": "nordic-polar-night",
+      "name": "Polar Night Aura",
+      "categoryId": "nordic_pastel",
+      "primaryHex": "#B48EAD",
+      "secondaryHex": "#5E81AC",
+      "backgroundHex": "#0C1019",
+      "surfaceHex": "#171D2B",
+      "isDark": true
+    },
+    {
+      "id": "nordic-glacier-blue",
+      "name": "Glacier Blue",
+      "categoryId": "nordic_pastel",
+      "primaryHex": "#70C1B3",
+      "secondaryHex": "#247BA0",
+      "backgroundHex": "#071217",
+      "surfaceHex": "#102128",
+      "isDark": true
+    },
+    {
+      "id": "nordic-birch-wood",
+      "name": "Scandinavian Birch",
+      "categoryId": "nordic_pastel",
+      "primaryHex": "#E5D4C0",
+      "secondaryHex": "#A89F91",
+      "backgroundHex": "#12100E",
+      "surfaceHex": "#201E1A",
+      "isDark": true
+    },
+    {
+      "id": "nordic-iceland-moss",
+      "name": "Lava Field Moss",
+      "categoryId": "nordic_pastel",
+      "primaryHex": "#A3BE8C",
+      "secondaryHex": "#EBCB8B",
+      "backgroundHex": "#10140E",
+      "surfaceHex": "#1B221A",
+      "isDark": true
+    },
+    {
+      "id": "nordic-oslo-winter",
+      "name": "Oslo Snowfall",
+      "categoryId": "nordic_pastel",
+      "primaryHex": "#D08770",
+      "secondaryHex": "#BF616A",
+      "backgroundHex": "#140F11",
+      "surfaceHex": "#231C1F",
+      "isDark": true
+    },
+    {
+      "id": "nordic-stockholm-dusk",
+      "name": "Gamla Stan Twilight",
+      "categoryId": "nordic_pastel",
+      "primaryHex": "#EBCB8B",
+      "secondaryHex": "#D08770",
+      "backgroundHex": "#14110A",
+      "surfaceHex": "#231F17",
+      "isDark": true
+    },
+    {
+      "id": "nordic-copenhagen-brick",
+      "name": "Nyhavn Painted Brick",
+      "categoryId": "nordic_pastel",
+      "primaryHex": "#BF616A",
+      "secondaryHex": "#EBCB8B",
+      "backgroundHex": "#150E0F",
+      "surfaceHex": "#251C1D",
+      "isDark": true
+    },
+    {
+      "id": "nordic-helsinki-sauna",
+      "name": "Warm Birch Smoke",
+      "categoryId": "nordic_pastel",
+      "primaryHex": "#D8A47F",
+      "secondaryHex": "#E6C280",
+      "backgroundHex": "#140F0B",
+      "surfaceHex": "#231D17",
+      "isDark": true
+    },
+    {
+      "id": "nordic-pastel-lilac",
+      "name": "Frosted Lilac",
+      "categoryId": "nordic_pastel",
+      "primaryHex": "#C8B6FF",
+      "secondaryHex": "#B8C0FF",
+      "backgroundHex": "#110E18",
+      "surfaceHex": "#1E1A29",
+      "isDark": true
+    },
+    {
+      "id": "nordic-pastel-peach",
+      "name": "Nordic Cloudberry",
+      "categoryId": "nordic_pastel",
+      "primaryHex": "#FFD166",
+      "secondaryHex": "#F4A261",
+      "backgroundHex": "#151108",
+      "surfaceHex": "#241F14",
+      "isDark": true
+    },
+    {
+      "id": "nordic-pastel-mint",
+      "name": "Wintermint Crisp",
+      "categoryId": "nordic_pastel",
+      "primaryHex": "#99E2B4",
+      "secondaryHex": "#78CADC",
+      "backgroundHex": "#081512",
+      "surfaceHex": "#112420",
+      "isDark": true
+    },
+    {
+      "id": "nordic-soft-rose",
+      "name": "Arctic Rose Quartz",
+      "categoryId": "nordic_pastel",
+      "primaryHex": "#F4A261",
+      "secondaryHex": "#E76F51",
+      "backgroundHex": "#150B08",
+      "surfaceHex": "#241712",
+      "isDark": true
+    },
+    {
+      "id": "nordic-geysir-steam",
+      "name": "Geysir Thermal Pool",
+      "categoryId": "nordic_pastel",
+      "primaryHex": "#48CAE4",
+      "secondaryHex": "#0096C7",
+      "backgroundHex": "#061318",
+      "surfaceHex": "#0E2129",
+      "isDark": true
+    },
+    {
+      "id": "nordic-tromso-aurora",
+      "name": "Tromsø Skyglow",
+      "categoryId": "nordic_pastel",
+      "primaryHex": "#80FFDB",
+      "secondaryHex": "#5390D9",
+      "backgroundHex": "#061219",
+      "surfaceHex": "#0E202B",
+      "isDark": true
+    },
+    {
+      "id": "nordic-svaneke-dunes",
+      "name": "Baltic Amber Beach",
+      "categoryId": "nordic_pastel",
+      "primaryHex": "#ECC8AF",
+      "secondaryHex": "#CE796B",
+      "backgroundHex": "#140E0C",
+      "surfaceHex": "#231B19",
+      "isDark": true
+    },
+    {
+      "id": "nordic-cottage-red",
+      "name": "Falu Red Stuga",
+      "categoryId": "nordic_pastel",
+      "primaryHex": "#E63946",
+      "secondaryHex": "#F1FAEE",
+      "backgroundHex": "#15080A",
+      "surfaceHex": "#241315",
+      "isDark": true
+    },
+    {
+      "id": "nordic-hygge-candle",
+      "name": "Hygge Firelight",
+      "categoryId": "nordic_pastel",
+      "primaryHex": "#FFB703",
+      "secondaryHex": "#FB8500",
+      "backgroundHex": "#140E04",
+      "surfaceHex": "#241C0E",
+      "isDark": true
+    },
+    {
+      "id": "nordic-granite-cliff",
+      "name": "Bohuslän Granite",
+      "categoryId": "nordic_pastel",
+      "primaryHex": "#B7B7A4",
+      "secondaryHex": "#DDBEA9",
+      "backgroundHex": "#11110F",
+      "surfaceHex": "#1F1F1D",
+      "isDark": true
+    },
+    {
+      "id": "nordic-day-hygge",
+      "name": "Hygge Living Room",
+      "categoryId": "nordic_pastel",
+      "primaryHex": "#5E81AC",
+      "secondaryHex": "#81A1C1",
+      "backgroundHex": "#ECEFF4",
+      "surfaceHex": "#E5E9F0",
+      "isDark": false
+    },
+    {
+      "id": "nordic-day-pastel-sky",
+      "name": "Pale Nordic Sky",
+      "categoryId": "nordic_pastel",
+      "primaryHex": "#4C566A",
+      "secondaryHex": "#88C0D0",
+      "backgroundHex": "#F8FAFC",
+      "surfaceHex": "#EDF2F7",
+      "isDark": false
+    },
+    {
+      "id": "nordic-day-blush",
+      "name": "Stockholm Ceramic",
+      "categoryId": "nordic_pastel",
+      "primaryHex": "#B48EAD",
+      "secondaryHex": "#D08770",
+      "backgroundHex": "#FAF5F5",
+      "surfaceHex": "#F3EAEA",
+      "isDark": false
+    },
+    {
+      "id": "nordic-day-sage",
+      "name": "Copenhagen Botanics",
+      "categoryId": "nordic_pastel",
+      "primaryHex": "#4F6D48",
+      "secondaryHex": "#8FBC8F",
+      "backgroundHex": "#F4F7F4",
+      "surfaceHex": "#E7EFE7",
+      "isDark": false
+    },
+    {
+      "id": "retro-cassette-tape",
+      "name": "Walkman Cassette",
+      "categoryId": "retro_vintage",
+      "primaryHex": "#FF6B6B",
+      "secondaryHex": "#4ECDC4",
+      "backgroundHex": "#120F14",
+      "surfaceHex": "#1F1C24",
+      "isDark": true
+    },
+    {
+      "id": "retro-vinyl-groove",
+      "name": "33 RPM Vinyl",
+      "categoryId": "retro_vintage",
+      "primaryHex": "#E0A96D",
+      "secondaryHex": "#776D5A",
+      "backgroundHex": "#0E0D0B",
+      "surfaceHex": "#1B1917",
+      "isDark": true
+    },
+    {
+      "id": "retro-70s-mustard",
+      "name": "70s Corduroy",
+      "categoryId": "retro_vintage",
+      "primaryHex": "#E76F51",
+      "secondaryHex": "#F4A261",
+      "backgroundHex": "#150C07",
+      "surfaceHex": "#241912",
+      "isDark": true
+    },
+    {
+      "id": "retro-80s-arcade",
+      "name": "Coin-Op Cabinet",
+      "categoryId": "retro_vintage",
+      "primaryHex": "#00F5D4",
+      "secondaryHex": "#F72585",
+      "backgroundHex": "#0B0616",
+      "surfaceHex": "#160F26",
+      "isDark": true
+    },
+    {
+      "id": "retro-polaroid",
+      "name": "Polaroid Colorband",
+      "categoryId": "retro_vintage",
+      "primaryHex": "#FF9F1C",
+      "secondaryHex": "#2EC4B6",
+      "backgroundHex": "#120E08",
+      "surfaceHex": "#221B13",
+      "isDark": true
+    },
+    {
+      "id": "retro-vhs-tracking",
+      "name": "VHS Glitch Tracking",
+      "categoryId": "retro_vintage",
+      "primaryHex": "#00E5FF",
+      "secondaryHex": "#FF0055",
+      "backgroundHex": "#0A0D14",
+      "surfaceHex": "#131924",
+      "isDark": true
+    },
+    {
+      "id": "retro-sepia-print",
+      "name": "Sepia Daguerreotype",
+      "categoryId": "retro_vintage",
+      "primaryHex": "#C89666",
+      "secondaryHex": "#8B5A2B",
+      "backgroundHex": "#110D09",
+      "surfaceHex": "#201B15",
+      "isDark": true
+    },
+    {
+      "id": "retro-copper-patina",
+      "name": "Weathered Brass",
+      "categoryId": "retro_vintage",
+      "primaryHex": "#2A9D8F",
+      "secondaryHex": "#E76F51",
+      "backgroundHex": "#0B1211",
+      "surfaceHex": "#162220",
+      "isDark": true
+    },
+    {
+      "id": "retro-neon-diner",
+      "name": "Route 66 Diner",
+      "categoryId": "retro_vintage",
+      "primaryHex": "#E63946",
+      "secondaryHex": "#457B9D",
+      "backgroundHex": "#14080A",
+      "surfaceHex": "#231316",
+      "isDark": true
+    },
+    {
+      "id": "retro-kodak-gold",
+      "name": "Kodak ColorPlus",
+      "categoryId": "retro_vintage",
+      "primaryHex": "#FFB703",
+      "secondaryHex": "#D62828",
+      "backgroundHex": "#140E04",
+      "surfaceHex": "#241C0E",
+      "isDark": true
+    },
+    {
+      "id": "retro-fujifilm",
+      "name": "Fuji Velvia 50",
+      "categoryId": "retro_vintage",
+      "primaryHex": "#2EC4B6",
+      "secondaryHex": "#E71D36",
+      "backgroundHex": "#071210",
+      "surfaceHex": "#11221F",
+      "isDark": true
+    },
+    {
+      "id": "retro-boombox",
+      "name": "Ghetto Blaster",
+      "categoryId": "retro_vintage",
+      "primaryHex": "#A855F7",
+      "secondaryHex": "#EC4899",
+      "backgroundHex": "#0E0916",
+      "surfaceHex": "#1B1428",
+      "isDark": true
+    },
+    {
+      "id": "retro-drive-in",
+      "name": "Drive-In Movie",
+      "categoryId": "retro_vintage",
+      "primaryHex": "#38BDF8",
+      "secondaryHex": "#F43F5E",
+      "backgroundHex": "#080C14",
+      "surfaceHex": "#111723",
+      "isDark": true
+    },
+    {
+      "id": "retro-lava-lamp",
+      "name": "Psychedelic Lava",
+      "categoryId": "retro_vintage",
+      "primaryHex": "#FB923C",
+      "secondaryHex": "#C084FC",
+      "backgroundHex": "#160A0A",
+      "surfaceHex": "#261517",
+      "isDark": true
+    },
+    {
+      "id": "retro-roller-disco",
+      "name": "Roller Rink Disco",
+      "categoryId": "retro_vintage",
+      "primaryHex": "#F43F5E",
+      "secondaryHex": "#06B6D4",
+      "backgroundHex": "#120614",
+      "surfaceHex": "#221125",
+      "isDark": true
+    },
+    {
+      "id": "retro-rotary-phone",
+      "name": "Bakelite Phone",
+      "categoryId": "retro_vintage",
+      "primaryHex": "#10B981",
+      "secondaryHex": "#F59E0B",
+      "backgroundHex": "#08130E",
+      "surfaceHex": "#12231B",
+      "isDark": true
+    },
+    {
+      "id": "retro-typewriter",
+      "name": "Smith Corona Key",
+      "categoryId": "retro_vintage",
+      "primaryHex": "#A1A1AA",
+      "secondaryHex": "#F43F5E",
+      "backgroundHex": "#0F0F10",
+      "surfaceHex": "#1C1C1E",
+      "isDark": true
+    },
+    {
+      "id": "retro-woodgrain",
+      "name": "Station Wagon Wood",
+      "categoryId": "retro_vintage",
+      "primaryHex": "#A27B5C",
+      "secondaryHex": "#DCD7C9",
+      "backgroundHex": "#110C07",
+      "surfaceHex": "#201912",
+      "isDark": true
+    },
+    {
+      "id": "retro-commodore-64",
+      "name": "C64 Startup Blue",
+      "categoryId": "retro_vintage",
+      "primaryHex": "#7C83FD",
+      "secondaryHex": "#96BAFF",
+      "backgroundHex": "#0C0E1E",
+      "surfaceHex": "#151833",
+      "isDark": true
+    },
+    {
+      "id": "retro-gameboy",
+      "name": "Dot Matrix Green",
+      "categoryId": "retro_vintage",
+      "primaryHex": "#8BAC0F",
+      "secondaryHex": "#9BBC0F",
+      "backgroundHex": "#0B1204",
+      "surfaceHex": "#131E08",
+      "isDark": true
+    },
+    {
+      "id": "retro-paperback",
+      "name": "Vintage Penguin Book",
+      "categoryId": "retro_vintage",
+      "primaryHex": "#EA580C",
+      "secondaryHex": "#1E293B",
+      "backgroundHex": "#FDFBF7",
+      "surfaceHex": "#F4EFE6",
+      "isDark": false
+    },
+    {
+      "id": "retro-mid-century",
+      "name": "Mid-Century Modern Day",
+      "categoryId": "retro_vintage",
+      "primaryHex": "#C2410C",
+      "secondaryHex": "#0284C7",
+      "backgroundHex": "#FAF7F2",
+      "surfaceHex": "#EDE6DC",
+      "isDark": false
+    },
+    {
+      "id": "retro-cream-soda",
+      "name": "Cream Soda Fountain",
+      "categoryId": "retro_vintage",
+      "primaryHex": "#D97706",
+      "secondaryHex": "#DC2626",
+      "backgroundHex": "#FFFBEB",
+      "surfaceHex": "#FDF0D5",
+      "isDark": false
+    },
+    {
+      "id": "retro-palm-springs",
+      "name": "Palm Springs Motel",
+      "categoryId": "retro_vintage",
+      "primaryHex": "#0D9488",
+      "secondaryHex": "#FB7185",
+      "backgroundHex": "#F0FDFA",
+      "surfaceHex": "#E0F7F6",
+      "isDark": false
+    },
+    {
+      "id": "coffee-espresso",
+      "name": "Double Shot Crema",
+      "categoryId": "coffee_warmth",
+      "primaryHex": "#C89666",
+      "secondaryHex": "#E0A96D",
+      "backgroundHex": "#0E0A06",
+      "surfaceHex": "#1B140F",
+      "isDark": true
+    },
+    {
+      "id": "coffee-cappuccino",
+      "name": "Velvet Microfoam",
+      "categoryId": "coffee_warmth",
+      "primaryHex": "#D4A373",
+      "secondaryHex": "#FAEDCD",
+      "backgroundHex": "#100D09",
+      "surfaceHex": "#1D1913",
+      "isDark": true
+    },
+    {
+      "id": "coffee-caramel-latte",
+      "name": "Salted Caramel Drizzle",
+      "categoryId": "coffee_warmth",
+      "primaryHex": "#E9C46A",
+      "secondaryHex": "#F4A261",
+      "backgroundHex": "#130E07",
+      "surfaceHex": "#221A0F",
+      "isDark": true
+    },
+    {
+      "id": "coffee-mocha",
+      "name": "Dark Chocolate Mocha",
+      "categoryId": "coffee_warmth",
+      "primaryHex": "#A77044",
+      "secondaryHex": "#C68B59",
+      "backgroundHex": "#0B0704",
+      "surfaceHex": "#18100A",
+      "isDark": true
+    },
+    {
+      "id": "coffee-hazelnut",
+      "name": "Roasted Hazelnut",
+      "categoryId": "coffee_warmth",
+      "primaryHex": "#936639",
+      "secondaryHex": "#A68A64",
+      "backgroundHex": "#0C0906",
+      "surfaceHex": "#19140F",
+      "isDark": true
+    },
+    {
+      "id": "coffee-irish-warmth",
+      "name": "Irish Cream & Whiskey",
+      "categoryId": "coffee_warmth",
+      "primaryHex": "#DDA15E",
+      "secondaryHex": "#BC6C25",
+      "backgroundHex": "#120D08",
+      "surfaceHex": "#211911",
+      "isDark": true
+    },
+    {
+      "id": "coffee-cold-brew",
+      "name": "Nitro Cold Brew",
+      "categoryId": "coffee_warmth",
+      "primaryHex": "#7F4F24",
+      "secondaryHex": "#936639",
+      "backgroundHex": "#080604",
+      "surfaceHex": "#140F0A",
+      "isDark": true
+    },
+    {
+      "id": "coffee-cinnamon-bun",
+      "name": "Bakery Cinnamon Roll",
+      "categoryId": "coffee_warmth",
+      "primaryHex": "#B08968",
+      "secondaryHex": "#DDB892",
+      "backgroundHex": "#130E0B",
+      "surfaceHex": "#221915",
+      "isDark": true
+    },
+    {
+      "id": "coffee-chai-latte",
+      "name": "Cardamom Spiced Chai",
+      "categoryId": "coffee_warmth",
+      "primaryHex": "#C57B57",
+      "secondaryHex": "#F1AB86",
+      "backgroundHex": "#130C08",
+      "surfaceHex": "#231711",
+      "isDark": true
+    },
+    {
+      "id": "coffee-matcha-cafe",
+      "name": "Kyoto Matcha Latte",
+      "categoryId": "coffee_warmth",
+      "primaryHex": "#6B8E23",
+      "secondaryHex": "#A2B969",
+      "backgroundHex": "#0E1408",
+      "surfaceHex": "#1A2211",
+      "isDark": true
+    },
+    {
+      "id": "coffee-truffle",
+      "name": "Belgian Cocoa Truffle",
+      "categoryId": "coffee_warmth",
+      "primaryHex": "#6F4E37",
+      "secondaryHex": "#9E7B66",
+      "backgroundHex": "#0A0604",
+      "surfaceHex": "#160F0B",
+      "isDark": true
+    },
+    {
+      "id": "coffee-amber-whiskey",
+      "name": "Single Malt Cask",
+      "categoryId": "coffee_warmth",
+      "primaryHex": "#D97706",
+      "secondaryHex": "#F59E0B",
+      "backgroundHex": "#140A02",
+      "surfaceHex": "#241608",
+      "isDark": true
+    },
+    {
+      "id": "coffee-cedar-smoke",
+      "name": "Cedar Wood Smoke",
+      "categoryId": "coffee_warmth",
+      "primaryHex": "#8C6D58",
+      "secondaryHex": "#B59E8D",
+      "backgroundHex": "#110D0B",
+      "surfaceHex": "#1F1815",
+      "isDark": true
+    },
+    {
+      "id": "coffee-leather-chair",
+      "name": "Vintage Leather Club",
+      "categoryId": "coffee_warmth",
+      "primaryHex": "#9C6644",
+      "secondaryHex": "#7F4F24",
+      "backgroundHex": "#0F0B08",
+      "surfaceHex": "#1C1410",
+      "isDark": true
+    },
+    {
+      "id": "coffee-pecan-pie",
+      "name": "Maple Pecan Toffee",
+      "categoryId": "coffee_warmth",
+      "primaryHex": "#B45309",
+      "secondaryHex": "#FBBF24",
+      "backgroundHex": "#140A03",
+      "surfaceHex": "#23150A",
+      "isDark": true
+    },
+    {
+      "id": "coffee-french-roast",
+      "name": "French Roast Bean",
+      "categoryId": "coffee_warmth",
+      "primaryHex": "#5C4033",
+      "secondaryHex": "#8B5A2B",
+      "backgroundHex": "#080605",
+      "surfaceHex": "#140F0D",
+      "isDark": true
+    },
+    {
+      "id": "coffee-toffee",
+      "name": "Crunchy Butter Toffee",
+      "categoryId": "coffee_warmth",
+      "primaryHex": "#D97706",
+      "secondaryHex": "#FCD34D",
+      "backgroundHex": "#130903",
+      "surfaceHex": "#22140A",
+      "isDark": true
+    },
+    {
+      "id": "coffee-macchiato",
+      "name": "Layered Macchiato",
+      "categoryId": "coffee_warmth",
+      "primaryHex": "#C89666",
+      "secondaryHex": "#FFFFFF",
+      "backgroundHex": "#100B07",
+      "surfaceHex": "#1E1710",
+      "isDark": true
+    },
+    {
+      "id": "coffee-gingerbread",
+      "name": "Spiced Gingerbread",
+      "categoryId": "coffee_warmth",
+      "primaryHex": "#A0522D",
+      "secondaryHex": "#CD853F",
+      "backgroundHex": "#110703",
+      "surfaceHex": "#20120B",
+      "isDark": true
+    },
+    {
+      "id": "coffee-vanilla-sweet",
+      "name": "Vanilla Sweet Cream",
+      "categoryId": "coffee_warmth",
+      "primaryHex": "#E5D4C0",
+      "secondaryHex": "#D8A47F",
+      "backgroundHex": "#110D0B",
+      "surfaceHex": "#1F1916",
+      "isDark": true
+    },
+    {
+      "id": "coffee-day-crema",
+      "name": "Artisan Coffee House",
+      "categoryId": "coffee_warmth",
+      "primaryHex": "#6F4E37",
+      "secondaryHex": "#A67C52",
+      "backgroundHex": "#FBF8F5",
+      "surfaceHex": "#F2EBE3",
+      "isDark": false
+    },
+    {
+      "id": "coffee-day-latte",
+      "name": "Morning Oat Milk Latte",
+      "categoryId": "coffee_warmth",
+      "primaryHex": "#8B5A2B",
+      "secondaryHex": "#C89666",
+      "backgroundHex": "#FDFBF7",
+      "surfaceHex": "#F5ECE1",
+      "isDark": false
+    },
+    {
+      "id": "coffee-day-bakery",
+      "name": "Warm Croissant Morning",
+      "categoryId": "coffee_warmth",
+      "primaryHex": "#B45309",
+      "secondaryHex": "#D97706",
+      "backgroundHex": "#FFFBEB",
+      "surfaceHex": "#FDF3D8",
+      "isDark": false
+    },
+    {
+      "id": "coffee-day-matcha",
+      "name": "Iced Matcha Vanilla",
+      "categoryId": "coffee_warmth",
+      "primaryHex": "#4A6B32",
+      "secondaryHex": "#84A95D",
+      "backgroundHex": "#F7FAF5",
+      "surfaceHex": "#E8EFE3",
+      "isDark": false
+    },
+    {
+      "id": "gem-amethyst",
+      "name": "Imperial Amethyst",
+      "categoryId": "gemstones_luxury",
+      "primaryHex": "#9D4EDD",
+      "secondaryHex": "#C77DFF",
+      "backgroundHex": "#0C0617",
+      "surfaceHex": "#170E28",
+      "isDark": true
+    },
+    {
+      "id": "gem-sapphire",
+      "name": "Ceylon Royal Sapphire",
+      "categoryId": "gemstones_luxury",
+      "primaryHex": "#1D4ED8",
+      "secondaryHex": "#60A5FA",
+      "backgroundHex": "#060A19",
+      "surfaceHex": "#0E152F",
+      "isDark": true
+    },
+    {
+      "id": "gem-emerald",
+      "name": "Colombian Emerald",
+      "categoryId": "gemstones_luxury",
+      "primaryHex": "#059669",
+      "secondaryHex": "#34D399",
+      "backgroundHex": "#04140F",
+      "surfaceHex": "#0B261D",
+      "isDark": true
+    },
+    {
+      "id": "gem-ruby",
+      "name": "Pigeon Blood Ruby",
+      "categoryId": "gemstones_luxury",
+      "primaryHex": "#DC2626",
+      "secondaryHex": "#F87171",
+      "backgroundHex": "#150507",
+      "surfaceHex": "#270D11",
+      "isDark": true
+    },
+    {
+      "id": "gem-gold",
+      "name": "24K Champagne Gold",
+      "categoryId": "gemstones_luxury",
+      "primaryHex": "#EAB308",
+      "secondaryHex": "#FDE047",
+      "backgroundHex": "#131004",
+      "surfaceHex": "#241F0E",
+      "isDark": true
+    },
+    {
+      "id": "gem-platinum",
+      "name": "Platinum Ice",
+      "categoryId": "gemstones_luxury",
+      "primaryHex": "#E2E8F0",
+      "secondaryHex": "#38BDF8",
+      "backgroundHex": "#080C12",
+      "surfaceHex": "#121924",
+      "isDark": true
+    },
+    {
+      "id": "gem-opal",
+      "name": "Fire Opal Flash",
+      "categoryId": "gemstones_luxury",
+      "primaryHex": "#F97316",
+      "secondaryHex": "#06B6D4",
+      "backgroundHex": "#120B13",
+      "surfaceHex": "#221724",
+      "isDark": true
+    },
+    {
+      "id": "gem-tanzanite",
+      "name": "Deep Tanzanite",
+      "categoryId": "gemstones_luxury",
+      "primaryHex": "#6366F1",
+      "secondaryHex": "#A855F7",
+      "backgroundHex": "#0A0B1A",
+      "surfaceHex": "#151730",
+      "isDark": true
+    },
+    {
+      "id": "gem-rose-quartz",
+      "name": "Rose Quartz Cut",
+      "categoryId": "gemstones_luxury",
+      "primaryHex": "#F472B6",
+      "secondaryHex": "#FBCFE8",
+      "backgroundHex": "#160A13",
+      "surfaceHex": "#261522",
+      "isDark": true
+    },
+    {
+      "id": "gem-aquamarine",
+      "name": "Sea Foam Beryl",
+      "categoryId": "gemstones_luxury",
+      "primaryHex": "#22D3EE",
+      "secondaryHex": "#A5F3FC",
+      "backgroundHex": "#061317",
+      "surfaceHex": "#0E232A",
+      "isDark": true
+    },
+    {
+      "id": "gem-topaz",
+      "name": "Imperial Golden Topaz",
+      "categoryId": "gemstones_luxury",
+      "primaryHex": "#F59E0B",
+      "secondaryHex": "#FCD34D",
+      "backgroundHex": "#140D04",
+      "surfaceHex": "#241B0E",
+      "isDark": true
+    },
+    {
+      "id": "gem-garnet",
+      "name": "Bohemian Red Garnet",
+      "categoryId": "gemstones_luxury",
+      "primaryHex": "#991B1B",
+      "secondaryHex": "#EF4444",
+      "backgroundHex": "#130507",
+      "surfaceHex": "#240E11",
+      "isDark": true
+    },
+    {
+      "id": "gem-jade",
+      "name": "Burmese Imperial Jade",
+      "categoryId": "gemstones_luxury",
+      "primaryHex": "#10B981",
+      "secondaryHex": "#6EE7B7",
+      "backgroundHex": "#05130D",
+      "surfaceHex": "#0E2319",
+      "isDark": true
+    },
+    {
+      "id": "gem-black-diamond",
+      "name": "Black Diamond Carat",
+      "categoryId": "gemstones_luxury",
+      "primaryHex": "#CBD5E1",
+      "secondaryHex": "#38BDF8",
+      "backgroundHex": "#040507",
+      "surfaceHex": "#0F1218",
+      "isDark": true
+    },
+    {
+      "id": "gem-alexandrite",
+      "name": "Color Shift Alexandrite",
+      "categoryId": "gemstones_luxury",
+      "primaryHex": "#8B5CF6",
+      "secondaryHex": "#10B981",
+      "backgroundHex": "#0B0C18",
+      "surfaceHex": "#15182D",
+      "isDark": true
+    },
+    {
+      "id": "gem-peridot",
+      "name": "Volcanic Peridot",
+      "categoryId": "gemstones_luxury",
+      "primaryHex": "#84CC16",
+      "secondaryHex": "#BEF264",
+      "backgroundHex": "#0B1204",
+      "surfaceHex": "#15220B",
+      "isDark": true
+    },
+    {
+      "id": "gem-tourmaline",
+      "name": "Watermelon Tourmaline",
+      "categoryId": "gemstones_luxury",
+      "primaryHex": "#EC4899",
+      "secondaryHex": "#10B981",
+      "backgroundHex": "#120A10",
+      "surfaceHex": "#22151F",
+      "isDark": true
+    },
+    {
+      "id": "gem-citrine",
+      "name": "Sunburst Citrine",
+      "categoryId": "gemstones_luxury",
+      "primaryHex": "#EAB308",
+      "secondaryHex": "#F97316",
+      "backgroundHex": "#140E04",
+      "surfaceHex": "#241B0A",
+      "isDark": true
+    },
+    {
+      "id": "gem-lapis",
+      "name": "Lapis Lazuli Gold Fleck",
+      "categoryId": "gemstones_luxury",
+      "primaryHex": "#2563EB",
+      "secondaryHex": "#F59E0B",
+      "backgroundHex": "#060A17",
+      "surfaceHex": "#0E152C",
+      "isDark": true
+    },
+    {
+      "id": "gem-moonstone",
+      "name": "Adularescence Moonstone",
+      "categoryId": "gemstones_luxury",
+      "primaryHex": "#C4B5FD",
+      "secondaryHex": "#93C5FD",
+      "backgroundHex": "#0D0F1A",
+      "surfaceHex": "#181C2D",
+      "isDark": true
+    },
+    {
+      "id": "gem-day-pearl",
+      "name": "White South Sea Pearl",
+      "categoryId": "gemstones_luxury",
+      "primaryHex": "#475569",
+      "secondaryHex": "#0EA5E9",
+      "backgroundHex": "#F8FAFC",
+      "surfaceHex": "#F1F5F9",
+      "isDark": false
+    },
+    {
+      "id": "gem-day-champagne",
+      "name": "Champagne Diamond",
+      "categoryId": "gemstones_luxury",
+      "primaryHex": "#A16207",
+      "secondaryHex": "#CA8A04",
+      "backgroundHex": "#FEFCE8",
+      "surfaceHex": "#FEF9C3",
+      "isDark": false
+    },
+    {
+      "id": "gem-day-rosegold",
+      "name": "Cartier Rose Gold",
+      "categoryId": "gemstones_luxury",
+      "primaryHex": "#BE185D",
+      "secondaryHex": "#FB7185",
+      "backgroundHex": "#FDF2F8",
+      "surfaceHex": "#FCE7F3",
+      "isDark": false
+    },
+    {
+      "id": "gem-day-emerald",
+      "name": "Tiffany Green Velvet",
+      "categoryId": "gemstones_luxury",
+      "primaryHex": "#047857",
+      "secondaryHex": "#059669",
+      "backgroundHex": "#ECFDF5",
+      "surfaceHex": "#D1FAE5",
+      "isDark": false
+    },
+    {
+      "id": "anime-magic-academy",
+      "name": "Arcane Grimoire",
+      "categoryId": "anime_fantasy",
+      "primaryHex": "#A855F7",
+      "secondaryHex": "#38BDF8",
+      "backgroundHex": "#090918",
+      "surfaceHex": "#14152D",
+      "isDark": true
+    },
+    {
+      "id": "anime-shonen-flame",
+      "name": "Dragon Spirit",
+      "categoryId": "anime_fantasy",
+      "primaryHex": "#FF3D00",
+      "secondaryHex": "#FFD600",
+      "backgroundHex": "#160502",
+      "surfaceHex": "#270F08",
+      "isDark": true
+    },
+    {
+      "id": "anime-astral-blossom",
+      "name": "Astral Sakura",
+      "categoryId": "anime_fantasy",
+      "primaryHex": "#FF77A9",
+      "secondaryHex": "#A64AC9",
+      "backgroundHex": "#130718",
+      "surfaceHex": "#23112A",
+      "isDark": true
+    },
+    {
+      "id": "anime-phantom-thief",
+      "name": "Persona Velvet",
+      "categoryId": "anime_fantasy",
+      "primaryHex": "#E50914",
+      "secondaryHex": "#FFFFFF",
+      "backgroundHex": "#0A0A0E",
+      "surfaceHex": "#15151D",
+      "isDark": true
+    },
+    {
+      "id": "anime-mecha-cockpit",
+      "name": "EVA Unit 01",
+      "categoryId": "anime_fantasy",
+      "primaryHex": "#7E57C2",
+      "secondaryHex": "#76FF03",
+      "backgroundHex": "#0E071A",
+      "surfaceHex": "#1B1030",
+      "isDark": true
+    },
+    {
+      "id": "anime-spirit-away",
+      "name": "Bathhouse Lantern",
+      "categoryId": "anime_fantasy",
+      "primaryHex": "#FF5252",
+      "secondaryHex": "#FFD740",
+      "backgroundHex": "#140706",
+      "surfaceHex": "#251210",
+      "isDark": true
+    },
+    {
+      "id": "anime-mononoke",
+      "name": "Forest Guardian Spirit",
+      "categoryId": "anime_fantasy",
+      "primaryHex": "#00E676",
+      "secondaryHex": "#FF1744",
+      "backgroundHex": "#08130B",
+      "surfaceHex": "#112417",
+      "isDark": true
+    },
+    {
+      "id": "anime-cyber-alchemist",
+      "name": "Fullmetal Transmutation",
+      "categoryId": "anime_fantasy",
+      "primaryHex": "#00B0FF",
+      "secondaryHex": "#FFAB00",
+      "backgroundHex": "#080F1B",
+      "surfaceHex": "#111E33",
+      "isDark": true
+    },
+    {
+      "id": "anime-sailor-moon",
+      "name": "Silver Millennium Moon",
+      "categoryId": "anime_fantasy",
+      "primaryHex": "#FF80AB",
+      "secondaryHex": "#82B1FF",
+      "backgroundHex": "#12081A",
+      "surfaceHex": "#22132D",
+      "isDark": true
+    },
+    {
+      "id": "anime-ghibli-sky",
+      "name": "Laputa Floating Isle",
+      "categoryId": "anime_fantasy",
+      "primaryHex": "#40C4FF",
+      "secondaryHex": "#B2FF59",
+      "backgroundHex": "#06111B",
+      "surfaceHex": "#0D2031",
+      "isDark": true
+    },
+    {
+      "id": "anime-dark-fantasy",
+      "name": "Curse of the Eclipse",
+      "categoryId": "anime_fantasy",
+      "primaryHex": "#9C27B0",
+      "secondaryHex": "#E91E63",
+      "backgroundHex": "#0D0510",
+      "surfaceHex": "#1B0D20",
+      "isDark": true
+    },
+    {
+      "id": "anime-cyber-idol",
+      "name": "Vocaloid Cyan Pulse",
+      "categoryId": "anime_fantasy",
+      "primaryHex": "#00E5FF",
+      "secondaryHex": "#FF4081",
+      "backgroundHex": "#06111A",
+      "surfaceHex": "#0E2030",
+      "isDark": true
+    },
+    {
+      "id": "anime-demon-slayer",
+      "name": "Nichirin Water Form",
+      "categoryId": "anime_fantasy",
+      "primaryHex": "#00B4D8",
+      "secondaryHex": "#03045E",
+      "backgroundHex": "#040D17",
+      "surfaceHex": "#0B1B2C",
+      "isDark": true
+    },
+    {
+      "id": "anime-sun-breathing",
+      "name": "Hinokami Sun Kagura",
+      "categoryId": "anime_fantasy",
+      "primaryHex": "#FF3D00",
+      "secondaryHex": "#FF9100",
+      "backgroundHex": "#150602",
+      "surfaceHex": "#261108",
+      "isDark": true
+    },
+    {
+      "id": "anime-thunder-clap",
+      "name": "Sixfold Lightning",
+      "categoryId": "anime_fantasy",
+      "primaryHex": "#FFD600",
+      "secondaryHex": "#FF6D00",
+      "backgroundHex": "#141103",
+      "surfaceHex": "#25200A",
+      "isDark": true
+    },
+    {
+      "id": "anime-titan-walls",
+      "name": "Survey Scout Crest",
+      "categoryId": "anime_fantasy",
+      "primaryHex": "#1E88E5",
+      "secondaryHex": "#43A047",
+      "backgroundHex": "#070D17",
+      "surfaceHex": "#101B2C",
+      "isDark": true
+    },
+    {
+      "id": "anime-jujutsu-void",
+      "name": "Infinite Void Domain",
+      "categoryId": "anime_fantasy",
+      "primaryHex": "#7C4DFF",
+      "secondaryHex": "#00E5FF",
+      "backgroundHex": "#060616",
+      "surfaceHex": "#10102A",
+      "isDark": true
+    },
+    {
+      "id": "anime-death-note",
+      "name": "Shinigami Realm",
+      "categoryId": "anime_fantasy",
+      "primaryHex": "#B71C1C",
+      "secondaryHex": "#9E9E9E",
+      "backgroundHex": "#0A0506",
+      "surfaceHex": "#160D0F",
+      "isDark": true
+    },
+    {
+      "id": "anime-neon-tokyo3",
+      "name": "Tokyo-3 Geometric Geofront",
+      "categoryId": "anime_fantasy",
+      "primaryHex": "#FF0055",
+      "secondaryHex": "#00F0FF",
+      "backgroundHex": "#0B0718",
+      "surfaceHex": "#17102D",
+      "isDark": true
+    },
+    {
+      "id": "anime-dungeon-loot",
+      "name": "Legendary Drop Chest",
+      "categoryId": "anime_fantasy",
+      "primaryHex": "#FFD700",
+      "secondaryHex": "#9C27B0",
+      "backgroundHex": "#120B04",
+      "surfaceHex": "#22170D",
+      "isDark": true
+    },
+    {
+      "id": "anime-sky-day",
+      "name": "Makoto Shinkai Blue",
+      "categoryId": "anime_fantasy",
+      "primaryHex": "#0284C7",
+      "secondaryHex": "#38BDF8",
+      "backgroundHex": "#F0F9FF",
+      "surfaceHex": "#E0F2FE",
+      "isDark": false
+    },
+    {
+      "id": "anime-summer-war",
+      "name": "Rural Country Summer",
+      "categoryId": "anime_fantasy",
+      "primaryHex": "#16A34A",
+      "secondaryHex": "#FACC15",
+      "backgroundHex": "#F7FEE7",
+      "surfaceHex": "#ECFCCB",
+      "isDark": false
+    },
+    {
+      "id": "anime-pastels-cafe",
+      "name": "Slice of Life Afternoon",
+      "categoryId": "anime_fantasy",
+      "primaryHex": "#F472B6",
+      "secondaryHex": "#FDE047",
+      "backgroundHex": "#FDF2F8",
+      "surfaceHex": "#FCE7F3",
+      "isDark": false
+    },
+    {
+      "id": "anime-tea-party",
+      "name": "After School Tea Time",
+      "categoryId": "anime_fantasy",
+      "primaryHex": "#FB7185",
+      "secondaryHex": "#38BDF8",
+      "backgroundHex": "#FFF1F2",
+      "surfaceHex": "#FFE4E6",
+      "isDark": false
+    },
+    {
+      "id": "art-starry-night",
+      "name": "Van Gogh Starry Night",
+      "categoryId": "fine_arts",
+      "primaryHex": "#FBBF24",
+      "secondaryHex": "#3B82F6",
+      "backgroundHex": "#0B0F1E",
+      "surfaceHex": "#141C34",
+      "isDark": true
+    },
+    {
+      "id": "art-great-wave",
+      "name": "Hokusai Great Wave",
+      "categoryId": "fine_arts",
+      "primaryHex": "#0284C7",
+      "secondaryHex": "#F8FAFC",
+      "backgroundHex": "#061320",
+      "surfaceHex": "#0D2236",
+      "isDark": true
+    },
+    {
+      "id": "art-mona-lisa",
+      "name": "Da Vinci Sfumato",
+      "categoryId": "fine_arts",
+      "primaryHex": "#A16207",
+      "secondaryHex": "#78716C",
+      "backgroundHex": "#0D0A07",
+      "surfaceHex": "#1B1611",
+      "isDark": true
+    },
+    {
+      "id": "art-guernica",
+      "name": "Picasso Monochromatic",
+      "categoryId": "fine_arts",
+      "primaryHex": "#E2E8F0",
+      "secondaryHex": "#64748B",
+      "backgroundHex": "#080808",
+      "surfaceHex": "#151515",
+      "isDark": true
+    },
+    {
+      "id": "art-sunflowers",
+      "name": "Arles Sunflowers",
+      "categoryId": "fine_arts",
+      "primaryHex": "#EAB308",
+      "secondaryHex": "#CA8A04",
+      "backgroundHex": "#150E03",
+      "surfaceHex": "#241C0A",
+      "isDark": true
+    },
+    {
+      "id": "art-the-scream",
+      "name": "Munch Sunset Swirl",
+      "categoryId": "fine_arts",
+      "primaryHex": "#F97316",
+      "secondaryHex": "#38BDF8",
+      "backgroundHex": "#160C0A",
+      "surfaceHex": "#261815",
+      "isDark": true
+    },
+    {
+      "id": "art-water-lilies",
+      "name": "Monet Giverny Basin",
+      "categoryId": "fine_arts",
+      "primaryHex": "#10B981",
+      "secondaryHex": "#818CF8",
+      "backgroundHex": "#081412",
+      "surfaceHex": "#112320",
+      "isDark": true
+    },
+    {
+      "id": "art-night-terrace",
+      "name": "Cafe Terrace at Night",
+      "categoryId": "fine_arts",
+      "primaryHex": "#F59E0B",
+      "secondaryHex": "#1D4ED8",
+      "backgroundHex": "#0B0B19",
+      "surfaceHex": "#15162D",
+      "isDark": true
+    },
+    {
+      "id": "art-the-kiss",
+      "name": "Klimt Golden Mosaic",
+      "categoryId": "fine_arts",
+      "primaryHex": "#FACC15",
+      "secondaryHex": "#FB923C",
+      "backgroundHex": "#140F04",
+      "surfaceHex": "#241D0D",
+      "isDark": true
+    },
+    {
+      "id": "art-girl-pearl",
+      "name": "Vermeer Delft Ultramarine",
+      "categoryId": "fine_arts",
+      "primaryHex": "#2563EB",
+      "secondaryHex": "#FBBF24",
+      "backgroundHex": "#080A16",
+      "surfaceHex": "#101428",
+      "isDark": true
+    },
+    {
+      "id": "art-renaissance-fresco",
+      "name": "Sistine Chapel Fresco",
+      "categoryId": "fine_arts",
+      "primaryHex": "#D97706",
+      "secondaryHex": "#60A5FA",
+      "backgroundHex": "#120E0A",
+      "surfaceHex": "#201B14",
+      "isDark": true
+    },
+    {
+      "id": "art-bauhaus",
+      "name": "Bauhaus Primary Geometry",
+      "categoryId": "fine_arts",
+      "primaryHex": "#EF4444",
+      "secondaryHex": "#3B82F6",
+      "backgroundHex": "#0F0F12",
+      "surfaceHex": "#1C1C22",
+      "isDark": true
+    },
+    {
+      "id": "art-mondrian",
+      "name": "De Stijl Composition",
+      "categoryId": "fine_arts",
+      "primaryHex": "#DC2626",
+      "secondaryHex": "#2563EB",
+      "backgroundHex": "#0B0B0D",
+      "surfaceHex": "#17171C",
+      "isDark": true
+    },
+    {
+      "id": "art-wanderer-fog",
+      "name": "Friedrich Sea of Fog",
+      "categoryId": "fine_arts",
+      "primaryHex": "#94A3B8",
+      "secondaryHex": "#475569",
+      "backgroundHex": "#0B0E12",
+      "surfaceHex": "#151A20",
+      "isDark": true
+    },
+    {
+      "id": "art-rothro-field",
+      "name": "Rothko Red & Orange",
+      "categoryId": "fine_arts",
+      "primaryHex": "#B91C1C",
+      "secondaryHex": "#EA580C",
+      "backgroundHex": "#140504",
+      "surfaceHex": "#240E0C",
+      "isDark": true
+    },
+    {
+      "id": "art-surrealist-clock",
+      "name": "Dali Persistence of Memory",
+      "categoryId": "fine_arts",
+      "primaryHex": "#D97706",
+      "secondaryHex": "#38BDF8",
+      "backgroundHex": "#110D09",
+      "surfaceHex": "#1F1A13",
+      "isDark": true
+    },
+    {
+      "id": "art-kandinsky",
+      "name": "Composition VIII",
+      "categoryId": "fine_arts",
+      "primaryHex": "#8B5CF6",
+      "secondaryHex": "#F59E0B",
+      "backgroundHex": "#0D0A16",
+      "surfaceHex": "#191428",
+      "isDark": true
+    },
+    {
+      "id": "art-warhol-marilyn",
+      "name": "Pop Art Silkscreen",
+      "categoryId": "fine_arts",
+      "primaryHex": "#EC4899",
+      "secondaryHex": "#FBBF24",
+      "backgroundHex": "#150614",
+      "surfaceHex": "#251025",
+      "isDark": true
+    },
+    {
+      "id": "art-art-nouveau",
+      "name": "Mucha Gilded Ivy",
+      "categoryId": "fine_arts",
+      "primaryHex": "#10B981",
+      "secondaryHex": "#EAB308",
+      "backgroundHex": "#0B120B",
+      "surfaceHex": "#152015",
+      "isDark": true
+    },
+    {
+      "id": "art-art-deco",
+      "name": "Chrysler Building Deco",
+      "categoryId": "fine_arts",
+      "primaryHex": "#FACC15",
+      "secondaryHex": "#06B6D4",
+      "backgroundHex": "#0C0E12",
+      "surfaceHex": "#161A22",
+      "isDark": true
+    },
+    {
+      "id": "art-impressionist-day",
+      "name": "Renoir Spring Morning",
+      "categoryId": "fine_arts",
+      "primaryHex": "#2563EB",
+      "secondaryHex": "#F43F5E",
+      "backgroundHex": "#F8FAFC",
+      "surfaceHex": "#EFF6FF",
+      "isDark": false
+    },
+    {
+      "id": "art-monet-day",
+      "name": "Water Lilies Day Mist",
+      "categoryId": "fine_arts",
+      "primaryHex": "#059669",
+      "secondaryHex": "#818CF8",
+      "backgroundHex": "#F0FDF4",
+      "surfaceHex": "#DCFCE7",
+      "isDark": false
+    },
+    {
+      "id": "art-degas-ballerina",
+      "name": "Degas Pastel Tutu",
+      "categoryId": "fine_arts",
+      "primaryHex": "#DB2777",
+      "secondaryHex": "#FBBF24",
+      "backgroundHex": "#FDF2F8",
+      "surfaceHex": "#FCE7F3",
+      "isDark": false
+    },
+    {
+      "id": "art-cezanne-apples",
+      "name": "Cezanne Still Life",
+      "categoryId": "fine_arts",
+      "primaryHex": "#DC2626",
+      "secondaryHex": "#65A30D",
+      "backgroundHex": "#FEFCE8",
+      "surfaceHex": "#FEF9C3",
+      "isDark": false
+    },
+    {
+      "id": "desert-sahara-gold",
+      "name": "Sahara Golden Crest",
+      "categoryId": "desert_dunes",
+      "primaryHex": "#F59E0B",
+      "secondaryHex": "#D97706",
+      "backgroundHex": "#140D04",
+      "surfaceHex": "#23190C",
+      "isDark": true
+    },
+    {
+      "id": "desert-terracotta-clay",
+      "name": "Tuscan Terracotta",
+      "categoryId": "desert_dunes",
+      "primaryHex": "#C2410C",
+      "secondaryHex": "#EA580C",
+      "backgroundHex": "#140804",
+      "surfaceHex": "#23130C",
+      "isDark": true
+    },
+    {
+      "id": "desert-mojave-night",
+      "name": "Mojave Joshua Tree",
+      "categoryId": "desert_dunes",
+      "primaryHex": "#F97316",
+      "secondaryHex": "#6366F1",
+      "backgroundHex": "#100B16",
+      "surfaceHex": "#1D1628",
+      "isDark": true
+    },
+    {
+      "id": "desert-oasis-pool",
+      "name": "Desert Oasis Springs",
+      "categoryId": "desert_dunes",
+      "primaryHex": "#06B6D4",
+      "secondaryHex": "#EAB308",
+      "backgroundHex": "#081214",
+      "surfaceHex": "#112225",
+      "isDark": true
+    },
+    {
+      "id": "desert-sedona-red",
+      "name": "Sedona Red Rocks",
+      "categoryId": "desert_dunes",
+      "primaryHex": "#B91C1C",
+      "secondaryHex": "#F97316",
+      "backgroundHex": "#150604",
+      "surfaceHex": "#25120E",
+      "isDark": true
+    },
+    {
+      "id": "desert-canyon-dusk",
+      "name": "Grand Canyon Vista",
+      "categoryId": "desert_dunes",
+      "primaryHex": "#9A3412",
+      "secondaryHex": "#A855F7",
+      "backgroundHex": "#130912",
+      "surfaceHex": "#231422",
+      "isDark": true
+    },
+    {
+      "id": "desert-marrakech-bazaar",
+      "name": "Marrakech Medina",
+      "categoryId": "desert_dunes",
+      "primaryHex": "#D97706",
+      "secondaryHex": "#BE185D",
+      "backgroundHex": "#140A0D",
+      "surfaceHex": "#24151B",
+      "isDark": true
+    },
+    {
+      "id": "desert-sandstone-arch",
+      "name": "Arches National Park",
+      "categoryId": "desert_dunes",
+      "primaryHex": "#C2410C",
+      "secondaryHex": "#FBBF24",
+      "backgroundHex": "#150904",
+      "surfaceHex": "#25150C",
+      "isDark": true
+    },
+    {
+      "id": "desert-wadi-rum",
+      "name": "Wadi Rum Red Dunes",
+      "categoryId": "desert_dunes",
+      "primaryHex": "#991B1B",
+      "secondaryHex": "#EA580C",
+      "backgroundHex": "#140604",
+      "surfaceHex": "#24110C",
+      "isDark": true
+    },
+    {
+      "id": "desert-atacama-stars",
+      "name": "Atacama Stargaze",
+      "categoryId": "desert_dunes",
+      "primaryHex": "#8B5CF6",
+      "secondaryHex": "#F97316",
+      "backgroundHex": "#0B0A16",
+      "surfaceHex": "#16152B",
+      "isDark": true
+    },
+    {
+      "id": "desert-monument-valley",
+      "name": "Monument Valley Buttes",
+      "categoryId": "desert_dunes",
+      "primaryHex": "#C2410C",
+      "secondaryHex": "#9A3412",
+      "backgroundHex": "#130804",
+      "surfaceHex": "#22130C",
+      "isDark": true
+    },
+    {
+      "id": "desert-pyramid-dawn",
+      "name": "Giza Plateau Dawn",
+      "categoryId": "desert_dunes",
+      "primaryHex": "#EAB308",
+      "secondaryHex": "#F59E0B",
+      "backgroundHex": "#130D04",
+      "surfaceHex": "#22190B",
+      "isDark": true
+    },
+    {
+      "id": "desert-sienna-earth",
+      "name": "Burnt Sienna Potters",
+      "categoryId": "desert_dunes",
+      "primaryHex": "#9A3412",
+      "secondaryHex": "#D97706",
+      "backgroundHex": "#120804",
+      "surfaceHex": "#20120B",
+      "isDark": true
+    },
+    {
+      "id": "desert-cactus-flower",
+      "name": "Blooming Saguaro",
+      "categoryId": "desert_dunes",
+      "primaryHex": "#EC4899",
+      "secondaryHex": "#84CC16",
+      "backgroundHex": "#120A0E",
+      "surfaceHex": "#21151B",
+      "isDark": true
+    },
+    {
+      "id": "desert-dune-ridge",
+      "name": "Singing Sand Dunes",
+      "categoryId": "desert_dunes",
+      "primaryHex": "#D97706",
+      "secondaryHex": "#FDE047",
+      "backgroundHex": "#130C04",
+      "surfaceHex": "#22170D",
+      "isDark": true
+    },
+    {
+      "id": "desert-petra-rose",
+      "name": "Rose City of Petra",
+      "categoryId": "desert_dunes",
+      "primaryHex": "#BE123C",
+      "secondaryHex": "#F43F5E",
+      "backgroundHex": "#15060A",
+      "surfaceHex": "#251117",
+      "isDark": true
+    },
+    {
+      "id": "desert-moroccan-clay",
+      "name": "Fez Clay Tiles",
+      "categoryId": "desert_dunes",
+      "primaryHex": "#B45309",
+      "secondaryHex": "#0284C7",
+      "backgroundHex": "#120B0A",
+      "surfaceHex": "#201716",
+      "isDark": true
+    },
+    {
+      "id": "desert-death-valley",
+      "name": "Zabriskie Badlands",
+      "categoryId": "desert_dunes",
+      "primaryHex": "#CA8A04",
+      "secondaryHex": "#A16207",
+      "backgroundHex": "#130E04",
+      "surfaceHex": "#221B0D",
+      "isDark": true
+    },
+    {
+      "id": "desert-agave-blue",
+      "name": "Blue Weber Agave",
+      "categoryId": "desert_dunes",
+      "primaryHex": "#0EA5E9",
+      "secondaryHex": "#10B981",
+      "backgroundHex": "#061114",
+      "surfaceHex": "#0D2024",
+      "isDark": true
+    },
+    {
+      "id": "desert-adobe-sunset",
+      "name": "Santa Fe Adobe",
+      "categoryId": "desert_dunes",
+      "primaryHex": "#C2410C",
+      "secondaryHex": "#F59E0B",
+      "backgroundHex": "#140905",
+      "surfaceHex": "#24150E",
+      "isDark": true
+    },
+    {
+      "id": "desert-day-terracotta",
+      "name": "Terracotta Pottery Yard",
+      "categoryId": "desert_dunes",
+      "primaryHex": "#C2410C",
+      "secondaryHex": "#EA580C",
+      "backgroundHex": "#FFF7ED",
+      "surfaceHex": "#FFEDD5",
+      "isDark": false
+    },
+    {
+      "id": "desert-day-oasis",
+      "name": "Oasis Palm Shade",
+      "categoryId": "desert_dunes",
+      "primaryHex": "#0D9488",
+      "secondaryHex": "#CA8A04",
+      "backgroundHex": "#F0FDFA",
+      "surfaceHex": "#CCFBF1",
+      "isDark": false
+    },
+    {
+      "id": "desert-day-sandstone",
+      "name": "Zion Sandstone Wall",
+      "categoryId": "desert_dunes",
+      "primaryHex": "#B45309",
+      "secondaryHex": "#D97706",
+      "backgroundHex": "#FFFBEB",
+      "surfaceHex": "#FEF3C7",
+      "isDark": false
+    },
+    {
+      "id": "desert-day-sienna",
+      "name": "Warm Raw Sienna",
+      "categoryId": "desert_dunes",
+      "primaryHex": "#9A3412",
+      "secondaryHex": "#C2410C",
+      "backgroundHex": "#FAFAF9",
+      "surfaceHex": "#F5F5F4",
+      "isDark": false
+    },
+    {
+      "id": "code-monokai-pro",
+      "name": "Monokai Pro",
+      "categoryId": "code_terminal",
+      "primaryHex": "#FF6188",
+      "secondaryHex": "#A9DC76",
+      "backgroundHex": "#19181A",
+      "surfaceHex": "#221F22",
+      "isDark": true
+    },
+    {
+      "id": "code-dracula",
+      "name": "Dracula Official",
+      "categoryId": "code_terminal",
+      "primaryHex": "#BD93F9",
+      "secondaryHex": "#FF79C6",
+      "backgroundHex": "#1E1F29",
+      "surfaceHex": "#282A36",
+      "isDark": true
+    },
+    {
+      "id": "code-nord-dark",
+      "name": "Nord Frostbite",
+      "categoryId": "code_terminal",
+      "primaryHex": "#88C0D0",
+      "secondaryHex": "#81A1C1",
+      "backgroundHex": "#1E222A",
+      "surfaceHex": "#2E3440",
+      "isDark": true
+    },
+    {
+      "id": "code-one-dark-pro",
+      "name": "One Dark Pro",
+      "categoryId": "code_terminal",
+      "primaryHex": "#61AFEF",
+      "secondaryHex": "#98C379",
+      "backgroundHex": "#1E2227",
+      "surfaceHex": "#282C34",
+      "isDark": true
+    },
+    {
+      "id": "code-solarized-dark",
+      "name": "Solarized Dark",
+      "categoryId": "code_terminal",
+      "primaryHex": "#268BD2",
+      "secondaryHex": "#2AA198",
+      "backgroundHex": "#001E26",
+      "surfaceHex": "#073642",
+      "isDark": true
+    },
+    {
+      "id": "code-tokyo-night-code",
+      "name": "Tokyo Night Neovim",
+      "categoryId": "code_terminal",
+      "primaryHex": "#7AA2F7",
+      "secondaryHex": "#BB9AF7",
+      "backgroundHex": "#16161E",
+      "surfaceHex": "#1F2335",
+      "isDark": true
+    },
+    {
+      "id": "code-catppuccin-mocha",
+      "name": "Catppuccin Mocha",
+      "categoryId": "code_terminal",
+      "primaryHex": "#CBA6F7",
+      "secondaryHex": "#89B4FA",
+      "backgroundHex": "#181825",
+      "surfaceHex": "#1E1E2E",
+      "isDark": true
+    },
+    {
+      "id": "code-gruvbox-dark",
+      "name": "Gruvbox Retro Groove",
+      "categoryId": "code_terminal",
+      "primaryHex": "#FABD2F",
+      "secondaryHex": "#FE8019",
+      "backgroundHex": "#1D2021",
+      "surfaceHex": "#282828",
+      "isDark": true
+    },
+    {
+      "id": "code-github-dark-dim",
+      "name": "GitHub Dark High Contrast",
+      "categoryId": "code_terminal",
+      "primaryHex": "#58A6FF",
+      "secondaryHex": "#3FB950",
+      "backgroundHex": "#010409",
+      "surfaceHex": "#0D1117",
+      "isDark": true
+    },
+    {
+      "id": "code-night-owl",
+      "name": "Night Owl VSCode",
+      "categoryId": "code_terminal",
+      "primaryHex": "#82AAFF",
+      "secondaryHex": "#7FDBCA",
+      "backgroundHex": "#01111D",
+      "surfaceHex": "#011627",
+      "isDark": true
+    },
+    {
+      "id": "code-material-ocean",
+      "name": "Material Deep Ocean",
+      "categoryId": "code_terminal",
+      "primaryHex": "#89DDFF",
+      "secondaryHex": "#82AAFF",
+      "backgroundHex": "#0A0E14",
+      "surfaceHex": "#0F141C",
+      "isDark": true
+    },
+    {
+      "id": "code-synthwave-84",
+      "name": "Synthwave 84 Glow",
+      "categoryId": "code_terminal",
+      "primaryHex": "#FF7EDB",
+      "secondaryHex": "#36F9F6",
+      "backgroundHex": "#201530",
+      "surfaceHex": "#261B3B",
+      "isDark": true
+    },
+    {
+      "id": "code-poimandres",
+      "name": "Poimandres Minimal",
+      "categoryId": "code_terminal",
+      "primaryHex": "#5DE4C7",
+      "secondaryHex": "#ADD7FF",
+      "backgroundHex": "#171920",
+      "surfaceHex": "#1B1E28",
+      "isDark": true
+    },
+    {
+      "id": "code-rose-pine",
+      "name": "Rosé Pine Moon",
+      "categoryId": "code_terminal",
+      "primaryHex": "#EBBCBA",
+      "secondaryHex": "#9CCFD8",
+      "backgroundHex": "#191724",
+      "surfaceHex": "#1F1D2E",
+      "isDark": true
+    },
+    {
+      "id": "code-kanagawa",
+      "name": "Kanagawa Wave",
+      "categoryId": "code_terminal",
+      "primaryHex": "#7E9CD8",
+      "secondaryHex": "#98BB6C",
+      "backgroundHex": "#181820",
+      "surfaceHex": "#1F1F28",
+      "isDark": true
+    },
+    {
+      "id": "code-laserwave",
+      "name": "LaserWave Retro",
+      "categoryId": "code_terminal",
+      "primaryHex": "#74DFC4",
+      "secondaryHex": "#EB64B9",
+      "backgroundHex": "#1B1724",
+      "surfaceHex": "#272136",
+      "isDark": true
+    },
+    {
+      "id": "code-matrix-crt",
+      "name": "VT100 Phosphor Green",
+      "categoryId": "code_terminal",
+      "primaryHex": "#33FF33",
+      "secondaryHex": "#00FF66",
+      "backgroundHex": "#030A04",
+      "surfaceHex": "#0A160C",
+      "isDark": true
+    },
+    {
+      "id": "code-amber-crt",
+      "name": "Amber CRT 1982",
+      "categoryId": "code_terminal",
+      "primaryHex": "#FFB000",
+      "secondaryHex": "#FFCC00",
+      "backgroundHex": "#0A0701",
+      "surfaceHex": "#161003",
+      "isDark": true
+    },
+    {
+      "id": "code-cyberpunk-code",
+      "name": "Cyberpunk 2077 Scarlet",
+      "categoryId": "code_terminal",
+      "primaryHex": "#00FFFF",
+      "secondaryHex": "#FF0055",
+      "backgroundHex": "#0B0C15",
+      "surfaceHex": "#121422",
+      "isDark": true
+    },
+    {
+      "id": "code-cobalt2",
+      "name": "Wes Bos Cobalt2",
+      "categoryId": "code_terminal",
+      "primaryHex": "#FFC600",
+      "secondaryHex": "#0088FF",
+      "backgroundHex": "#0D1E2D",
+      "surfaceHex": "#152C3E",
+      "isDark": true
+    },
+    {
+      "id": "code-catppuccin-latte",
+      "name": "Catppuccin Latte Day",
+      "categoryId": "code_terminal",
+      "primaryHex": "#1E66F5",
+      "secondaryHex": "#8839EF",
+      "backgroundHex": "#EFF1F5",
+      "surfaceHex": "#E6E9EF",
+      "isDark": false
+    },
+    {
+      "id": "code-solarized-light",
+      "name": "Solarized Light",
+      "categoryId": "code_terminal",
+      "primaryHex": "#268BD2",
+      "secondaryHex": "#2AA198",
+      "backgroundHex": "#FDF6E3",
+      "surfaceHex": "#EEE8D5",
+      "isDark": false
+    },
+    {
+      "id": "code-github-light",
+      "name": "GitHub Light Official",
+      "categoryId": "code_terminal",
+      "primaryHex": "#0969DA",
+      "secondaryHex": "#1A7F37",
+      "backgroundHex": "#FFFFFF",
+      "surfaceHex": "#F6F8FA",
+      "isDark": false
+    },
+    {
+      "id": "code-one-light",
+      "name": "Atom One Light",
+      "categoryId": "code_terminal",
+      "primaryHex": "#4078F2",
+      "secondaryHex": "#50A14F",
+      "backgroundHex": "#FAFAFA",
+      "surfaceHex": "#EAEAEB",
+      "isDark": false
+    }
+  ]
+}

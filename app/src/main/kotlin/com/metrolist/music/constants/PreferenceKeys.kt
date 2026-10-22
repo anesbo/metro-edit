@@ -58,10 +58,13 @@ val GradientEndColorKey = intPreferencesKey("gradientEndColor")
 val GradientDirectionKey = stringPreferencesKey("gradientDirection")
 val GlassStyleKey = stringPreferencesKey("glassStyle")
 val GlassIntensityKey = floatPreferencesKey("glassIntensity")
+val GlassCurvedRefractionKey = booleanPreferencesKey("glassCurvedRefraction")
+val ActiveThemeIdKey = stringPreferencesKey("activeThemeId")
 
 val CustomPrimaryColorDefault = 0xFF6750A4.toInt()
 val CustomSecondaryColorDefault = 0xFF625B71.toInt()
 const val UseCustomAccentDefault = false
+const val ActiveThemeIdDefault = ""
 val BackgroundStyleDefault = BackgroundStyle.DEFAULT
 val CustomBgColorDefault = 0xFF121212.toInt()
 val GradientStartColorDefault = 0xFF1E1B2E.toInt()
@@ -69,6 +72,7 @@ val GradientEndColorDefault = 0xFF0D0D12.toInt()
 val GradientDirectionDefault = GradientDirection.TOP_TO_BOTTOM
 val GlassStyleDefault = GlassStyle.NONE
 const val GlassIntensityDefault = 0.5f
+const val GlassCurvedRefractionDefault = true
 
 val DensityScaleKey = floatPreferencesKey("density_scale_factor")
 
